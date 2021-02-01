@@ -4,12 +4,27 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
          http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
+
     <servlet>
-        <servlet-name>StudentServlet</servlet-name>
-        <servlet-class>com.epam.controllers.StudentServlet</servlet-class>
+        <servlet-name>UserServlet</servlet-name>
+        <servlet-class>com.epam.controllers.UserServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>StudentServlet</servlet-name>
-        <url-pattern>/student-record</url-pattern>
+        <servlet-name>UserServlet</servlet-name>
+        <url-pattern>/user-record</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CourseServlet</servlet-name>
+        <servlet-class>com.epam.controllers.CourseServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CourseServlet</servlet-name>
+        <url-pattern>/courses</url-pattern>
     </servlet-mapping>
 </web-app>

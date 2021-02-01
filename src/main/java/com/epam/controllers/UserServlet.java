@@ -1,6 +1,6 @@
 package com.epam.controllers;
 
-import com.epam.service.StudentService;
+import com.epam.service.UserService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,23 +10,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "StudentServlet", urlPatterns = "/student-record")
-public class StudentServlet extends HttpServlet {
+@WebServlet(name = "UserServlet", urlPatterns = "/user-record")
+public class UserServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private StudentService studentService = null;
+    private UserService userService= null;
 
     public void init() {
-        studentService = new StudentService();
+        userService = new UserService();
     }
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("student-record", studentService.getStudent());
-        RequestDispatcher dispatcher = request.getRequestDispatcher("student-record.jsp");
+        request.setAttribute("user-record", userService.getStudent());
+        RequestDispatcher dispatcher = request.getRequestDispatcher("user-record.jsp");
         dispatcher.forward(request, response);
 
-        request.setAttribute("student-record", studentService.getStudents());
-        dispatcher = request.getRequestDispatcher("student-record.jsp");
+        request.setAttribute("user-record", userService.getAll());
+        dispatcher = request.getRequestDispatcher("user-record.jsp");
         dispatcher.forward(request, response);
     }
 

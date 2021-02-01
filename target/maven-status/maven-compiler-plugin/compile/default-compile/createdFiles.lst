@@ -1,3 +1,10 @@
-com\epam\service\StudentService.class
-com\epam\controllers\StudentServlet.class
-com\epam\model\Student.class
+com\epam\controllers\UserServlet.class
+com\epam\service\UserService.class
+com\epam\model\Mark.class
+com\epam\service\MarkServer.class
+com\epam\service\CourseService.class
+com\epam\model\Course.class
+com\epam\model\Role.class
+com\epam\model\Status.class
+com\epam\controllers\CourseServlet.class
+com\epam\model\User.class
