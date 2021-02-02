@@ -1,6 +1,7 @@
 package com.epam.model;
 
 public enum Role {
-    TEACHER, STUDENT, ADMIN
+    TEACHER, STUDENT, ADMIN;
+
 
 }

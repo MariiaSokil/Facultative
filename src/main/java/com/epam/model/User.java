@@ -8,6 +8,9 @@ public class User {
     private String login;
     private String password;
 
+    public User() {
+    }
+
     public User(Long id, String firstName, String lastName, Role role) {
         super();
         this.id = id;
@@ -22,6 +25,15 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = Role.STUDENT;
+    }
+
+    public User(Long id, String firstName, String lastName, Role role, String login, String password) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+        this.login = login;
+        this.password = password;
     }
 
     public Long getId() {
@@ -55,6 +67,20 @@ public class User {
         this.role = role;
     }
 
+    public String getLogin() {
+        return login;
+    }
 
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
 
