@@ -1,4 +1,10 @@
 package com.epam.model;
+/**
+ * Course model.
+ *
+ * @author M.Sokil
+ *
+ */
 
 import java.util.Collections;
 import java.util.Set;

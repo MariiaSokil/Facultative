@@ -1,4 +1,10 @@
 package com.epam.model;
+/**
+ * User model.
+ *
+ * @author M.Sokil
+ *
+ */
 
 public class User {
     private Long id;
