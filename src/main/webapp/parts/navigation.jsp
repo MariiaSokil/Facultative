@@ -10,13 +10,13 @@
         <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Student</a>
+        <a class="nav-link" href="/student">Student</a>
       </li>
        <li class="nav-item">
-              <a class="nav-link" href="#">Teacher</a>
+              <a class="nav-link" href="/teacher">Teacher</a>
             </li>
       <li class="nav-item">
-        <a class="nav-link disabled" href="#">Administrator</a>
+        <a class="nav-link disabled" href="/admin">Administrator</a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">

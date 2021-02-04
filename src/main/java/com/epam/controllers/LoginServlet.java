@@ -22,19 +22,18 @@ public class LoginServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("you are logged in");
-        System.out.println(request.getParameter("uname"));
-        System.out.println(request.getParameter("psw"));
-
         User user = new User();
         user.setLogin(request.getParameter("uname"));
         user.setPassword(request.getParameter("psw"));
 
 
         if(userService.isValid(user)){
+            System.out.println("User found!");
             HttpSession session = request.getSession(true);
-            session.setAttribute("currentSessionUser",userService.getByLogin(user.getLogin()));
-            response.sendRedirect("userLogged.jsp"); //logged-in page
+            User u = userService.getByLogin(user.getLogin());
+            System.out.println(u.getFirstName() + " " + u.getLastName());
+            request.setAttribute("user-record", u);
+            response.sendRedirect("student.jsp"); //logged-in page
 
           } else {
             response.sendRedirect("invalid.jsp"); //error page
