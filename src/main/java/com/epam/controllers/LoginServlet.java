@@ -7,11 +7,9 @@ import com.epam.service.UserService;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
@@ -24,10 +22,23 @@ public class LoginServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println(request.getParameter("uname"));
+        System.out.println(request.getParameter("psw"));
+
         User user = userService.getByLogin(request.getParameter("uname"));
         if (userService.isValid(user, request.getParameter("psw"))) {
             System.out.println("User authenticated!");
-            HttpSession session = request.getSession(true);
+
+            //session management
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user.getLogin());
+            //setting session to expiry in 30 mins
+            session.setMaxInactiveInterval(30*60);
+            Cookie userName = new Cookie("user", user.getLogin());
+            userName.setMaxAge(30*60);
+            response.addCookie(userName);
+            //session management end
+
             request.setAttribute("user", user);
             request.setAttribute("courses", user.getCourses());
             String page;
@@ -41,7 +52,10 @@ public class LoginServlet extends HttpServlet {
             RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
             rd.forward(request, response);
         } else {
-            response.sendRedirect("invalid.jsp"); //error page
+            System.out.println("User not found!");
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.jsp");
+            request.setAttribute("message", "Either user name or password is wrong");
+            rd.include(request, response);
         }
 
     }
