@@ -51,7 +51,7 @@
          </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary">Register</button>
+        <button type="button" class="btn btn-secondary" disabled>Register</button>
         <button type="submit" class="btn btn-primary">Login</button>
       </div>
     </div>

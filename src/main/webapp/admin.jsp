@@ -50,7 +50,9 @@
                         </tr>
                     </tbody>
                 </table>
-                <h2>Courses list</h2>
+                <div class="d-grid gap-2 d-md-flex justify-content-between">
+                    <h2>Courses list</h2><form class="form-inline"><button disabled class="btn btn-outline-success" type="submit">Add new course</button></form>
+                </div>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -72,7 +74,7 @@
                                 <td><c:out value="${course.status}"></c:out></td>
                                 <td><c:out value="${course.teacher.firstName} ${course.teacher.lastName}"></c:out></td>
                                 <td><c:out value="${course.students.size()}"></c:out></td>
-                                <td><form class="form-inline"><button disabled class="btn btn-outline-danger" type="submit">Unsubscribe</button></form></td>
+                                <td><form class="form-inline"><div class="d-grid gap-2 d-md-block"><button disabled class="btn btn-outline-warning" type="submit">Edit</button><button disabled class="btn btn-outline-danger" type="submit">Remove</button></div></form></td>
                             </tr>
                         </c:forEach>
                     </tbody>
