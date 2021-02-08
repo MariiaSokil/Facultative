@@ -3,6 +3,7 @@ package com.epam.controllers;
 import com.epam.model.User;
 import com.epam.service.UserService;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,19 +23,17 @@ public class LoginServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User user = new User();
-        user.setLogin(request.getParameter("uname"));
-        user.setPassword(request.getParameter("psw"));
-
-
-        if(userService.isValid(user)){
-            System.out.println("User found!");
+        User u = userService.getByLogin(request.getParameter("uname"));
+        if(userService.isValid(u, request.getParameter("psw"))){
+            System.out.println("User authenticated!");
             HttpSession session = request.getSession(true);
-            User u = userService.getByLogin(user.getLogin());
-            System.out.println(u.getFirstName() + " " + u.getLastName());
-            request.setAttribute("user-record", u);
-            response.sendRedirect("student.jsp"); //logged-in page
+            request.setAttribute("user", u);
 
+            request.setAttribute("courses", u.getCourses());
+
+
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/student.jsp");
+            rd.forward(request, response);
           } else {
             response.sendRedirect("invalid.jsp"); //error page
           }

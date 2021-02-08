@@ -21,7 +21,6 @@ public class CourseServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        System.out.println("In the server");
         response.setContentType("application/json");
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(response.getOutputStream(), courseService.getAll());

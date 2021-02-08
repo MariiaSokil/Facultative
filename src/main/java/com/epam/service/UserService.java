@@ -25,9 +25,8 @@ static {
         return new User(1L, "John", "Doe", Role.STUDENT);
     }
 
-    public boolean isValid(User user) {
-        User u = map.get(user.getLogin());
-        return u != null && u.getPassword().equals(user.getPassword());
+    public boolean isValid(User user, String password) {
+        return user != null && user.getPassword().equals(password);
     }
 
     public User getByLogin(String login) {

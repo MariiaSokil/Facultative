@@ -22,8 +22,8 @@ public class UserServlet extends HttpServlet {
 
 
     private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("user-record", userService.getAll().iterator().next());
-        RequestDispatcher dispatcher = request.getRequestDispatcher("user-record.jsp");
+        request.setAttribute("user-detail", userService.getAll().iterator().next());
+        RequestDispatcher dispatcher = request.getRequestDispatcher("student.jsp");
         dispatcher.forward(request, response);
 
     }

@@ -1,4 +1,8 @@
 package com.epam.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * User model.
  *
@@ -13,6 +17,7 @@ public class User {
     private Role role;
     private String login;
     private String password;
+    private List<Course> courses = new ArrayList<>();
 
     public User() {
     }
@@ -40,6 +45,7 @@ public class User {
         this.role = role;
         this.login = login;
         this.password = password;
+        this.courses.add(new Course(1L, "Java"));
     }
 
     public Long getId() {
@@ -87,6 +93,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 }
 

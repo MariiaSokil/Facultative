@@ -12,20 +12,26 @@ import java.util.Set;
 public class Course {
     private Long id;
     private String title;
-    private String topic;
+    private Topic topic;
     private int duration;
     private Set<User> students;
     private User teacher;
     private Status status;
 
+    private long price;
+    private long startDate;
+
     public Course(Long id, String title) {
         this.id = id;
         this.title = title;
-        this.topic = "Some topic";
+        this.topic = new Topic(1L,"Some topic");
         this.duration = 36;
         this.students = Collections.singleton(new User(2L, "Petro", "Petrenko"));
         this.teacher = new User(1L, "Ivan", "Ivanenko", Role.TEACHER);
         this.status = Status.COMING_SOON;
+
+        this.price = price;
+        this.startDate = startDate;
     }
 
     public void setId(Long id) {
@@ -36,9 +42,7 @@ public class Course {
         this.title = title;
     }
 
-    public void setTopic(String topic) {
-        this.topic = topic;
-    }
+    public void setTopic(Topic topic) { this.topic = topic; }
 
     public void setDuration(int duration) {
         this.duration = duration;
@@ -56,6 +60,10 @@ public class Course {
         this.status = status;
     }
 
+    public void setPrice(long price) { this.price = price; }
+
+    public void setStartDate(long startDate) { this.startDate = startDate; }
+
     public Long getId() {
         return id;
     }
@@ -64,9 +72,7 @@ public class Course {
         return title;
     }
 
-    public String getTopic() {
-        return topic;
-    }
+    public Topic getTopic() { return topic; }
 
     public int getDuration() {
         return duration;
@@ -83,4 +89,8 @@ public class Course {
     public Status getStatus() {
         return status;
     }
+
+    public long getPrice() { return price; }
+
+    public long getStartDate() { return startDate; }
 }

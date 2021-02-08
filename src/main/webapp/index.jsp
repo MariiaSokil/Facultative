@@ -4,6 +4,7 @@
 <head>
 <%@ include file="parts/meta.jsp" %>
 <%@ include file="parts/header.jsp" %>
+<link href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
 </head>
 <style>
 body {

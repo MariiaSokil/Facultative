@@ -26,3 +26,4 @@
     </tfoot>
 </table>
 </div>
+<script type="text/javascript" src="js/main-table-init.js"></script>
