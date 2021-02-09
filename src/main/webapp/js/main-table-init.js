@@ -8,13 +8,13 @@ $(document).ready(function() {
                 { "data": "title" },
                 { "data": "topic",
                   render: function ( data, type, row ) {
-                                             return data.firstName +' '+ data.lastName;
+                                             return data.category; }
                 },
                 { "data": "duration" },
                 { "data": "status" },
                 { "data": "teacher",
                    render: function ( data, type, row ) {
-                                              return data.topic.category;
+                                              return data.firstName +' '+ data.lastName;
                                       }
                 },
                 { "data": "students",

@@ -9,7 +9,6 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
@@ -21,19 +20,18 @@ public class LoginServlet extends HttpServlet {
         this.userService = new UserService();
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println(request.getParameter("uname"));
-        System.out.println(request.getParameter("psw"));
-
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = userService.getByLogin(request.getParameter("uname"));
         if (userService.isValid(user, request.getParameter("psw"))) {
             System.out.println("User authenticated!");
 
             //session management
             HttpSession session = request.getSession();
-            session.setAttribute("user", user.getLogin());
+            user.setPassword(null);
+            session.setAttribute("user", user);
             //setting session to expiry in 30 mins
             session.setMaxInactiveInterval(30*60);
+
             Cookie userName = new Cookie("user", user.getLogin());
             userName.setMaxAge(30*60);
             response.addCookie(userName);

@@ -30,7 +30,7 @@ footer {
         <jsp:include page="parts/navigation.jsp"></jsp:include>
     </header>
     <content>
-        <div class="container h-100">
+        <div class="container h-100" style="margin-top:10px">
             <div class="pages row h-100 justify-content-center align-items-center">
                 <jsp:include page="parts/main-table.jsp"></jsp:include>
             </div>
@@ -42,5 +42,11 @@ footer {
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script>
+        $('.nav-item').click(function() {
+            $('.nav-item').removeClass('active');
+            $(this).addClass('active');
+        })
+    </script>
 </body>
 </html>

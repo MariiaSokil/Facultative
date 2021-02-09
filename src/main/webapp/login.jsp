@@ -29,7 +29,7 @@
         </header>
         <content>
             <div class="container">
-                <form action="/login">
+                <form action="/login" method="post">
                   <div class="form-group">
                     <label for="email">Email address:</label>
                     <input type="email" class="form-control" placeholder="Enter email" id="email" name="uname">

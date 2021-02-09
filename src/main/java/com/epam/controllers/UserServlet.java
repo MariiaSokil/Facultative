@@ -1,5 +1,7 @@
 package com.epam.controllers;
 
+import com.epam.model.Role;
+import com.epam.model.User;
 import com.epam.service.UserService;
 
 import javax.servlet.RequestDispatcher;
@@ -8,9 +10,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet(name = "UserServlet", urlPatterns = "/user-record")
+@WebServlet(name = "StudentServlet", urlPatterns = "/user")
 public class UserServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -20,20 +23,22 @@ public class UserServlet extends HttpServlet {
         this.userService = new UserService();
     }
 
-
-    private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("user-detail", userService.getAll().iterator().next());
-        RequestDispatcher dispatcher = request.getRequestDispatcher("student.jsp");
-        dispatcher.forward(request, response);
-
-    }
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
-    }
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        request.setAttribute("user", user);
+        request.setAttribute("courses", user.getCourses());
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        processRequest(request, response);
+        String page;
+        if (user.getRole() == Role.TEACHER) {
+            page = "/teacher.jsp";
+        } else if (user.getRole() == Role.ADMIN) {
+            page = "/admin.jsp";
+        } else {
+            page = "/student.jsp";
+        }
+        RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
+        rd.forward(request, response);
     }
 }
