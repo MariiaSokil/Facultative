@@ -59,4 +59,11 @@
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
+
+    <!--============================================================
+        Context listener
+    =============================================================-->
+    <listener>
+        <listener-class>com.epam.config.listener.ContextListener</listener-class>
+    </listener>
 </web-app>

@@ -8,7 +8,15 @@ package com.epam.model;
  */
 
 public enum Role {
-    TEACHER, STUDENT, ADMIN;
+    STUDENT(0), TEACHER(1), ADMIN(2);
 
+    private final int id;
 
+    Role(int id){
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
 }

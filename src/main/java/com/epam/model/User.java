@@ -18,6 +18,8 @@ public class User {
     private String login;
     private String password;
     private List<Course> courses = new ArrayList<>();
+    private boolean isStudent;
+    private boolean isBlocked;
 
     public User() {
     }
