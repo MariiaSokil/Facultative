@@ -1,5 +1,6 @@
 package com.epam.service;
 
+import com.epam.dao.CourseDao;
 import com.epam.model.Course;
 
 import java.util.Arrays;
@@ -7,23 +8,24 @@ import java.util.List;
 
 public class CourseService {
     public List<Course> getAll() {
-        return Arrays.asList(
+        return new CourseDao().findAll();
+       /* return Arrays.asList(
                 new Course(1L, "Java"),
                 new Course(2L, "SpringBoot"),
                 new Course(3L, "Python"),
-                new Course(3L, "C++"),
-                new Course(3L, "Javascript"),
-                new Course(3L, "Go"),
-                new Course(3L, "Scala"),
-                new Course(3L, "Typescript"),
-                new Course(3L, "Android"),
-                new Course(3L, "JDBC"),
-                new Course(3L, "Docker"),
-                new Course(3L, "Azure"),
-                new Course(3L, "AWS"),
-                new Course(3L, ".Net"),
-                new Course(3L, "NoSQLDB")
-        );
+                new Course(4L, "C++"),
+                new Course(5L, "Javascript"),
+                new Course(6L, "Go"),
+                new Course(7L, "Scala"),
+                new Course(8L, "Typescript"),
+                new Course(9L, "Android"),
+                new Course(10L, "JDBC"),
+                new Course(11L, "Docker"),
+                new Course(12L, "Azure"),
+                new Course(12L, "AWS"),
+                new Course(14L, ".Net"),
+                new Course(15L, "NoSQLDB")
+        );*/
     }
 
     public Course getCourse() {

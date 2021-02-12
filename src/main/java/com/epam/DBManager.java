@@ -2,10 +2,6 @@ package com.epam;
 
 import org.apache.ibatis.jdbc.ScriptRunner;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -36,20 +32,20 @@ public class DBManager {
      *
      * @return A DB connection.
      */
-    public Connection getConnection() throws SQLException {
-        Connection con = null;
-        try {
-            Context initContext = new InitialContext();
-            Context envContext = (Context) initContext.lookup("java:/comp/env");
-
-            // ST4DB - the name of data source
-            DataSource ds = (DataSource) envContext.lookup("jdbc/ST4DB");
-            con = ds.getConnection();
-        } catch (NamingException ex) {
-            log.warning("Cannot obtain a connection from the pool");
-        }
-        return con;
-    }
+//    public Connection getConnection() throws SQLException {
+//        Connection con = null;
+//        try {
+//            Context initContext = new InitialContext();
+//            Context envContext = (Context) initContext.lookup("java:/comp/env");
+//
+//            // ST4DB - the name of data source
+//            DataSource ds = (DataSource) envContext.lookup("jdbc/ST4DB");
+//            con = ds.getConnection();
+//        } catch (NamingException ex) {
+//            log.warning("Cannot obtain a connection from the pool");
+//        }
+//        return con;
+//    }
 
     private DBManager() {
     }
@@ -96,14 +92,17 @@ public class DBManager {
      *
      * @return A DB connection.
      */
-    public static Connection getConnectionWithDriverManager() throws SQLException {
+    public static Connection getConnection() throws SQLException {
 
 //        Connection connection = DriverManager
 //                .getConnection("jdbc:postgresql://localhost:5432/Faculty?user=postgres&password=admin&ssl=false");
 //        connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 //        connection.setAutoCommit(false);
 //        return connection;
-          return DriverManager.getConnection("jdbc:postgresql://localhost:5432/Faculty?user=postgres&password=admin&ssl=false");
+         Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Faculty?user=postgres&password=admin&ssl=false");
+         connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+         connection.setAutoCommit(false);
+         return connection;
     }
 
     /**************************************************************/
@@ -113,7 +112,7 @@ public class DBManager {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        Connection con = getConnectionWithDriverManager();
+        Connection con = getConnection();
         ScriptRunner sr = new ScriptRunner(con);
         //Creating a reader object
         ClassLoader classLoader = DBManager.class.getClassLoader();

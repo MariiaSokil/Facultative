@@ -17,12 +17,12 @@ CREATE TABLE statuses(
 );
 
 CREATE TABLE categories(
-	id INTEGER NOT NULL generated always AS identity PRIMARY KEY,
+	category_id INTEGER NOT NULL generated always AS identity PRIMARY KEY,
 	name VARCHAR(30) NOT NULL UNIQUE
 );
 
 CREATE TABLE users(
-	id INTEGER NOT NULL generated always AS identity PRIMARY KEY,
+	user_id INTEGER NOT NULL generated always AS identity PRIMARY KEY,
 	login VARCHAR(30) NOT NULL UNIQUE,
 	password VARCHAR(30) NOT NULL,
 	first_name VARCHAR(20) NOT NULL,
@@ -38,24 +38,24 @@ CREATE TABLE courses(
 	duration INTEGER NOT NULL,
 	price INTEGER NOT NULL,
 	start_date DATE NOT NULL,
-	teacher_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE RESTRICT,
-	status_id INTEGER NOT NULL REFERENCES statuses(id)  ON DELETE CASCADE ON UPDATE RESTRICT,
-	category_id INTEGER NOT NULL REFERENCES categories(id) ON DELETE CASCADE ON UPDATE RESTRICT
+	teacher INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE RESTRICT,
+	status INTEGER NOT NULL REFERENCES statuses(id)  ON DELETE CASCADE ON UPDATE RESTRICT,
+	category INTEGER NOT NULL REFERENCES categories(category_id) ON DELETE CASCADE ON UPDATE RESTRICT
 );
 
 CREATE TABLE users_courses (
-  user_id int NOT NULL,
+  userid int NOT NULL,
   course_id int NOT NULL,
-  PRIMARY KEY (user_id, course_id),
-  FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE,
+  PRIMARY KEY (userid, course_id),
+  FOREIGN KEY (userid) REFERENCES users(user_id) ON UPDATE CASCADE,
   FOREIGN KEY (course_id) REFERENCES courses(id) ON UPDATE CASCADE
 );
 
 CREATE TABLE marks (
-  mark INTEGER NOT NULL CHECK(mark<=5),
+    mark INTEGER NOT NULL CHECK(mark<=5),
 	is_success BOOLEAN DEFAULT FALSE,
 	evaluation_date DATE NOT NULL,
-	student_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE RESTRICT,
+	student_id INTEGER NOT NULL REFERENCES users(user_id) ON DELETE CASCADE ON UPDATE RESTRICT,
 	course_id INTEGER NOT NULL REFERENCES courses(id) ON DELETE CASCADE ON UPDATE RESTRICT,
 	PRIMARY KEY (student_id, course_id)
 );
@@ -74,7 +74,7 @@ INSERT INTO categories VALUES(DEFAULT, 'MATH');
 
 INSERT INTO users VALUES(DEFAULT, 'meadow@gmail.com','11', 'Meadow', 'Soprano', true, false, 0);
 INSERT INTO users VALUES(DEFAULT, 'carmela@gmail.com', '22', 'Carmela', 'Soprano', true, false, 0);
-INSERT INTO users VALUES(DEFAULT, 'atony@gmail.com', '33', 'Antony', 'Soprano', true, false, 0);
+INSERT INTO users VALUES(DEFAULT, 'antony@gmail.com', '33', 'Antony', 'Soprano', true, false, 0);
 
 INSERT INTO users VALUES(DEFAULT, 'males@gmail.com', '44', 'Males', 'Morales', true, false, 0);
 INSERT INTO users VALUES(DEFAULT, 'tony@gmail.com', '55', 'Tony', 'Stark', true, false, 0);

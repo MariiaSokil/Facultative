@@ -72,7 +72,7 @@
                         <c:forEach items="${requestScope.courses}" var="course">
                             <tr>
                                 <td><c:out value="${course.title}"></c:out></td>
-                                <td><c:out value="${course.topic.category}"></c:out></td>
+                                <td><c:out value="${course.category.name}"></c:out></td>
                                 <td><c:out value="${course.duration}"></c:out></td>
                                 <td><c:out value="${course.status}"></c:out></td>
                                 <td><c:out value="${course.students.size()}"></c:out></td>

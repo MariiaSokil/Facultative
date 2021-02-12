@@ -6,9 +6,9 @@ $(document).ready(function() {
                 },
             "columns": [
                 { "data": "title" },
-                { "data": "topic",
+                { "data": "category",
                   render: function ( data, type, row ) {
-                                             return data.category; }
+                                             return data.name; }
                 },
                 { "data": "duration" },
                 { "data": "status" },

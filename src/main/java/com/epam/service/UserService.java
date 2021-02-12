@@ -1,5 +1,6 @@
 package com.epam.service;
 
+import com.epam.dao.UserDao;
 import com.epam.model.Role;
 import com.epam.model.User;
 
@@ -25,7 +26,8 @@ private static Map<String,User> map = new HashMap<>();
     }
 
     public User getByLogin(String login) {
-        return map.get(login);
+        //return map.get(login);
+        return new UserDao().findUserByLogin(login);
     }
 }
 

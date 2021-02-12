@@ -1,4 +1,7 @@
 package com.epam.model;
+
+import java.util.Arrays;
+
 /**
  * Status model.
  *
@@ -6,5 +9,22 @@ package com.epam.model;
  *
  */
 public enum Status {
-    COMING_SOON,ONGOING,COMPLETED
+    COMING_SOON(0),ONGOING(1),COMPLETED(2);
+    
+    private final int id;
+
+    Status(int id){
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public static Status of(int id) {
+        return Arrays.stream(Status.values())
+                .filter(status -> status.getId() == id)
+                .findAny()
+                .orElseThrow(() -> new RuntimeException("Wrong argument"));
+    }
 }

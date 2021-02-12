@@ -27,7 +27,6 @@ public class LoginServlet extends HttpServlet {
 
             //session management
             HttpSession session = request.getSession();
-            user.setPassword(null);
             session.setAttribute("user", user);
             //setting session to expiry in 30 mins
             session.setMaxInactiveInterval(30*60);
