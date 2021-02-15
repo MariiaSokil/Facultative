@@ -17,10 +17,13 @@ $(document).ready(function() {
                                               return data.firstName +' '+ data.lastName;
                                       }
                 },
+
+
                 { "data": "students",
                    render: function (data, type, row) {
                         return data.length;
                    } },
+                 { "data": "price"},
                  { "data": "",
                      render: function ( data, type, row ) {
                              return '<form class="form-inline"><button disabled class="btn btn-outline-success" type="submit">Apply</button></form>';

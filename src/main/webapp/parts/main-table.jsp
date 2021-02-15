@@ -8,6 +8,7 @@
             <th>Status</th>
             <th>Teacher</th>
             <th>Students</th>
+            <th>Price</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -19,6 +20,7 @@
              <th>Status</th>
              <th>Teacher</th>
              <th>Students</th>
+             <th>Price</th>
              <th>Action</th>
         </tr>
     </tfoot>
