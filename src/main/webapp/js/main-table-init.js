@@ -12,6 +12,12 @@ $(document).ready(function() {
                 },
                 { "data": "duration" },
                 { "data": "status" },
+                { "data": "startDate",
+                   render: function ( data, type, row ) {
+                       var date = new Date(data.year, data.monthValue -1, data.dayOfMonth);
+                       return new Date(data.year, data.monthValue -1, data.dayOfMonth).toLocaleDateString();
+                   }
+                },
                 { "data": "teacher",
                    render: function ( data, type, row ) {
                                               return data.firstName +' '+ data.lastName;
@@ -32,6 +38,7 @@ $(document).ready(function() {
                                          '<input type="hidden" name="price" value="'+ row.price + '" />' +
                                          '<input type="hidden" name="status" value="'+ row.status + '" />' +
                                          '<input type="hidden" name="teacher_id" value="'+ row.teacher.id + '" />' +
+                                         '<input type="hidden" name="start_date" value="'+ new Date(row.startDate.year, row.startDate.monthValue -1, row.startDate.dayOfMonth).toLocaleDateString() + '" />' +
                                          '<button class="btn btn-outline-success" type="submit">Apply</button>' +
                                     '</form>';
                      }

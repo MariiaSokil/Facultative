@@ -7,6 +7,7 @@ import com.epam.model.Status;
 import com.epam.model.User;
 
 import java.sql.*;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class CourseDao {
                     "ORDER BY start_date";
 
     private static final String SQL_UPDATE_COURSE =
-            "UPDATE courses SET title=?, duration=?, price=?, startDate=?, teacher=?, status=?, category=?"+
+            "UPDATE courses SET title=?, duration=?, price=?, start_date=?, teacher=?, status=?, category=?, enrollment=?" +
                     "	WHERE id=?";
 
     public Course findCourse(Long id) {
@@ -186,11 +187,34 @@ public class CourseDao {
         }
     }
 
+    public void updateCourse(Course course) {
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            update(con, course);
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            DBManager.getInstance().commitAndClose(con);
+        }
+    }
 
-
-
-
-
+    private void update(Connection con, Course course) throws SQLException {
+        PreparedStatement pstmt = con.prepareStatement(SQL_UPDATE_COURSE);
+        int k = 1;
+        pstmt.setString(k++, course.getTitle());
+        pstmt.setInt(k++, course.getDuration());
+        pstmt.setInt(k++, course.getPrice());
+        pstmt.setDate(k++,  Date.valueOf(course.getStartDate()));
+        pstmt.setInt(k++, course.getTeacher().getId().intValue());
+        pstmt.setInt(k++, course.getStatus().getId());
+        pstmt.setInt(k++, course.getCategory().getId().intValue());
+        pstmt.setInt(k++, course.getEnrollment());
+        pstmt.setLong(k, course.getId());
+        pstmt.executeUpdate();
+        pstmt.close();
+    }
 }
 
 

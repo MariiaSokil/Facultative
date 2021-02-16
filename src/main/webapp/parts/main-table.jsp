@@ -6,6 +6,7 @@
             <th>Topic</th>
             <th>Duration</th>
             <th>Status</th>
+               <th>Start Day</th>
             <th>Teacher</th>
             <th>Enrollment</th>
             <th>Price</th>
@@ -18,6 +19,7 @@
              <th>Topic</th>
              <th>Duration</th>
              <th>Status</th>
+             <th>Start Day</th>
              <th>Teacher</th>
              <th>Enrollment</th>
              <th>Price</th>

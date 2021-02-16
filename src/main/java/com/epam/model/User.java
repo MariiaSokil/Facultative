@@ -24,8 +24,11 @@ public class User {
     public User() {
     }
 
+    public User(Long id) {
+        this.id = id;
+    }
+
     public User(Long id, String firstName, String lastName, Role role) {
-        super();
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -33,7 +36,6 @@ public class User {
     }
 
     public User(Long id, String firstName, String lastName) {
-        super();
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
