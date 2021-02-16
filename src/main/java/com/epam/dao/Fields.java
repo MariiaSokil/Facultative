@@ -34,9 +34,11 @@ public final class Fields {
 	public static final String COURSE_PRICE = "price";
 	public static final String TEACHER_ID = "teacher";
 	public static final String COURSE_STATUS = "status";
+	public static final String ENROLLMENT ="enrollment" ;
 
 	public static final String CATEGORY_ID = "category_id";
 	public static final String CATEGORY_NAME = "name";
+
 
 
 /*

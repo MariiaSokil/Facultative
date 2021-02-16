@@ -8,7 +8,6 @@ import com.epam.model.User;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class CourseDao {
@@ -24,6 +23,8 @@ public class CourseDao {
             "SELECT * FROM courses c " +
                     "LEFT JOIN users u ON c.teacher=u.user_id " +
                     "LEFT JOIN categories ct ON c.category=ct.category_id " +
+       //             "LEFT JOIN users_courses uc ON c.id=uc.course_id " +
+
                     "ORDER BY start_date";
 
     private static final String SQL_UPDATE_COURSE =
@@ -54,7 +55,7 @@ public class CourseDao {
         return course;
     }
 
-    public List<Course> findAll() {
+    public List<Course> findAllWithLazyStudents() {
         List<Course> courses = new ArrayList<>();
         Course course = null;
         PreparedStatement pstmt = null;
@@ -88,6 +89,36 @@ public class CourseDao {
         return courses;
     }
 
+    public List<User> findAllStudents(Long id) {
+        List<User> users= new ArrayList<>();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            UserDao.UserMapper mapper = new UserDao.UserMapper();
+            pstmt = con.prepareStatement(SQL_FIND_ALL);
+            rs = pstmt.executeQuery();
+           /* ResultSetMetaData rsmd = rs.getMetaData();
+            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                String name = rsmd.getColumnName(i);
+                System.out.println(name);
+            };*/
+            while (rs.next()) {
+                User user = mapper.mapRow(rs);
+                users.add(user);
+            }
+            rs.close();
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            DBManager.getInstance().commitAndClose(con);
+        }
+        return users;
+    }
+
     /**
      * Extracts a user from the result set row.
      */
@@ -105,11 +136,41 @@ public class CourseDao {
                 course.setPrice(rs.getInt(Fields.COURSE_PRICE));
                 course.setStartDate(rs.getDate(Fields.COURSE_START_DATE).toLocalDate());
                 course.setTeacher(toTeacher(rs));
-                course.setStudents(new HashSet<>());
+                course.setEnrollment(rs.getInt(Fields.ENROLLMENT));
                 return course;
             } catch (SQLException e) {
                 throw new IllegalStateException(e);
             }
+        }
+
+        private List<User> toStudents(ResultSet rs) {
+            List<User> users= new ArrayList<>();
+            PreparedStatement pstmt = null;
+            rs = null;
+            Connection con = null;
+            try {
+                con = DBManager.getInstance().getConnection();
+                UserDao.UserMapper mapper = new UserDao.UserMapper();
+                pstmt = con.prepareStatement(SQL_FIND_ALL);
+                rs = pstmt.executeQuery();
+           /* ResultSetMetaData rsmd = rs.getMetaData();
+            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                String name = rsmd.getColumnName(i);
+                System.out.println(name);
+            };*/
+                while (rs.next()) {
+                    User user = mapper.mapRow(rs);
+                    users.add(user);
+                }
+                rs.close();
+                pstmt.close();
+            } catch (SQLException ex) {
+                DBManager.getInstance().rollbackAndClose(con);
+                ex.printStackTrace();
+            } finally {
+                DBManager.getInstance().commitAndClose(con);
+            }
+            return users;
         }
 
         private User toTeacher(ResultSet rs) {

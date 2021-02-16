@@ -3,12 +3,11 @@ package com.epam.service;
 import com.epam.dao.CourseDao;
 import com.epam.model.Course;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class CourseService {
     public List<Course> getAll() {
-        return new CourseDao().findAll();
+        return new CourseDao().findAllWithLazyStudents();
        /* return Arrays.asList(
                 new Course(1L, "Java"),
                 new Course(2L, "SpringBoot"),
@@ -25,7 +24,8 @@ public class CourseService {
                 new Course(12L, "AWS"),
                 new Course(14L, ".Net"),
                 new Course(15L, "NoSQLDB")
-        );*/
+
+       );*/
     }
 
     public Course getCourse() {

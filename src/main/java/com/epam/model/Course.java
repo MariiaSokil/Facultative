@@ -20,6 +20,17 @@ public class Course {
     private Set<User> students;
     private User teacher;
     private Status status;
+    private int enrollment;
+
+    public int getEnrollment() {
+        return enrollment;
+    }
+
+    public void setEnrollment(int enrollment) {
+        this.enrollment = enrollment;
+    }
+
+
 
     public Course() {
     }

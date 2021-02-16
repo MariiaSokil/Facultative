@@ -7,7 +7,7 @@
             <th>Duration</th>
             <th>Status</th>
             <th>Teacher</th>
-            <th>Students</th>
+            <th>Enrollment</th>
             <th>Price</th>
             <th>Action</th>
         </tr>
@@ -19,7 +19,7 @@
              <th>Duration</th>
              <th>Status</th>
              <th>Teacher</th>
-             <th>Students</th>
+             <th>Enrollment</th>
              <th>Price</th>
              <th>Action</th>
         </tr>

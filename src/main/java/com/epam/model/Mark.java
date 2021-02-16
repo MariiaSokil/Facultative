@@ -1,4 +1,7 @@
 package com.epam.model;
+
+import java.time.LocalDate;
+
 /**
  * Mark model.
  *
@@ -7,22 +10,31 @@ package com.epam.model;
  */
 
 public class Mark {
-    private long mark;
-    private String dateMark;
+    private int mark;
+    private LocalDate dateMark;
 
     public Mark() {
     }
 
-    public Mark(long mark) {
+    /*public Mark(int mark) {
         this.mark = mark;
     }
 
-    public Mark(long mark, String dateMark) {
+    public Mark(int mark, String dateMark) {
         this.mark = mark;
         this.dateMark = dateMark;
     }
 
-    public long getMark() {
+    public int getMark(int mark) {
+        switch (mark>0 && mark<=5){
+            case 1: return "Course completed unsuccessfully";
+            case 2: return "Course completed unsuccessfully";
+            case 3: return "Course completed unsuccessfully";
+            case 4: return "Course completed successfully";
+            case 5: return "Course completed successfully";
+            default: return "";
+
+        }
         return mark;
     }
     public String getDateMark() { return dateMark; }
@@ -30,5 +42,5 @@ public class Mark {
     public void setMark(long mark) {
         this.mark = mark;
     }
-    public void setDateMark(String dateMark) { this.dateMark = dateMark; }
+    public void setDateMark(String dateMark) { this.dateMark = dateMark; }*/
 }
