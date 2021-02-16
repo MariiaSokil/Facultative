@@ -6,8 +6,15 @@ import com.epam.model.Course;
 import java.util.List;
 
 public class CourseService {
+
+    private final CourseDao courseDao;
+
+    public CourseService() {
+        courseDao = new CourseDao();
+    }
+
     public List<Course> getAll() {
-        return new CourseDao().findAllWithLazyStudents();
+        return courseDao.findAllWithLazyStudents();
     }
 
     public Course getCourse() {
@@ -16,6 +23,10 @@ public class CourseService {
     }
 
     public void updateCourse(Course course){
-        new CourseDao().updateCourse(course);
+        courseDao.updateCourse(course);
+    }
+
+    public List<Course> findAllByStudentId(Long studentId) {
+        return courseDao.findAllByStudentId(studentId);
     }
 }

@@ -11,6 +11,7 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @WebServlet(name = "CourseServlet", urlPatterns = "/courses")
 public class CourseServlet extends HttpServlet {
@@ -66,8 +67,10 @@ public class CourseServlet extends HttpServlet {
             courseService.updateCourse(course);
 
             //redirect to student page
+            List<Course> userCourses = courseService.findAllByStudentId(user.getId());
+            System.out.println("User courses: " + userCourses.size());
             request.setAttribute("user", user);
-            request.setAttribute("courses", user.getCourses());
+            request.setAttribute("courses", userCourses);
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/student.jsp");
             rd.forward(request, response);
         } else {
