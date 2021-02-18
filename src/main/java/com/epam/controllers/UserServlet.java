@@ -2,6 +2,7 @@ package com.epam.controllers;
 
 import com.epam.model.Role;
 import com.epam.model.User;
+import com.epam.service.CourseService;
 import com.epam.service.UserService;
 
 import javax.servlet.RequestDispatcher;
@@ -18,9 +19,11 @@ public class UserServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private final UserService userService;
+    private CourseService courseService;
 
     public UserServlet() {
-        this.userService = new UserService();
+        userService = new UserService();
+        courseService = new CourseService();
     }
 
     @Override
@@ -28,7 +31,7 @@ public class UserServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         request.setAttribute("user", user);
-        request.setAttribute("courses", user.getCourses());
+
 
         String page;
         if (user.getRole() == Role.TEACHER) {
@@ -36,6 +39,7 @@ public class UserServlet extends HttpServlet {
         } else if (user.getRole() == Role.ADMIN) {
             page = "/admin.jsp";
         } else {
+            request.setAttribute("courses", courseService.findAllByStudentId(user.getId()));
             page = "/student.jsp";
         }
         RequestDispatcher rd = getServletContext().getRequestDispatcher(page);

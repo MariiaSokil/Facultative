@@ -8,6 +8,7 @@ package com.epam.model;
 
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 public class Course {
@@ -17,7 +18,7 @@ public class Course {
     private int duration;
     private LocalDate startDate;
     private Integer price;
-    private Set<User> students;
+    private Set<User> students = new HashSet<>();
     private User teacher;
     private Status status;
     private int enrollment;

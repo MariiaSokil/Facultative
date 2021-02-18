@@ -26,6 +26,7 @@ public final class Fields {
 	public static final String USER_BLOCKED = "is_blocked";
 
 
+
 	public static final String COURSE_ID = "id";
 	public static final String COURSE_TITLE = "title";
 	public static final String COURSE_DURATION = "duration";

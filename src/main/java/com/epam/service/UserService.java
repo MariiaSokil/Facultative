@@ -29,6 +29,8 @@ private static Map<String,User> map = new HashMap<>();
         //return map.get(login);
         return new UserDao().findUserByLogin(login);
     }
+
+
 }
 
 

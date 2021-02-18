@@ -11,7 +11,9 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @WebServlet(name = "CourseServlet", urlPatterns = "/courses")
 public class CourseServlet extends HttpServlet {
@@ -27,7 +29,7 @@ public class CourseServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
         ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(response.getOutputStream(), courseService.getAll());
+        mapper.writeValue(response.getOutputStream(), courseService.getAll(true));
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -43,6 +45,7 @@ public class CourseServlet extends HttpServlet {
         String price = request.getParameter("price");
         String teacherId = request.getParameter("teacher_id");
         String startDate = request.getParameter("start_date");
+        String students = request.getParameter("students");
         System.out.println("CourseId =" + courseId);
         System.out.println("CourseTitle =" + title);
         System.out.println("categoryId =" + categoryId);
@@ -53,6 +56,7 @@ public class CourseServlet extends HttpServlet {
         System.out.println("price =" + price);
         System.out.println("teacherId =" + teacherId);
         System.out.println("startDate =" + startDate);
+        System.out.println("students size  =" + students);
         if (user!= null) {
             Course course = new Course();
             course.setId(new Long(courseId));
@@ -64,6 +68,10 @@ public class CourseServlet extends HttpServlet {
             course.setStatus(Status.valueOf(status));
             course.setTeacher(new User(new Long(teacherId)));
             course.setStartDate(toLocalDate(startDate));
+            Set<User> users = new HashSet<>();
+            users.add(user);
+            //TODO
+            course.setStudents(users);
             courseService.updateCourse(course);
 
             //redirect to student page

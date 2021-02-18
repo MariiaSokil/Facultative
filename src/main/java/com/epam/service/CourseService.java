@@ -13,8 +13,9 @@ public class CourseService {
         courseDao = new CourseDao();
     }
 
-    public List<Course> getAll() {
-        return courseDao.findAllWithLazyStudents();
+    public List<Course> getAll(boolean eagerStudents) {
+        return courseDao.findAll(eagerStudents);
+        //return courseDao.findAllWithLazyStudents();
     }
 
     public Course getCourse() {

@@ -41,6 +41,7 @@
     </c:if>
     <c:if test="${sessionScope.user != null}">
         <form class="form-inline my-2 my-lg-0" action="/logout" method="post">
+            <input type="hidden" id="hiddenUserId" value="<c:out value="${user.id}"></c:out>"/>
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Logout</button>
         </form>
     </c:if>

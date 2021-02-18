@@ -2,6 +2,7 @@ package com.epam.controllers;
 
 import com.epam.model.Role;
 import com.epam.model.User;
+import com.epam.service.CourseService;
 import com.epam.service.UserService;
 
 import javax.servlet.RequestDispatcher;
@@ -15,9 +16,11 @@ public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private final UserService userService;
+    private final CourseService courseService;
 
     public LoginServlet() {
         this.userService = new UserService();
+        courseService = new CourseService();
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -44,6 +47,7 @@ public class LoginServlet extends HttpServlet {
             } else if (user.getRole() == Role.ADMIN) {
                 page = "/admin.jsp";
             } else {
+                request.setAttribute("courses", courseService.findAllByStudentId(user.getId()));
                 page = "/student.jsp";
             }
             RequestDispatcher rd = getServletContext().getRequestDispatcher(page);

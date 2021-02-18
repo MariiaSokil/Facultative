@@ -7,8 +7,8 @@ import com.epam.model.Status;
 import com.epam.model.User;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Date;
+import java.util.*;
 
 public class CourseDao {
     private static final String SQL_FIND_COURSE_BY_TITLE =
@@ -23,7 +23,7 @@ public class CourseDao {
             "SELECT * FROM courses c " +
                     "LEFT JOIN users u ON c.teacher=u.user_id " +
                     "LEFT JOIN categories ct ON c.category=ct.category_id " +
-                    "ORDER BY start_date";
+                    "ORDER BY DATE(start_date) DESC";
 
     private static final String SQL_UPDATE_COURSE =
             "UPDATE courses SET title=?, duration=?, price=?, start_date=?, teacher=?, status=?, category=?, enrollment=?" +
@@ -33,7 +33,20 @@ public class CourseDao {
             "SELECT * FROM courses c " +
                     "LEFT JOIN users u ON c.teacher=u.user_id " +
                     "LEFT JOIN categories ct ON c.category=ct.category_id " +
-                    "WHERE c.id = ANY (?)";
+                    "WHERE c.id = ANY (?) " +
+                    "ORDER BY DATE(start_date) DESC";
+
+    private static final String SQL_FIND_ALL_COURSE_IDS_BY_STUDENT_ID =
+            "SELECT course_id FROM users_courses " +
+                    "WHERE userid =?";
+
+    private static final String SQL_ADD_USERS_TO_COURSES =
+            "INSERT INTO users_courses(course_id, userid) VALUES(?,?)";
+
+   /* private static final String SQL_FIND_ENROLLMENT_IN_ONE_COURSE =
+            "SELECT userid FROM users_courses " +
+                    "WHERE course_id =?";*/
+   private static final String SQL_FIND_ALL_STUDENTS = "SELECT * FROM users_courses";
 
     public Course findCourse(Long id) {
         Course course = null;
@@ -93,11 +106,18 @@ public class CourseDao {
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
+
+            List<Long> ids = findAllCoursesByStudent(con, studentId);
+            System.out.println("In dao: " + ids.size());
+            if (ids.size() == 0) {
+                return courses;
+            }
+
             CourseDao.CourseMapper mapper = new CourseDao.CourseMapper();
             pstmt = con.prepareStatement(SQL_FIND_ALL_BY_IDS);
-            List<Integer> ids = new ArrayList<>();
+           /* List<Integer> ids = new ArrayList<>();
             ids.add(8);
-            ids.add(9);
+            ids.add(9);*/
             Array tagIdsInArray = con.createArrayOf("integer", ids.toArray());
             pstmt.setArray(1, tagIdsInArray);
 
@@ -159,12 +179,26 @@ public class CourseDao {
         try {
             con = DBManager.getInstance().getConnection();
             update(con, course);
+            if (!course.getStudents().isEmpty()) {
+                User user = course.getStudents().iterator().next();
+                addUserToCourse(con,course.getId(), user.getId());
+            }
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
         } finally {
             DBManager.getInstance().commitAndClose(con);
         }
+    }
+
+    private void addUserToCourse(Connection con, Long courseId, Long userId) throws SQLException {
+        System.out.println("Course id"+ courseId.intValue());
+        System.out.println("User id"+ courseId.intValue());
+        PreparedStatement pstmt = con.prepareStatement(SQL_ADD_USERS_TO_COURSES);
+        pstmt.setInt(1, courseId.intValue());
+        pstmt.setInt(2, userId.intValue());
+        pstmt.executeUpdate();
+        pstmt.close();
     }
 
     private void update(Connection con, Course course) throws SQLException {
@@ -181,6 +215,130 @@ public class CourseDao {
         pstmt.setLong(k, course.getId());
         pstmt.executeUpdate();
         pstmt.close();
+    }
+
+    private List<Long> findAllCoursesByStudent(Connection con, Long id) {
+        List<Long> courses = new ArrayList<>();
+        Course course = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            pstmt = con.prepareStatement(SQL_FIND_ALL_COURSE_IDS_BY_STUDENT_ID);
+            pstmt.setInt(1, id.intValue());
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                courses.add(rs.getLong("course_id"));
+            }
+            rs.close();
+            pstmt.close();
+        } catch (SQLException ex) {
+//            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+            System.out.println(ex.getMessage());
+        } finally {
+            //DBManager.getInstance().commitAndClose(con);
+        }
+        return courses;
+    }
+
+   /* public List<Course> findAllStudentsInOneCourse() {
+        List<Course> courses = new ArrayList<>();
+        Course course = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+       //    List<Long> idStudent = new ArrayList<>();
+            CourseDao.CourseMapper mapper = new CourseDao.CourseMapper();
+            pstmt = con.prepareStatement(SQL_FIND_ENROLLMENT_IN_ONE_COURSE);
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                course = mapper.mapRow(rs);
+                courses.add(course);
+            }
+            rs.close();
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            DBManager.getInstance().commitAndClose(con);
+        }
+        return courses;
+    }*/
+
+    public List<Course> findAll(boolean eagerStudents) {
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            List<Course> courses = fetchAllCourses(con);
+            if(eagerStudents && !courses.isEmpty()) {
+                Map<Long,Set<User>> studentsByCourses = fetchAllUsers(con);
+                mapCoursesWithStudents(courses, studentsByCourses);
+            }
+            return courses;
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            DBManager.getInstance().commitAndClose(con);
+        }
+
+        return new ArrayList<>();
+    }
+
+    private void mapCoursesWithStudents(List<Course> courses, Map<Long, Set<User>> studentsByCourses) {
+        courses.forEach(course -> {
+            if (studentsByCourses.containsKey(course.getId())) {
+                Set<User> users = studentsByCourses.get(course.getId());
+                course.getStudents().addAll(users);
+            }
+        });
+    }
+
+    private Map<Long,Set<User>> fetchAllUsers(Connection con) {
+        Map<Long, Set<User>> userMap = new HashMap<>();
+        try (PreparedStatement pstmt = con.prepareStatement(SQL_FIND_ALL_STUDENTS);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                Long courseId = rs.getLong("course_id");
+                Long userId = rs.getLong("userid");
+                User user = new User(userId);
+                if (userMap.containsKey(courseId)) {
+                    userMap.get(courseId).add(user);
+                } else {
+                    Set<User> set = new HashSet<>();
+                    set.add(user);
+                    userMap.put(courseId,set);
+                }
+            }
+        } catch (SQLException ex) {
+            //DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } /*finally {
+            DBManager.getInstance().commitAndClose(con);
+        }*/
+        return userMap;
+    }
+
+    private List<Course> fetchAllCourses(Connection con) {
+        List<Course> courses = new ArrayList<>();
+        try (PreparedStatement pstmt = con.prepareStatement(SQL_FIND_ALL);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                Course course = new CourseMapper().mapRow(rs);
+                courses.add(course);
+            }
+        } catch (SQLException ex) {
+            //DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        }/* finally {
+            DBManager.getInstance().commitAndClose(con);
+        }*/
+        return courses;
     }
 }
 

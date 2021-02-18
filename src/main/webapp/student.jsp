@@ -64,6 +64,7 @@
                             <th>Topic</th>
                             <th>Duration</th>
                             <th>Status</th>
+                            <th>Start_date</th>
                             <th>Teacher</th>
                             <th>Mark</th>
                             <th>Action</th>
@@ -76,6 +77,7 @@
                                 <td><c:out value="${course.category.name}"></c:out></td>
                                 <td><c:out value="${course.duration}"></c:out></td>
                                 <td><c:out value="${course.status}"></c:out></td>
+                                <td><c:out value="${course.startDate}"></c:out></td>
                                 <td><c:out value="${course.teacher.firstName} ${course.teacher.lastName}"></c:out></td>
                                 <td>N/A</td>
                                 <td><form class="form-inline"><button disabled class="btn btn-outline-danger" type="submit">Unsubscribe</button></form></td>

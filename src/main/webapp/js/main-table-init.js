@@ -4,6 +4,7 @@ $(document).ready(function() {
                     url: '/courses',
                     dataSrc: ''
                 },
+            "order": [],
             "columns": [
                 { "data": "title" },
                 { "data": "category",
@@ -29,7 +30,13 @@ $(document).ready(function() {
                  { "data": "price"},
                  { "data": "",
                      render: function ( data, type, row ) {
-                             return '<form class="form-inline" method="post" action="/courses?id='+row.id+'">' +
+                             let loggedUserIdTxt = $("#hiddenUserId").val();
+                             var loggedUserId = parseInt(loggedUserIdTxt, 10);
+                             const studentIds = row.students.map(({id}) => id);
+
+
+
+                             let formStart = '<form class="form-inline" method="post" action="/courses?id='+row.id+'">' +
                                          '<input type="hidden" name="title" value="'+ row.title + '" />' +
                                          '<input type="hidden" name="category_id" value="'+ row.category.id + '" />' +
                                          '<input type="hidden" name="category_name" value="'+ row.category.name + '" />' +
@@ -38,9 +45,14 @@ $(document).ready(function() {
                                          '<input type="hidden" name="price" value="'+ row.price + '" />' +
                                          '<input type="hidden" name="status" value="'+ row.status + '" />' +
                                          '<input type="hidden" name="teacher_id" value="'+ row.teacher.id + '" />' +
-                                         '<input type="hidden" name="start_date" value="'+ new Date(row.startDate.year, row.startDate.monthValue -1, row.startDate.dayOfMonth).toLocaleDateString() + '" />' +
-                                         '<button class="btn btn-outline-success" type="submit">Apply</button>' +
-                                    '</form>';
+                                         '<input type="hidden" name="start_date" value="'+ new Date(row.startDate.year, row.startDate.monthValue -1, row.startDate.dayOfMonth).toLocaleDateString() + '" />';
+                                         let buttonTag;
+                                         if (row.status !== 'COMING_SOON' || studentIds.indexOf(loggedUserId)>=0) {
+                                           buttonTag = '<button disabled class="btn btn-outline-success" type="submit">Apply</button>';
+                                         } else {
+                                           buttonTag = '<button class="btn btn-outline-success" type="submit">Apply</button>';
+                                         }
+                                         return formStart + buttonTag + '</form>';
                      }
                  }
             ]
