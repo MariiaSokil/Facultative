@@ -48,6 +48,8 @@ public class LoginServlet extends HttpServlet {
             if (user.getRole() == Role.TEACHER) {
                 page = "/teacher.jsp";
             } else if (user.getRole() == Role.ADMIN) {
+                List<Course> courses = courseService.getAll(true);
+                request.setAttribute("courses", courses);
                 page = "/admin.jsp";
             } else {
                 List<Course> courses = courseService.findAllByStudentId(user.getId());
