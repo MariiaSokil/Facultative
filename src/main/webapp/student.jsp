@@ -80,7 +80,20 @@
                                 <td><c:out value="${course.startDate}"></c:out></td>
                                 <td><c:out value="${course.teacher.firstName} ${course.teacher.lastName}"></c:out></td>
                                 <td>N/A</td>
-                                <td><form class="form-inline"><button disabled class="btn btn-outline-danger" type="submit">Unsubscribe</button></form></td>
+                                <td>
+                                   <form class="form-inline" action="/courses?id=<c:out value="${course.id}&remove=true"></c:out>" method="post">
+                                       <input type="hidden" name="title" value="<c:out value="${course.title}"></c:out>" />
+                                       <input type="hidden" name="category_id" value="<c:out value="${course.category.id}"></c:out>" />
+                                       <input type="hidden" name="category_name" value="<c:out value="${course.category.name}"></c:out>" />
+                                       <input type="hidden" name="duration" value="<c:out value="${course.duration}"></c:out>" />
+                                       <input type="hidden" name="enrollment" value="<c:out value="${course.enrollment}"></c:out>" />
+                                       <input type="hidden" name="price" value="<c:out value="${course.price}"></c:out>" />
+                                       <input type="hidden" name="status" value="<c:out value="${course.status}"></c:out>" />
+                                       <input type="hidden" name="teacher_id" value="<c:out value="${course.teacher.id}"></c:out>" />
+                                       <input type="hidden" name="start_date" value="<c:out value="${course.startDate}"></c:out>" />
+                                       <button class="btn btn-outline-danger" type="submit">Unsubscribe</button>
+                                   </form>
+                                </td>
                             </tr>
                         </c:forEach>
                     </tbody>

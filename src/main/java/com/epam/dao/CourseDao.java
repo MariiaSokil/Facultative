@@ -42,6 +42,8 @@ public class CourseDao {
 
     private static final String SQL_ADD_USERS_TO_COURSES =
             "INSERT INTO users_courses(course_id, userid) VALUES(?,?)";
+    private static final String SQL_REMOVE_USERS_FROM_COURSES =
+            "DELETE FROM users_courses WHERE course_id=? AND userid=?";
 
    /* private static final String SQL_FIND_ENROLLMENT_IN_ONE_COURSE =
             "SELECT userid FROM users_courses " +
@@ -174,14 +176,18 @@ public class CourseDao {
         }
     }
 
-    public void updateCourse(Course course) {
+    public void updateCourse(Course course, boolean bindUser) {
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
             update(con, course);
             if (!course.getStudents().isEmpty()) {
                 User user = course.getStudents().iterator().next();
-                addUserToCourse(con,course.getId(), user.getId());
+                if (bindUser) {
+                    addUserToCourse(con,course.getId(), user.getId());
+                } else {
+                    removeUserFromCourse(con,course.getId(), user.getId());
+                }
             }
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
@@ -191,9 +197,17 @@ public class CourseDao {
         }
     }
 
+    private void removeUserFromCourse(Connection con, Long courseId, Long userId) throws SQLException {
+        System.out.println(SQL_REMOVE_USERS_FROM_COURSES);
+        PreparedStatement pstmt = con.prepareStatement(SQL_REMOVE_USERS_FROM_COURSES);
+        pstmt.setInt(1, courseId.intValue());
+        pstmt.setInt(2, userId.intValue());
+        pstmt.executeUpdate();
+        pstmt.close();
+    }
+
     private void addUserToCourse(Connection con, Long courseId, Long userId) throws SQLException {
-        System.out.println("Course id"+ courseId.intValue());
-        System.out.println("User id"+ courseId.intValue());
+        System.out.println(SQL_ADD_USERS_TO_COURSES);
         PreparedStatement pstmt = con.prepareStatement(SQL_ADD_USERS_TO_COURSES);
         pstmt.setInt(1, courseId.intValue());
         pstmt.setInt(2, userId.intValue());

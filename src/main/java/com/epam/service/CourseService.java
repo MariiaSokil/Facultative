@@ -23,8 +23,8 @@ public class CourseService {
         return new Course((long) 1, "Java");
     }
 
-    public void updateCourse(Course course){
-        courseDao.updateCourse(course);
+    public void updateCourse(Course course, boolean bindUser){
+        courseDao.updateCourse(course, bindUser);
     }
 
     public List<Course> findAllByStudentId(Long studentId) {

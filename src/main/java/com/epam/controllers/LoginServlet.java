@@ -1,5 +1,6 @@
 package com.epam.controllers;
 
+import com.epam.model.Course;
 import com.epam.model.Role;
 import com.epam.model.User;
 import com.epam.service.CourseService;
@@ -10,6 +11,8 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.util.List;
+import java.util.Set;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
@@ -47,8 +50,13 @@ public class LoginServlet extends HttpServlet {
             } else if (user.getRole() == Role.ADMIN) {
                 page = "/admin.jsp";
             } else {
-                request.setAttribute("courses", courseService.findAllByStudentId(user.getId()));
-                page = "/student.jsp";
+                List<Course> courses = courseService.findAllByStudentId(user.getId());
+                if (courses.isEmpty()) {
+                    page = "/index.jsp";
+                } else {
+                    request.setAttribute("courses", courses);
+                    page = "/student.jsp";
+                }
             }
             RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
             rd.forward(request, response);

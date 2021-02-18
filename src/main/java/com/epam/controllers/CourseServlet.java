@@ -1,28 +1,33 @@
 package com.epam.controllers;
 
-import com.epam.model.*;
+import com.epam.model.Category;
+import com.epam.model.Course;
+import com.epam.model.Status;
+import com.epam.model.User;
 import com.epam.service.CourseService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.*;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @WebServlet(name = "CourseServlet", urlPatterns = "/courses")
 public class CourseServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private CourseService courseService = null;
+    private final CourseService courseService;
 
-    public void init() {
-        courseService = new CourseService();
+    public CourseServlet() {
+        this.courseService = new CourseService();
     }
 
     @Override
@@ -46,6 +51,8 @@ public class CourseServlet extends HttpServlet {
         String teacherId = request.getParameter("teacher_id");
         String startDate = request.getParameter("start_date");
         String students = request.getParameter("students");
+        String removeFlag = request.getParameter("remove");
+        System.out.println("removeFlag =" + removeFlag);
         System.out.println("CourseId =" + courseId);
         System.out.println("CourseTitle =" + title);
         System.out.println("categoryId =" + categoryId);
@@ -64,21 +71,25 @@ public class CourseServlet extends HttpServlet {
             course.setCategory(new Category(new Long(categoryId), categoryName));
             course.setDuration(new Integer(duration));
             course.setPrice(new Integer(price));
-            course.setEnrollment(new Integer(enrollment) + 1);
             course.setStatus(Status.valueOf(status));
             course.setTeacher(new User(new Long(teacherId)));
             course.setStartDate(toLocalDate(startDate));
             Set<User> users = new HashSet<>();
             users.add(user);
-            //TODO
             course.setStudents(users);
-            courseService.updateCourse(course);
+            if (removeFlag !=null && "true".equals(removeFlag)) {
+                System.out.println("in if");
+                course.setEnrollment(new Integer(enrollment) - 1);
+                courseService.updateCourse(course, false);
+            } else {
+                System.out.println("in else");
+                course.setEnrollment(new Integer(enrollment) + 1);
+                courseService.updateCourse(course, true);
+            }
 
             //redirect to student page
-            List<Course> userCourses = courseService.findAllByStudentId(user.getId());
-            System.out.println("User courses: " + userCourses.size());
             request.setAttribute("user", user);
-            request.setAttribute("courses", userCourses);
+            request.setAttribute("courses", courseService.findAllByStudentId(user.getId()));
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/student.jsp");
             rd.forward(request, response);
         } else {
@@ -91,8 +102,14 @@ public class CourseServlet extends HttpServlet {
     }
 
     private LocalDate toLocalDate(String stringDate) {
-        //15.05.2021
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        DateTimeFormatter formatter;
+        if (stringDate.contains(".")) {
+            //15.05.2021
+            formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        } else {
+            //suppose 2021-05-15
+            formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        }
         return LocalDate.parse(stringDate, formatter);
     }
 }
