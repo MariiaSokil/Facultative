@@ -45,9 +45,13 @@ public class CourseDao {
     private static final String SQL_REMOVE_USERS_FROM_COURSES =
             "DELETE FROM users_courses WHERE course_id=? AND userid=?";
 
+
+    private static final String SQL_REMOVE_COURSE_FROM_COURSES =
+            "DELETE FROM courses WHERE id=?";
    /* private static final String SQL_FIND_ENROLLMENT_IN_ONE_COURSE =
             "SELECT userid FROM users_courses " +
                     "WHERE course_id =?";*/
+
    private static final String SQL_FIND_ALL_STUDENTS = "SELECT * FROM users_courses";
 
     public Course findCourse(Long id) {
@@ -138,7 +142,6 @@ public class CourseDao {
         }
         return courses;
     }
-
     /**
      * Extracts a user from the result set row.
      */
@@ -204,6 +207,24 @@ public class CourseDao {
         pstmt.setInt(2, userId.intValue());
         pstmt.executeUpdate();
         pstmt.close();
+    }
+
+    public void deleteCourse(String courseId)  {
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            try (PreparedStatement pstmt = con.prepareStatement(SQL_REMOVE_COURSE_FROM_COURSES)) {
+                pstmt.setInt(1, new Integer(courseId));
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                DBManager.getInstance().rollbackAndClose(con);
+                e.printStackTrace();
+            } finally {
+                DBManager.getInstance().commitAndClose(con);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 
     private void addUserToCourse(Connection con, Long courseId, Long userId) throws SQLException {

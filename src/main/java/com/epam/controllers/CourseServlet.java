@@ -34,7 +34,7 @@ public class CourseServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
         ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(response.getOutputStream(), courseService.getAll(true));
+        mapper.writeValue(response.getOutputStream(), courseService.findAll(true));
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -37,6 +37,7 @@ public class UserServlet extends HttpServlet {
         if (user.getRole() == Role.TEACHER) {
             page = "/teacher.jsp";
         } else if (user.getRole() == Role.ADMIN) {
+            request.setAttribute("courses", courseService.findAll(true));
             page = "/admin.jsp";
         } else {
             request.setAttribute("courses", courseService.findAllByStudentId(user.getId()));

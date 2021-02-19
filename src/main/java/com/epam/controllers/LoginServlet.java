@@ -12,7 +12,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
@@ -48,7 +47,7 @@ public class LoginServlet extends HttpServlet {
             if (user.getRole() == Role.TEACHER) {
                 page = "/teacher.jsp";
             } else if (user.getRole() == Role.ADMIN) {
-                List<Course> courses = courseService.getAll(true);
+                List<Course> courses = courseService.findAll(true);
                 request.setAttribute("courses", courses);
                 page = "/admin.jsp";
             } else {

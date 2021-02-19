@@ -13,7 +13,7 @@ public class CourseService {
         courseDao = new CourseDao();
     }
 
-    public List<Course> getAll(boolean eagerStudents) {
+    public List<Course> findAll(boolean eagerStudents) {
         return courseDao.findAll(eagerStudents);
         //return courseDao.findAllWithLazyStudents();
     }
@@ -29,5 +29,9 @@ public class CourseService {
 
     public List<Course> findAllByStudentId(Long studentId) {
         return courseDao.findAllByStudentId(studentId);
+    }
+
+    public void deleteCourse(String courseId)  {
+        courseDao.deleteCourse(courseId);
     }
 }

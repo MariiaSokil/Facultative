@@ -80,7 +80,17 @@
                                 <td><c:out value="${course.status}"></c:out></td>
                                 <td><c:out value="${course.teacher.firstName} ${course.teacher.lastName}"></c:out></td>
                                 <td><c:out value="${course.students.size()}"></c:out></td>
-                                <td><form class="form-inline"><div class="d-grid gap-2 d-md-block"><button disabled class="btn btn-outline-warning" type="submit">Edit</button><button disabled class="btn btn-outline-danger" type="submit">Remove</button></div></form></td>
+                                <td>
+
+                                         <div class="d-grid gap-2 d-md-block">
+                                              <button class="btn btn-outline-warning" type="submit">Edit</button>
+                                              <form class="form-inline" action="/courses2">
+                                                 <input type="hidden" name="id" value="<c:out value="${course.id}"></c:out>" />
+                                                <button class="btn btn-outline-danger" type="submit">Remove</button>
+                                              </form>
+                                         </div>
+
+                                 </td>
                             </tr>
                         </c:forEach>
                     </tbody>
@@ -100,5 +110,5 @@
                 $(this).addClass('active');
             })
         </script>
-    </body>
+    </body>o return the deleted row(s) to the client, you use the RETURNING clause as follows
 </html>

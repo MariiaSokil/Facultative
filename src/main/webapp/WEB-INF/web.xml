@@ -37,6 +37,17 @@
     </servlet-mapping>
 
     <!--============================================================
+           Controller - CourseCreateDeleteServlet
+       =============================================================-->
+    <servlet>
+        <servlet-name>CourseServlet2</servlet-name>
+        <servlet-class>com.epam.controllers.CourseCreateDeleteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CourseServlet2</servlet-name>
+        <url-pattern>/courses2</url-pattern>
+    </servlet-mapping>
+    <!--============================================================
                Controller - LoginServlet
            =============================================================-->
     <servlet>
