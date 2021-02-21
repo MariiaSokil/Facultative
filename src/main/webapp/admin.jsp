@@ -57,7 +57,10 @@
                     </tbody>
                 </table>
                 <div class="d-grid gap-2 d-md-flex justify-content-between">
-                    <h2>Courses list</h2><form class="form-inline"><button disabled class="btn btn-outline-success" type="submit">Add new course</button></form>
+                    <h2>Courses list</h2>
+                       <form class="form-inline">
+                          <button class="btn btn-outline-success" type="submit">Add new course</button>
+                       </form>
                 </div>
                 <table class="table table-bordered">
                     <thead>
@@ -83,7 +86,29 @@
                                 <td>
 
                                          <div class="d-grid gap-2 d-md-block">
-                                              <button class="btn btn-outline-warning" type="submit">Edit</button>
+                                              <form class="form-inline" action="/courses2" method="post">
+                                                <input type="hidden" name="id" value="<c:out value="${course.id}"></c:out>" />
+                                                <input type="hidden" name="title" value="<c:out value="${course.title}"></c:out>" />
+                                                <input type="hidden" name="category_id" value="<c:out value="${course.category.id}"></c:out>" />
+                                                <input type="hidden" name="category_name" value="<c:out value="${course.category.name}"></c:out>" />
+                                                <input type="hidden" name="duration" value="<c:out value="${course.duration}"></c:out>" />
+                                                <input type="hidden" name="enrollment" value="<c:out value="${course.enrollment}"></c:out>" />
+                                                <input type="hidden" name="price" value="<c:out value="${course.price}"></c:out>" />
+                                                <input type="hidden" name="status" value="<c:out value="${course.status}"></c:out>" />
+                                                <input type="hidden" name="teacher_id" value="<c:out value="${course.teacher.id}"></c:out>" />
+                                                <input type="hidden" name="start_date" value="<c:out value="${course.startDate}"></c:out>" />
+                                                 <c:if test="${course.students ne null}">
+                                                 <c:forEach items="${course.students}" var="student">
+                                                         <c:set var="myVar" value="${stat.first ? '' : myVar} ${currentItem}" />
+
+                                                 </c:forEach>
+                                                 <input type="hidden" name="students" value="<c:out value="${student.id}"></c:out>" />
+
+
+                                                 </c:if>
+
+                                                <button class="btn btn-outline-warning" type="submit">Edit</button>
+                                              </form>
                                               <form class="form-inline" action="/courses2">
                                                  <input type="hidden" name="id" value="<c:out value="${course.id}"></c:out>" />
                                                 <button class="btn btn-outline-danger" type="submit">Remove</button>

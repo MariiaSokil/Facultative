@@ -200,6 +200,20 @@ public class CourseDao {
         }
     }
 
+    public void updateCourse(Course course) {
+        System.out.println("in updateCourse()");
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            update(con, course);
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            DBManager.getInstance().commitAndClose(con);
+        }
+    }
+
     private void removeUserFromCourse(Connection con, Long courseId, Long userId) throws SQLException {
         System.out.println(SQL_REMOVE_USERS_FROM_COURSES);
         PreparedStatement pstmt = con.prepareStatement(SQL_REMOVE_USERS_FROM_COURSES);
@@ -243,7 +257,11 @@ public class CourseDao {
         pstmt.setInt(k++, course.getDuration());
         pstmt.setInt(k++, course.getPrice());
         pstmt.setDate(k++,  Date.valueOf(course.getStartDate()));
-        pstmt.setInt(k++, course.getTeacher().getId().intValue());
+        if (course.getTeacher()!=null) {
+            pstmt.setInt(k++, course.getTeacher().getId().intValue());
+        } else {
+            pstmt.setInt(k++, 0);
+        }
         pstmt.setInt(k++, course.getStatus().getId());
         pstmt.setInt(k++, course.getCategory().getId().intValue());
         pstmt.setInt(k++, course.getEnrollment());

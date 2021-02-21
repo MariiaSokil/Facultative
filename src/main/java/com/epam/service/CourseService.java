@@ -27,6 +27,10 @@ public class CourseService {
         courseDao.updateCourse(course, bindUser);
     }
 
+    public void updateCourse(Course course){
+        courseDao.updateCourse(course);
+    }
+
     public List<Course> findAllByStudentId(Long studentId) {
         return courseDao.findAllByStudentId(studentId);
     }

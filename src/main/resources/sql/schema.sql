@@ -106,9 +106,9 @@ INSERT INTO courses VALUES(DEFAULT, 'Mathematical analysis',5, 1000, '2020-12-08
 INSERT INTO courses VALUES(DEFAULT, 'Basics of geometry',3, 2000, '2021-12-08', 13,2,3,0);
 
 
---INSERT INTO users_courses VALUES(1, 3);
---INSERT INTO users_courses VALUES(1, 11);
---INSERT INTO users_courses VALUES(1, 12);
+INSERT INTO users_courses VALUES(1, 3);
+INSERT INTO users_courses VALUES(1, 11);
+INSERT INTO users_courses VALUES(1, 12);
 
 --INSERT INTO users_courses VALUES(2, 15);
 --INSERT INTO users_courses VALUES(2, 12);
