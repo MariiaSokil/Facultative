@@ -35,7 +35,7 @@ public class CourseService {
         return courseDao.findAllByStudentId(studentId);
     }
 
-    public void deleteCourse(String courseId)  {
-        courseDao.deleteCourse(courseId);
+    public void deleteCourse(Long courseId, boolean removeAsociacions)  {
+        courseDao.deleteCourse(courseId, removeAsociacions);
     }
 }

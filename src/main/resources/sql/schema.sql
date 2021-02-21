@@ -91,7 +91,7 @@ INSERT INTO users VALUES(DEFAULT, 'simon@gmail.com', '1414', 'Simon', 'Buff', fa
 
 INSERT INTO courses VALUES(DEFAULT, 'Java 8',16, 1200, '2020-10-20', 10,2, 1,0);
 INSERT INTO courses VALUES(DEFAULT, 'Python',20, 2000, '2021-03-01', 10,0, 1,0);
-INSERT INTO courses VALUES(DEFAULT, '.NET',20, 21000, '2021-02-01', 11,1, 1,0);
+INSERT INTO courses VALUES(DEFAULT, '.NET',20, 21000, '2021-02-01', 11,1, 1,1);
 INSERT INTO courses VALUES(DEFAULT, 'Java 11',18, 21000, '2021-02-10', 11,1, 1,0);
 INSERT INTO courses VALUES(DEFAULT, 'Automated Testing',18, 1000, '2021-04-10', 11,0, 1,0);
 INSERT INTO courses VALUES(DEFAULT, 'SOFTWARE TESTING',15, 1000, '2021-05-10', 10,0, 1,0);
@@ -107,8 +107,6 @@ INSERT INTO courses VALUES(DEFAULT, 'Basics of geometry',3, 2000, '2021-12-08', 
 
 
 INSERT INTO users_courses VALUES(1, 3);
-INSERT INTO users_courses VALUES(1, 11);
-INSERT INTO users_courses VALUES(1, 12);
 
 --INSERT INTO users_courses VALUES(2, 15);
 --INSERT INTO users_courses VALUES(2, 12);

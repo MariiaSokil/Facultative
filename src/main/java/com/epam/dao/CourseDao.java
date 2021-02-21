@@ -48,6 +48,8 @@ public class CourseDao {
 
     private static final String SQL_REMOVE_COURSE_FROM_COURSES =
             "DELETE FROM courses WHERE id=?";
+    private static final String SQL_REMOVE_COURSE_ASSOCIATIONS =
+            "DELETE FROM users_courses WHERE course_id=?";
    /* private static final String SQL_FIND_ENROLLMENT_IN_ONE_COURSE =
             "SELECT userid FROM users_courses " +
                     "WHERE course_id =?";*/
@@ -201,7 +203,6 @@ public class CourseDao {
     }
 
     public void updateCourse(Course course) {
-        System.out.println("in updateCourse()");
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
@@ -223,26 +224,30 @@ public class CourseDao {
         pstmt.close();
     }
 
-    public void deleteCourse(String courseId)  {
+    public void deleteCourse(Long courseId, boolean removeAsociacions)  {
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
-            try (PreparedStatement pstmt = con.prepareStatement(SQL_REMOVE_COURSE_FROM_COURSES)) {
-                pstmt.setInt(1, new Integer(courseId));
-                pstmt.executeUpdate();
-            } catch (SQLException e) {
-                DBManager.getInstance().rollbackAndClose(con);
-                e.printStackTrace();
-            } finally {
-                DBManager.getInstance().commitAndClose(con);
+            if (removeAsociacions) {
+               removeAssociations(con, courseId);
             }
+            remove(con, courseId);
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            DBManager.getInstance().commitAndClose(con);
         }
     }
 
+    private void removeAssociations(Connection con, Long courseId) throws SQLException {
+        PreparedStatement pstmt = con.prepareStatement(SQL_REMOVE_COURSE_ASSOCIATIONS);
+        pstmt.setInt(1, courseId.intValue());
+        pstmt.executeUpdate();
+        pstmt.close();
+    }
+
     private void addUserToCourse(Connection con, Long courseId, Long userId) throws SQLException {
-        System.out.println(SQL_ADD_USERS_TO_COURSES);
         PreparedStatement pstmt = con.prepareStatement(SQL_ADD_USERS_TO_COURSES);
         pstmt.setInt(1, courseId.intValue());
         pstmt.setInt(2, userId.intValue());
@@ -392,6 +397,13 @@ public class CourseDao {
             DBManager.getInstance().commitAndClose(con);
         }*/
         return courses;
+    }
+
+    private void remove(Connection con, Long courseId) throws SQLException {
+        PreparedStatement pstmt = con.prepareStatement(SQL_REMOVE_COURSE_FROM_COURSES);
+        pstmt.setInt(1, courseId.intValue());
+        pstmt.executeUpdate();
+        pstmt.close();
     }
 }
 

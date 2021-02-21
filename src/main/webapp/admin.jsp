@@ -139,15 +139,16 @@
                              { "data": "price"},
                              { "data": "",
                                  render: function ( data, type, row ) {
-                                         return '<button class="btn btn-outline-warning" id="removeCourseBtn" value="'+ row.id+'">Remove</button>';
+                                         return '<button class="btn btn-outline-warning" id="removeCourseBtn">Remove</button>';
                                  }
                              }
                         ]
                 });
 
                 $('#adminCourses tbody').on( 'click', '#removeCourseBtn', function () {
+                    var row = myTable.row($(this).parents('tr')).data();
                     $.ajax({
-                        url: "/courses2?id=" + this.value,
+                        url: "/courses2?id=" + row.id + "&enrollment=" + row.enrollment,
                         type: "get"
                     }).always(function() {
                         myTable.ajax.reload();

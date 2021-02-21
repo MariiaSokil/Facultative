@@ -33,10 +33,14 @@ public class CourseCreateDeleteServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         String courseId = request.getParameter("id");
-        System.out.println("Course id in delete :" + courseId);
+        String enrollment = request.getParameter("enrollment");
         String page;
         if (user.getRole() == Role.ADMIN) {
-            courseService.deleteCourse(courseId);
+            if (enrollment!=null && enrollment.equals("0")) {
+                courseService.deleteCourse(new Long(courseId),false);
+            } else {
+                courseService.deleteCourse(new Long(courseId), true);
+            }
             request.setAttribute("courses", courseService.findAll(true));
             page = "/admin.jsp";
         } else {
