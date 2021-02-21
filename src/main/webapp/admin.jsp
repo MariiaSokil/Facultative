@@ -146,7 +146,6 @@
                 });
 
                 $('#adminCourses tbody').on( 'click', '#removeCourseBtn', function () {
-
                     $.ajax({
                         url: "/courses2?id=" + this.value,
                         type: "get"
