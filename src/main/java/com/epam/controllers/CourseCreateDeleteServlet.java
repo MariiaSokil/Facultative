@@ -66,7 +66,6 @@ public class CourseCreateDeleteServlet extends HttpServlet {
         String price = request.getParameter("price");
         String teacherId = request.getParameter("teacher_id");
         String startDate = request.getParameter("start_date");
-        String data = request.getParameter("row");
 
         System.out.println("CourseId =" + courseId);
         System.out.println("CourseTitle =" + title);
@@ -78,7 +77,6 @@ public class CourseCreateDeleteServlet extends HttpServlet {
         System.out.println("price =" + price);
         System.out.println("teacherId =" + teacherId);
         System.out.println("startDate =" + startDate);
-        System.out.println("row  =" + data);
 
         String page;
         if (user.getRole() == Role.ADMIN) {

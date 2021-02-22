@@ -166,6 +166,7 @@
                           $('#course-id').val(row.id);
                           $('#title').val(row.title);
                           $('#topic').val(row.category.name);
+                          $('#topic-id').val(row.category.id);
                           $('#duration').val(row.duration);
                           $('#start').val(today);
                           $("#status").val(row.status).change();
@@ -187,13 +188,13 @@
         </button>
       </div>
       <div class="modal-body">
-        <form>
+        <form action="/courses2" method="POST">
            <div class="form-group">
                     <div class="input-group mb-3">
                       <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon3">Course Id:</span>
                       </div>
-                      <input disabled type="number" class="form-control" id="course-id" aria-describedby="basic-addon3">
+                      <input  readonly="readonly" type="number" class="form-control" id="course-id" name="id" aria-describedby="basic-addon3">
                     </div>
 
           </div>
@@ -202,7 +203,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon3">Title:</span>
               </div>
-              <input type="text" class="form-control" id="title" aria-describedby="basic-addon3">
+              <input type="text" class="form-control" id="title" name="title" aria-describedby="basic-addon3">
             </div>
           </div>
           <div class="form-group">
@@ -210,7 +211,8 @@
               <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon3">Topic:</span>
               </div>
-              <input type="text" class="form-control" id="topic" aria-describedby="basic-addon3">
+              <input  readonly="readonly" type="text" class="form-control" id="topic" name="category_name" aria-describedby="basic-addon3">
+              <input  hidden="true" type="text" class="form-control" id="topic-id" name="category_id">
             </div>
           </div>
            <div class="form-group">
@@ -218,7 +220,7 @@
                    <div class="input-group-prepend">
                      <span class="input-group-text" id="basic-addon3">Duration:</span>
                    </div>
-                   <input type="number" class="form-control" id="duration" aria-describedby="basic-addon3">
+                   <input type="number" class="form-control" id="duration" name="duration" aria-describedby="basic-addon3">
                  </div>
            </div>
             <div class="form-group">
@@ -226,7 +228,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon3">Status:</span>
                   </div>
-                  <select class="custom-select" id="status">
+                  <select class="custom-select" id="status" name="status">
                       <option selected value="COMING_SOON">COMING_SOON</option>
                       <option value="ONGOING">ONGOING</option>
                       <option value="COMPLETED">COMPLETED</option>
@@ -238,7 +240,7 @@
                  <div class="input-group-prepend">
                    <span class="input-group-text" id="basic-addon3">Start Date</span>
                  </div>
-                 <input type="date" class="form-control" id="start" aria-describedby="basic-addon3">
+                 <input type="date" class="form-control" id="start" name="start_date" aria-describedby="basic-addon3">
                </div>
             </div>
              <div class="form-group">
@@ -246,7 +248,7 @@
                  <div class="input-group-prepend">
                    <span class="input-group-text" id="basic-addon3">Teacher:</span>
                  </div>
-                 <input disabled type="text" class="form-control" id="teacher" aria-describedby="basic-addon3">
+                 <input  readonly="readonly" type="text" class="form-control" id="teacher" name="teacher_id" aria-describedby="basic-addon3">
                </div>
              </div>
                <div class="form-group">
@@ -254,7 +256,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon3">Enrollment</span>
                   </div>
-                  <input disabled type="text" class="form-control" id="enrollment" aria-describedby="basic-addon3">
+                  <input  readonly="readonly" type="text" class="form-control" id="enrollment" name="enrollment" aria-describedby="basic-addon3">
                 </div>
               </div>
                 <div class="form-group">
@@ -262,14 +264,14 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text" id="basic-addon3">Price:</span>
                     </div>
-                    <input type="text" class="form-control" id="price" aria-describedby="basic-addon3">
+                    <input type="text" class="form-control" id="price" name="price" aria-describedby="basic-addon3">
                   </div>
                 </div>
+                <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send message</button>
       </div>
     </div>
   </div>
