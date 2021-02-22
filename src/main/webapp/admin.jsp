@@ -140,8 +140,8 @@
                              { "data": "price"},
                              { "data": "",
                                  render: function ( data, type, row ) {
-                                         return '<button class="btn btn-outline-warning" id="editCourseBtn">Edit</button>' +
-                                         '<button class="btn btn-outline-warning" id="removeCourseBtn">Remove</button>';
+                                         return   '<div class="d-grid gap-2 d-md-flex justify-content-between"><button class="btn btn-outline-warning" id="editCourseBtn">Edit</button>' +
+                                         '<button class="btn btn-outline-warning" id="removeCourseBtn">Remove</button></div>';
                                  }
                              }
                         ]
