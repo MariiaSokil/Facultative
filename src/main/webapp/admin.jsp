@@ -185,40 +185,77 @@
       <div class="modal-body">
         <form>
            <div class="form-group">
-                    <label for="id" class="col-form-label">Course id:</label>
-                    <input type="text" class="form-control" id="course-id">
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon3">Course Id:</span>
+                      </div>
+                      <input disabled type="text" class="form-control" id="course-id" aria-describedby="basic-addon3">
+                    </div>
+
           </div>
           <div class="form-group">
-            <label for="title" class="col-form-label">Title:</label>
-            <input type="text" class="form-control" id="title">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon3">Title:</span>
+              </div>
+              <input type="text" class="form-control" id="title" aria-describedby="basic-addon3">
+            </div>
           </div>
           <div class="form-group">
-            <label for="topic" class="col-form-label">Topic:</label>
-            <input type="text" class="form-control" id="topic">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon3">Topic:</span>
+              </div>
+              <input type="text" class="form-control" id="topic" aria-describedby="basic-addon3">
+            </div>
           </div>
            <div class="form-group">
-                 <label for="duration" class="col-form-label">Duration:</label>
-                 <input  type="text" class="form-control" id="duration">
+                 <div class="input-group mb-3">
+                   <div class="input-group-prepend">
+                     <span class="input-group-text" id="basic-addon3">Duration:</span>
+                   </div>
+                   <input type="text" class="form-control" id="duration" aria-describedby="basic-addon3">
+                 </div>
            </div>
             <div class="form-group">
-                <label for="status" class="col-form-label">Status:</label>
-                <input type="text" class="form-control" id="status">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">Status:</span>
+                  </div>
+                  <input type="text" class="form-control" id="status" aria-describedby="basic-addon3">
+                </div>
            </div>
             <div class="form-group">
-               <label for="start" class="col-form-label">Start Date:</label>
-               <input type="text" class="form-control" id="start">
+               <div class="input-group mb-3">
+                 <div class="input-group-prepend">
+                   <span class="input-group-text" id="basic-addon3">Start Date</span>
+                 </div>
+                 <input type="text" class="form-control" id="start" aria-describedby="basic-addon3">
+               </div>
             </div>
              <div class="form-group">
-               <label for="teacher" class="col-form-label">Teacher:</label>
-               <input type="text" class="form-control" id="teacher">
+               <div class="input-group mb-3">
+                 <div class="input-group-prepend">
+                   <span class="input-group-text" id="basic-addon3">Teacher:</span>
+                 </div>
+                 <input type="text" class="form-control" id="teacher" aria-describedby="basic-addon3">
+               </div>
              </div>
                <div class="form-group">
-                <label for="enrollment" class="col-form-label">Enrollment:</label>
-                <input type="text" class="form-control" id="enrollment">
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">Enrollment</span>
+                  </div>
+                  <input type="text" class="form-control" id="enrollment" aria-describedby="basic-addon3">
+                </div>
               </div>
                 <div class="form-group">
-                  <label for="price" class="col-form-label">Price:</label>
-                  <input type="text" class="form-control" id="price">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon3">Price:</span>
+                    </div>
+                    <input type="text" class="form-control" id="price" aria-describedby="basic-addon3">
+                  </div>
                 </div>
         </form>
       </div>
