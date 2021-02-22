@@ -40,10 +40,10 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Firstname</th>
-                            <th>Lastname</th>
-                            <th>Email</th>
-                            <th>Role</th>
+                            <th><fmt:message key="jsp_common.table.user_details.first_name"/></th>
+                            <th><fmt:message key="jsp_common.table.user_details.last_name"/></th>
+                            <th><fmt:message key="jsp_common.table.user_details.email"/></th>
+                            <th><fmt:message key="jsp_common.table.user_details.role"/></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,14 +61,15 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Title</th>
-                            <th>Topic</th>
-                            <th>Duration</th>
-                            <th>Status</th>
-                            <th>Start_date</th>
-                            <th>Teacher</th>
-                            <th>Mark</th>
-                            <th>Action</th>
+                             <th><fmt:message key="jsp_common.table.courses_list.title"/></th>
+                             <th><fmt:message key="jsp_common.table.courses_list.topic"/></th>
+                             <th><fmt:message key="jsp_common.table.courses_list.duration"/></th>
+                             <th><fmt:message key="jsp_common.table.courses_list.status"/></th>
+                             <th><fmt:message key="jsp_common.table.courses_list.start_date"/></th>
+                             <th><fmt:message key="jsp_common.table.courses_list.teacher"/></th>
+                             <th><fmt:message key="jsp_common.table.courses_list.enrollment"/></th>
+                             <th><fmt:message key="jsp_common.table.courses_list.price"/></th>
+                             <th><fmt:message key="jsp_common.table.courses_list.action"/></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -80,7 +81,8 @@
                                 <td><c:out value="${course.status}"></c:out></td>
                                 <td><c:out value="${course.startDate}"></c:out></td>
                                 <td><c:out value="${course.teacher.firstName} ${course.teacher.lastName}"></c:out></td>
-                                <td>N/A</td>
+                                <td><c:out value="${course.enrollment}"></c:out></td>
+                                <td><c:out value="${course.price}"></c:out></td>
                                 <td>
                                    <form class="form-inline" action="/courses?id=<c:out value="${course.id}&remove=true"></c:out>" method="post">
                                        <input type="hidden" name="title" value="<c:out value="${course.title}"></c:out>" />

@@ -3,29 +3,29 @@
 <table id="example" class="display" style="width:100%">
     <thead>
         <tr>
-            <th><fmt:message key="main_table_jsp.thead.title"/></th>
-            <th><fmt:message key="main_table_jsp.thead.topic"/></th>
-            <th><fmt:message key="main_table_jsp.thead.duration"/></th>
-            <th><fmt:message key="main_table_jsp.thead.status"/></th>
-            <th><fmt:message key="main_table_jsp.thead.start_date"/></th>
-            <th><fmt:message key="main_table_jsp.thead.teacher"/></th>
-            <th><fmt:message key="main_table_jsp.thead.enrollment"/></th>
-            <th><fmt:message key="main_table_jsp.thead.price"/></th>
-            <th><fmt:message key="main_table_jsp.thead.action"/></th>
+            <th><fmt:message key="jsp_common.table.courses_list.title"/></th>
+            <th><fmt:message key="jsp_common.table.courses_list.topic"/></th>
+            <th><fmt:message key="jsp_common.table.courses_list.duration"/></th>
+            <th><fmt:message key="jsp_common.table.courses_list.status"/></th>
+            <th><fmt:message key="jsp_common.table.courses_list.start_date"/></th>
+            <th><fmt:message key="jsp_common.table.courses_list.teacher"/></th>
+            <th><fmt:message key="jsp_common.table.courses_list.enrollment"/></th>
+            <th><fmt:message key="jsp_common.table.courses_list.price"/></th>
+            <th><fmt:message key="jsp_common.table.courses_list.action"/></th>
         </tr>
     </thead>
     <tfoot>
         <tr>
-             <th>Title</th>
-             <th>Topic</th>
-             <th>Duration</th>
-             <th>Status</th>
-             <th>Start Date</th>
-             <th>Teacher</th>
-             <th>Enrollment</th>
-             <th>Price</th>
-             <th>Action</th>
-        </tr>
+            <th><fmt:message key="jsp_common.table.courses_list.title"/></th>
+            <th><fmt:message key="jsp_common.table.courses_list.topic"/></th>
+            <th><fmt:message key="jsp_common.table.courses_list.duration"/></th>
+            <th><fmt:message key="jsp_common.table.courses_list.status"/></th>
+            <th><fmt:message key="jsp_common.table.courses_list.start_date"/></th>
+            <th><fmt:message key="jsp_common.table.courses_list.teacher"/></th>
+            <th><fmt:message key="jsp_common.table.courses_list.enrollment"/></th>
+            <th><fmt:message key="jsp_common.table.courses_list.price"/></th>
+            <th><fmt:message key="jsp_common.table.courses_list.action"/></th>
+    </tr>
     </tfoot>
 </table>
 </div>

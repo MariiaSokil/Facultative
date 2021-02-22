@@ -37,14 +37,14 @@
         </header>
         <content>
             <div class="container">
-                <h2><fmt:message key="admin_jsp.table.container.user_details"/></h2>
+                <h2><fmt:message key="jsp_common.table.container.user_details"/></h2>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th><fmt:message key="admin_jsp.table.user_details.first_name"/></th>
-                            <th><fmt:message key="admin_jsp.table.user_details.last_name"/></th>
-                            <th><fmt:message key="admin_jsp.table.user_details.email"/></th>
-                            <th><fmt:message key="admin_jsp.table.user_details.role"/></th>
+                            <th><fmt:message key="jsp_common.table.user_details.first_name"/></th>
+                            <th><fmt:message key="jsp_common.table.user_details.last_name"/></th>
+                            <th><fmt:message key="jsp_common.table.user_details.email"/></th>
+                            <th><fmt:message key="jsp_common.table.user_details.role"/></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,7 +59,7 @@
                     </tbody>
                 </table>
                 <div class="d-grid gap-2 d-md-flex justify-content-between">
-                    <h2><fmt:message key="admin_jsp.table.container.course_list"/></h2>
+                    <h2><fmt:message key="jsp_common.table.container.course_list"/></h2>
                        <form class="form-inline">
                           <button class="btn btn-outline-success" type="submit"><fmt:message key="admin_jsp.button.add_new_course"/></button>
                        </form>
@@ -68,28 +68,28 @@
                 <table id="adminCourses" class="display" style="width:100%">
                     <thead>
                         <tr>
-                            <th><fmt:message key="admin_jsp.table.courses_list.title"/></th>
-                            <th><fmt:message key="admin_jsp.table.courses_list.topic"/></th>
-                            <th><fmt:message key="admin_jsp.table.courses_list.duration"/></th>
-                            <th><fmt:message key="admin_jsp.table.courses_list.status"/></th>
-                            <th><fmt:message key="admin_jsp.table.courses_list.start_date"/></th>
-                            <th><fmt:message key="admin_jsp.table.courses_list.teacher"/></th>
-                            <th><fmt:message key="admin_jsp.table.courses_list.enrollment"/></th>
-                            <th><fmt:message key="admin_jsp.table.courses_list.price"/></th>
-                            <th><fmt:message key="admin_jsp.table.courses_list.action"/></th>
+                            <th><fmt:message key="jsp_common.table.courses_list.title"/></th>
+                            <th><fmt:message key="jsp_common.table.courses_list.topic"/></th>
+                            <th><fmt:message key="jsp_common.table.courses_list.duration"/></th>
+                            <th><fmt:message key="jsp_common.table.courses_list.status"/></th>
+                            <th><fmt:message key="jsp_common.table.courses_list.start_date"/></th>
+                            <th><fmt:message key="jsp_common.table.courses_list.teacher"/></th>
+                            <th><fmt:message key="jsp_common.table.courses_list.enrollment"/></th>
+                            <th><fmt:message key="jsp_common.table.courses_list.price"/></th>
+                            <th><fmt:message key="jsp_common.table.courses_list.action"/></th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                             <th><fmt:message key="admin_jsp.table.courses_list.title"/></th>
-                             <th><fmt:message key="admin_jsp.table.courses_list.topic"/></th>
-                             <th><fmt:message key="admin_jsp.table.courses_list.duration"/></th>
-                             <th><fmt:message key="admin_jsp.table.courses_list.status"/></th>
-                             <th><fmt:message key="admin_jsp.table.courses_list.start_date"/></th>
-                             <th><fmt:message key="admin_jsp.table.courses_list.teacher"/></th>
-                             <th><fmt:message key="admin_jsp.table.courses_list.enrollment"/></th>
-                             <th><fmt:message key="admin_jsp.table.courses_list.price"/></th>
-                             <th><fmt:message key="admin_jsp.table.courses_list.action"/></th>
+                             <th><fmt:message key="jsp_common.table.courses_list.title"/></th>
+                             <th><fmt:message key="jsp_common.table.courses_list.topic"/></th>
+                             <th><fmt:message key="jsp_common.table.courses_list.duration"/></th>
+                             <th><fmt:message key="jsp_common.table.courses_list.status"/></th>
+                             <th><fmt:message key="jsp_common.table.courses_list.start_date"/></th>
+                             <th><fmt:message key="jsp_common.table.courses_list.teacher"/></th>
+                             <th><fmt:message key="jsp_common.table.courses_list.enrollment"/></th>
+                             <th><fmt:message key="jsp_common.table.courses_list.price"/></th>
+                             <th><fmt:message key="jsp_common.table.courses_list.action"/></th>
                         </tr>
                     </tfoot>
                 </table>
