@@ -159,13 +159,17 @@
                 } );
                 $('#adminCourses tbody').on( 'click', '#editCourseBtn', function () {
                           var row = myTable.row($(this).parents('tr')).data();
+                          var day = ("0" + row.startDate.dayOfMonth).slice(-2);
+                          var month = ("0" + row.startDate.monthValue).slice(-2);
+                          var today = row.startDate.year + "-" + month + "-" + day;
+
                           $('#course-id').val(row.id);
                           $('#title').val(row.title);
                           $('#topic').val(row.category.name);
                           $('#duration').val(row.duration);
-                          $('#start').val(row.startDate);
+                          $('#start').val(today);
                           $('#status').val(row.status);
-                          $('#teacher').val(row.teacherd);
+                          $('#teacher').val(row.teacher);
                           $('#price').val(row.price);
                           $('#enrollment').val(row.enrollment);
                           $('#exampleModal').modal('show');
@@ -189,7 +193,7 @@
                       <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon3">Course Id:</span>
                       </div>
-                      <input disabled type="text" class="form-control" id="course-id" aria-describedby="basic-addon3">
+                      <input disabled type="number" class="form-control" id="course-id" aria-describedby="basic-addon3">
                     </div>
 
           </div>
@@ -214,7 +218,7 @@
                    <div class="input-group-prepend">
                      <span class="input-group-text" id="basic-addon3">Duration:</span>
                    </div>
-                   <input type="text" class="form-control" id="duration" aria-describedby="basic-addon3">
+                   <input type="number" class="form-control" id="duration" aria-describedby="basic-addon3">
                  </div>
            </div>
             <div class="form-group">
@@ -230,7 +234,7 @@
                  <div class="input-group-prepend">
                    <span class="input-group-text" id="basic-addon3">Start Date</span>
                  </div>
-                 <input type="text" class="form-control" id="start" aria-describedby="basic-addon3">
+                 <input type="date" class="form-control" id="start" aria-describedby="basic-addon3">
                </div>
             </div>
              <div class="form-group">
