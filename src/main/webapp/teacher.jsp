@@ -36,7 +36,7 @@
         </header>
         <content>
             <div class="container">
-                <h2>User details</h2>
+                <h2><fmt:message key="jsp_common.table.container.user_details"/></h2>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -57,7 +57,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <h2>Assigned courses</h2>
+                <h2><fmt:message key="jsp_common.table.container.course_list"/></h2>
                 <table class="table table-bordered">
                     <thead>
                         <tr>

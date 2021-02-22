@@ -36,7 +36,7 @@
         </header>
         <content>
             <div class="container">
-                <h2>User details</h2>
+                <h2><fmt:message key="jsp_common.table.container.user_details"/></h2>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -57,7 +57,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <h2>Courses list</h2>
+                <h2><fmt:message key="jsp_common.table.container.course_list"/></h2>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -94,7 +94,7 @@
                                        <input type="hidden" name="status" value="<c:out value="${course.status}"></c:out>" />
                                        <input type="hidden" name="teacher_id" value="<c:out value="${course.teacher.id}"></c:out>" />
                                        <input type="hidden" name="start_date" value="<c:out value="${course.startDate}"></c:out>" />
-                                       <button class="btn btn-outline-danger" type="submit">Unsubscribe</button>
+                                       <button class="btn btn-outline-danger" type="submit"><fmt:message key="student_jsp.button.unsubscribe"/></button>
                                    </form>
                                 </td>
                             </tr>
