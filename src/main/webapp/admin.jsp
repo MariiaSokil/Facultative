@@ -1,10 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "https://www.w3.org/TR/html4/loose.dtd">
 <html>
     <%@ include file="parts/meta.jsp" %>
     <%@ include file="parts/header.jsp" %>
     <link href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
     <style>
         body {
           min-height: 100vh;
@@ -36,14 +37,14 @@
         </header>
         <content>
             <div class="container">
-                <h2>User details</h2>
+                <h2><fmt:message key="admin_jsp.table.container.user_details"/></h2>
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Firstname</th>
-                            <th>Lastname</th>
-                            <th>Email</th>
-                            <th>Role</th>
+                            <th><fmt:message key="admin_jsp.table.user_details.first_name"/></th>
+                            <th><fmt:message key="admin_jsp.table.user_details.last_name"/></th>
+                            <th><fmt:message key="admin_jsp.table.user_details.email"/></th>
+                            <th><fmt:message key="admin_jsp.table.user_details.role"/></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,37 +59,37 @@
                     </tbody>
                 </table>
                 <div class="d-grid gap-2 d-md-flex justify-content-between">
-                    <h2>Courses list</h2>
+                    <h2><fmt:message key="admin_jsp.table.container.course_list"/></h2>
                        <form class="form-inline">
-                          <button class="btn btn-outline-success" type="submit">Add new course</button>
+                          <button class="btn btn-outline-success" type="submit"><fmt:message key="admin_jsp.button.add_new_course"/></button>
                        </form>
                 </div>
                 <div class="container">
                 <table id="adminCourses" class="display" style="width:100%">
                     <thead>
                         <tr>
-                            <th>Title</th>
-                            <th>Topic</th>
-                            <th>Duration</th>
-                            <th>Status</th>
-                            <th>Start Date</th>
-                            <th>Teacher</th>
-                            <th>Enrollment</th>
-                            <th>Price</th>
-                            <th>Action</th>
+                            <th><fmt:message key="admin_jsp.table.courses_list.title"/></th>
+                            <th><fmt:message key="admin_jsp.table.courses_list.topic"/></th>
+                            <th><fmt:message key="admin_jsp.table.courses_list.duration"/></th>
+                            <th><fmt:message key="admin_jsp.table.courses_list.status"/></th>
+                            <th><fmt:message key="admin_jsp.table.courses_list.start_date"/></th>
+                            <th><fmt:message key="admin_jsp.table.courses_list.teacher"/></th>
+                            <th><fmt:message key="admin_jsp.table.courses_list.enrollment"/></th>
+                            <th><fmt:message key="admin_jsp.table.courses_list.price"/></th>
+                            <th><fmt:message key="admin_jsp.table.courses_list.action"/></th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                             <th>Title</th>
-                             <th>Topic</th>
-                             <th>Duration</th>
-                             <th>Status</th>
-                             <th>Start Date</th>
-                             <th>Teacher</th>
-                             <th>Enrollment</th>
-                             <th>Price</th>
-                             <th>Action</th>
+                             <th><fmt:message key="admin_jsp.table.courses_list.title"/></th>
+                             <th><fmt:message key="admin_jsp.table.courses_list.topic"/></th>
+                             <th><fmt:message key="admin_jsp.table.courses_list.duration"/></th>
+                             <th><fmt:message key="admin_jsp.table.courses_list.status"/></th>
+                             <th><fmt:message key="admin_jsp.table.courses_list.start_date"/></th>
+                             <th><fmt:message key="admin_jsp.table.courses_list.teacher"/></th>
+                             <th><fmt:message key="admin_jsp.table.courses_list.enrollment"/></th>
+                             <th><fmt:message key="admin_jsp.table.courses_list.price"/></th>
+                             <th><fmt:message key="admin_jsp.table.courses_list.action"/></th>
                         </tr>
                     </tfoot>
                 </table>
@@ -139,7 +140,8 @@
                              { "data": "price"},
                              { "data": "",
                                  render: function ( data, type, row ) {
-                                         return '<button class="btn btn-outline-warning" id="removeCourseBtn">Remove</button>';
+                                         return '<button class="btn btn-outline-warning" id="editCourseBtn">Edit</button>' +
+                                         '<button class="btn btn-outline-warning" id="removeCourseBtn">Remove</button>';
                                  }
                              }
                         ]
@@ -154,6 +156,17 @@
                         myTable.ajax.reload();
                     });
                 } );
+                $('#adminCourses tbody').on( 'click', '#editCourseBtn', function () {
+                                    var row = myTable.row($(this).parents('tr')).data();
+                                    $.ajax({
+                                        url: "/courses2?id=" + row.id,
+                                        type:'POST',
+                                        data: row,
+                                        dataType: "application/json"
+                                    }).always(function() {
+                                        myTable.ajax.reload();
+                                    });
+               });
         </script>
     </body>
 </html>
