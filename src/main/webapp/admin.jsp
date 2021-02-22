@@ -168,8 +168,8 @@
                           $('#topic').val(row.category.name);
                           $('#duration').val(row.duration);
                           $('#start').val(today);
-                          $('#status').val(row.status);
-                          $('#teacher').val(row.teacher);
+                          $("#status").val(row.status).change();
+                          $('#teacher').val(row.teacher.id);
                           $('#price').val(row.price);
                           $('#enrollment').val(row.enrollment);
                           $('#exampleModal').modal('show');
@@ -226,7 +226,11 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon3">Status:</span>
                   </div>
-                  <input type="text" class="form-control" id="status" aria-describedby="basic-addon3">
+                  <select class="custom-select" id="status">
+                      <option selected value="COMING_SOON">COMING_SOON</option>
+                      <option value="ONGOING">ONGOING</option>
+                      <option value="COMPLETED">COMPLETED</option>
+                    </select>
                 </div>
            </div>
             <div class="form-group">
@@ -242,7 +246,7 @@
                  <div class="input-group-prepend">
                    <span class="input-group-text" id="basic-addon3">Teacher:</span>
                  </div>
-                 <input type="text" class="form-control" id="teacher" aria-describedby="basic-addon3">
+                 <input disabled type="text" class="form-control" id="teacher" aria-describedby="basic-addon3">
                </div>
              </div>
                <div class="form-group">
@@ -250,7 +254,7 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text" id="basic-addon3">Enrollment</span>
                   </div>
-                  <input type="text" class="form-control" id="enrollment" aria-describedby="basic-addon3">
+                  <input disabled type="text" class="form-control" id="enrollment" aria-describedby="basic-addon3">
                 </div>
               </div>
                 <div class="form-group">
