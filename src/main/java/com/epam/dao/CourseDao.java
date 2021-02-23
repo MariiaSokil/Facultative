@@ -29,6 +29,8 @@ public class CourseDao {
             "UPDATE courses SET title=?, duration=?, price=?, start_date=?, teacher=?, status=?, category=?, enrollment=?" +
                     "	WHERE id=?";
 
+    private static final String SQL_INSERT_COURSE = "INSERT INTO courses VALUES(DEFAULT,?,?,?,?,?,?,?,?)";
+
     private static final String SQL_FIND_ALL_BY_IDS =
             "SELECT * FROM courses c " +
                     "LEFT JOIN users u ON c.teacher=u.user_id " +
@@ -144,6 +146,35 @@ public class CourseDao {
         }
         return courses;
     }
+
+    public void saveNew(Course course) {
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            PreparedStatement pstmt = con.prepareStatement(SQL_INSERT_COURSE);
+            int k = 1;
+            pstmt.setString(k++, course.getTitle());
+            pstmt.setInt(k++, course.getDuration());
+            pstmt.setInt(k++, course.getPrice());
+            pstmt.setDate(k++,  Date.valueOf(course.getStartDate()));
+            if (course.getTeacher()!=null) {
+                pstmt.setInt(k++, course.getTeacher().getId().intValue());
+            } else {
+                pstmt.setInt(k++, 0);
+            }
+            pstmt.setInt(k++, course.getStatus().getId());
+            pstmt.setInt(k++, course.getCategory().getId().intValue());
+            pstmt.setInt(k++, course.getEnrollment());
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            DBManager.getInstance().commitAndClose(con);
+        }
+    }
+
     /**
      * Extracts a user from the result set row.
      */

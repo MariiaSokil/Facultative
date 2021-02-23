@@ -38,4 +38,8 @@ public class CourseService {
     public void deleteCourse(Long courseId, boolean removeAsociacions)  {
         courseDao.deleteCourse(courseId, removeAsociacions);
     }
+
+    public void saveNew(Course course) {
+        courseDao.saveNew(course);
+    }
 }

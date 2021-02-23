@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -59,7 +58,6 @@ public class CourseCreateDeleteServlet extends HttpServlet {
         String courseId = request.getParameter("id");
         String title = request.getParameter("title");
         String categoryId = request.getParameter("category_id");
-        String categoryName = request.getParameter("category_name");
         String duration = request.getParameter("duration");
         String enrollment = request.getParameter("enrollment");
         String status = request.getParameter("status");
@@ -70,7 +68,6 @@ public class CourseCreateDeleteServlet extends HttpServlet {
         System.out.println("CourseId =" + courseId);
         System.out.println("CourseTitle =" + title);
         System.out.println("categoryId =" + categoryId);
-        System.out.println("categoryName =" + categoryName);
         System.out.println("duration =" + duration);
         System.out.println("enrollment =" + enrollment);
         System.out.println("status =" + status);
@@ -81,11 +78,11 @@ public class CourseCreateDeleteServlet extends HttpServlet {
         String page;
         if (user.getRole() == Role.ADMIN) {
             Course course = new Course();
-            if (courseId!=null) {
+            if (courseId!=null && !courseId.trim().isEmpty()) {
                 course.setId(new Long(courseId));
             }
             course.setTitle(title);
-            course.setCategory(new Category(new Long(categoryId), categoryName));
+            course.setCategory(new Category(new Long(categoryId), "dummy"));
             course.setDuration(new Integer(duration));
             course.setPrice(new Integer(price));
             if (enrollment!=null) {
@@ -105,8 +102,11 @@ public class CourseCreateDeleteServlet extends HttpServlet {
             Set<User> users = new HashSet<>();
             course.setStudents(users);
 
-
-            courseService.updateCourse(course);
+            if (course.getId()!=null) {
+                courseService.updateCourse(course);
+            } else {
+                courseService.saveNew(course);
+            }
 
 
             request.setAttribute("courses", courseService.findAll(true));

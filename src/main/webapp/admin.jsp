@@ -61,7 +61,7 @@
                 <div class="d-grid gap-2 d-md-flex justify-content-between">
                     <h2><fmt:message key="jsp_common.table.container.course_list"/></h2>
                        <form class="form-inline">
-                          <button class="btn btn-outline-success" type="submit"><fmt:message key="admin_jsp.button.add_new_course"/></button>
+                          <button class="btn btn-outline-success" type="button" id="new_course_btn"><fmt:message key="admin_jsp.button.add_new_course"/></button>
                        </form>
                 </div>
                 <div class="container">
@@ -166,28 +166,75 @@
                            $.ajax({
                               url: "/teachers"
                           }).always(function(teachers) {
-                            $.each(teachers, function( index, teacher ) {
-                              var o = new Option(teacher.firstName + ' ' + teacher.lastName, teacher.id);
-                              /// jquerify the DOM object 'o' so we can use the html method
-                              $(o).html(teacher.firstName + ' ' + teacher.lastName);
-                              $("#teacher").append(o);
-                            });
+                            $.ajax({
+                                  url: "/categories"
+                            }).always(function(topics) {
+                                  $('#topic').find('option').remove();
+                                  $.each(topics, function( index, topic) {
+                                    var o = new Option(topic.name, topic.id);
+                                    /// jquerify the DOM object 'o' so we can use the html method
+                                    $(o).html(topic.name);
+                                    $("#topic").append(o);
+                                  });
+                                  $('#teacher').find('option').remove();
+                                     $.each(teachers, function( index, teacher ) {
+                                       var o = new Option(teacher.firstName + ' ' + teacher.lastName, teacher.id);
+                                       /// jquerify the DOM object 'o' so we can use the html method
+                                       $(o).html(teacher.firstName + ' ' + teacher.lastName);
+                                       $("#teacher").append(o);
+                                     });
 
-                            $('#course-id').val(row.id);
-                            $('#title').val(row.title);
-                            $('#topic').val(row.category.name);
-                            $('#topic-id').val(row.category.id);
-                            $('#duration').val(row.duration);
-                            $('#start').val(today);
-                            $("#status").val(row.status).change();
-                            $('#teacher').val(row.teacher.id).change();
-                            $('#price').val(row.price);
-                            $('#enrollment').val(row.enrollment);
-                            $('#exampleModal').modal('show');
+                                     $('#course-id').val(row.id);
+                                     $('#title').val(row.title);
+                                     $('#topic').val(row.category.id).change();
+                                     $('#duration').val(row.duration);
+                                     $('#start').val(today);
+                                     $("#status").val(row.status).change();
+                                     $('#teacher').val(row.teacher.id).change();
+                                     $('#price').val(row.price);
+                                     $('#enrollment').val(row.enrollment);
+                                     $('#exampleModal').modal('show');
+                            });
                           });
 
 
                });
+
+               $('#new_course_btn').on('click', function () {
+                     $.ajax({
+                           url: "/teachers"
+                     }).always(function(teachers) {
+                            $.ajax({
+                                  url: "/categories"
+                            }).always(function(topics) {
+                                  $('#topic').find('option').remove()
+                                           .end().append('<option selected>Choose..</option>')
+                                           .val('0');
+                                  $.each(topics, function( index, topic) {
+                                    var o = new Option(topic.name, topic.id);
+                                    $(o).html(topic.name);
+                                    $("#topic").append(o);
+                                  });
+                                  $('#teacher').find('option').remove()
+                                               .end().append('<option selected>Choose..</option>')
+                                               .val('0');
+                                  $.each(teachers, function( index, teacher ) {
+                                     var o = new Option(teacher.firstName + ' ' + teacher.lastName, teacher.id);
+                                     /// jquerify the DOM object 'o' so we can use the html method
+                                     $(o).html(teacher.firstName + ' ' + teacher.lastName);
+                                     $("#teacher").append(o);
+                                  });
+                                  $('#course-id').val('');
+                                  $('#title').val('');
+                                  $('#duration').val('');
+                                  $('#start').val('');
+                                  $("#status").val('COMING_SOON');
+                                  $('#price').val('');
+                                  $('#enrollment').val('0');
+                                  $('#exampleModal').modal('show');
+                            });
+                     });
+              });
         </script>
     </body>
 <!-- Modal -->
@@ -224,8 +271,8 @@
               <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon3">Topic:</span>
               </div>
-              <input  readonly="readonly" type="text" class="form-control" id="topic" name="category_name" aria-describedby="basic-addon3">
-              <input  hidden="true" type="text" class="form-control" id="topic-id" name="category_id">
+              <select class="custom-select" id="topic" name="category_id">
+              </select>
             </div>
           </div>
            <div class="form-group">
