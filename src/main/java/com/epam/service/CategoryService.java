@@ -1,15 +1,22 @@
 package com.epam.service;
 
 import com.epam.dao.CategoryDao;
+import com.epam.model.Category;
+
+import java.util.List;
 
 public class CategoryService {
-    private final CategoryDao categoryDao;
+    private final CategoryDao dao;
 
     public CategoryService() {
-        categoryDao = new CategoryDao();
+        dao = new CategoryDao();
+    }
+    //for Mockito testing
+    public CategoryService(CategoryDao dao) {
+        this.dao = dao;
     }
 
-    public Object findAll() {
-        return categoryDao.findAll();
+    public List<Category> findAll() {
+        return dao.findAll();
     }
 }
