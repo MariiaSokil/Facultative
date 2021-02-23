@@ -42,7 +42,6 @@ public class LoginServlet extends HttpServlet {
             //session management end
 
             request.setAttribute("user", user);
-            request.setAttribute("courses", user.getCourses());
             String page;
             if (user.getRole() == Role.TEACHER) {
                 page = "/teacher.jsp";

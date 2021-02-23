@@ -108,7 +108,7 @@ public class CourseCreateDeleteServlet extends HttpServlet {
                 courseService.saveNew(course);
             }
 
-
+            request.setAttribute("user", user);
             request.setAttribute("courses", courseService.findAll(true));
             page = "/admin.jsp";
         } else {
