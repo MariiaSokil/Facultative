@@ -31,22 +31,7 @@ public class Course {
         this.enrollment = enrollment;
     }
 
-
-
     public Course() {
-    }
-
-    public Course(Long id, String title) {
-        this.id = id;
-        this.title = title;
-        this.category = new Category("Some topic");
-        this.duration = 36;
-        this.students = Collections.singleton(new User(2L, "Petro", "Petrenko"));
-        this.teacher = new User(1L, "Ivan", "Ivanenko", Role.TEACHER);
-        this.status = Status.COMING_SOON;
-
-        this.price = 1200;
-        this.startDate = LocalDate.now();
     }
 
     public Long getId() {

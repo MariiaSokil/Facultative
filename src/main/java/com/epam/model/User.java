@@ -28,30 +28,6 @@ public class User {
         this.id = id;
     }
 
-    public User(Long id, String firstName, String lastName, Role role) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.role = role;
-    }
-
-    public User(Long id, String firstName, String lastName) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.role = Role.STUDENT;
-    }
-
-    public User(Long id, String firstName, String lastName, Role role, String login, String password) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.role = role;
-        this.login = login;
-        this.password = password;
-        this.courses.add(new Course(1L, "Java"));
-    }
-
     public Long getId() {
         return id;
     }

@@ -3,7 +3,6 @@ package com.epam.controllers;
 import com.epam.model.Role;
 import com.epam.model.User;
 import com.epam.service.CourseService;
-import com.epam.service.UserService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,11 +17,9 @@ import java.io.IOException;
 public class UserServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private final UserService userService;
-    private CourseService courseService;
+    private final CourseService courseService;
 
     public UserServlet() {
-        userService = new UserService();
         courseService = new CourseService();
     }
 
@@ -31,7 +28,6 @@ public class UserServlet extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         request.setAttribute("user", user);
-
 
         String page;
         if (user.getRole() == Role.TEACHER) {

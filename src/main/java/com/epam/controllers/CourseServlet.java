@@ -52,18 +52,7 @@ public class CourseServlet extends HttpServlet {
         String startDate = request.getParameter("start_date");
         String students = request.getParameter("students");
         String removeFlag = request.getParameter("remove");
-        System.out.println("removeFlag =" + removeFlag);
-        System.out.println("CourseId =" + courseId);
-        System.out.println("CourseTitle =" + title);
-        System.out.println("categoryId =" + categoryId);
-        System.out.println("categoryName =" + categoryName);
-        System.out.println("duration =" + duration);
-        System.out.println("enrollment =" + enrollment);
-        System.out.println("status =" + status);
-        System.out.println("price =" + price);
-        System.out.println("teacherId =" + teacherId);
-        System.out.println("startDate =" + startDate);
-        System.out.println("students size  =" + students);
+
         if (user!= null) {
             Course course = new Course();
             course.setId(new Long(courseId));
@@ -78,11 +67,9 @@ public class CourseServlet extends HttpServlet {
             users.add(user);
             course.setStudents(users);
             if (removeFlag !=null && "true".equals(removeFlag)) {
-                System.out.println("in if");
                 course.setEnrollment(new Integer(enrollment) - 1);
                 courseService.updateCourse(course, false);
             } else {
-                System.out.println("in else");
                 course.setEnrollment(new Integer(enrollment) + 1);
                 courseService.updateCourse(course, true);
             }
@@ -94,7 +81,6 @@ public class CourseServlet extends HttpServlet {
             rd.forward(request, response);
         } else {
             //TODO refactor below
-            System.out.println("User is not logged in");
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.jsp");
             request.setAttribute("message", "Either user name or password is wrong");
             rd.include(request, response);

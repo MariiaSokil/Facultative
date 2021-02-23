@@ -15,12 +15,6 @@ public class CourseService {
 
     public List<Course> findAll(boolean eagerStudents) {
         return courseDao.findAll(eagerStudents);
-        //return courseDao.findAllWithLazyStudents();
-    }
-
-    public Course getCourse() {
-        //TODO check if we need that
-        return new Course((long) 1, "Java");
     }
 
     public void updateCourse(Course course, boolean bindUser){
@@ -35,8 +29,8 @@ public class CourseService {
         return courseDao.findAllByStudentId(studentId);
     }
 
-    public void deleteCourse(Long courseId, boolean removeAsociacions)  {
-        courseDao.deleteCourse(courseId, removeAsociacions);
+    public void deleteCourse(Long courseId, boolean removeAssociations)  {
+        courseDao.deleteCourse(courseId, removeAssociations);
     }
 
     public void saveNew(Course course) {

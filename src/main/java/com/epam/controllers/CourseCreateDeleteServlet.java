@@ -65,16 +65,6 @@ public class CourseCreateDeleteServlet extends HttpServlet {
         String teacherId = request.getParameter("teacher_id");
         String startDate = request.getParameter("start_date");
 
-        System.out.println("CourseId =" + courseId);
-        System.out.println("CourseTitle =" + title);
-        System.out.println("categoryId =" + categoryId);
-        System.out.println("duration =" + duration);
-        System.out.println("enrollment =" + enrollment);
-        System.out.println("status =" + status);
-        System.out.println("price =" + price);
-        System.out.println("teacherId =" + teacherId);
-        System.out.println("startDate =" + startDate);
-
         String page;
         if (user.getRole() == Role.ADMIN) {
             Course course = new Course();
@@ -82,7 +72,7 @@ public class CourseCreateDeleteServlet extends HttpServlet {
                 course.setId(new Long(courseId));
             }
             course.setTitle(title);
-            course.setCategory(new Category(new Long(categoryId), "dummy"));
+            course.setCategory(new Category(new Long(categoryId)));
             course.setDuration(new Integer(duration));
             course.setPrice(new Integer(price));
             if (enrollment!=null) {

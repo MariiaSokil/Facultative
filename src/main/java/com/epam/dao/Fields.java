@@ -1,12 +1,5 @@
 package com.epam.dao;
 
-import com.epam.model.Category;
-import com.epam.model.Status;
-import com.epam.model.User;
-
-import java.time.LocalDate;
-import java.util.Set;
-
 /**
  * Holder for fields names of DB tables and beans.
  * 

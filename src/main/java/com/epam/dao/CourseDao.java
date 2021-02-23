@@ -330,33 +330,6 @@ public class CourseDao {
         return courses;
     }
 
-   /* public List<Course> findAllStudentsInOneCourse() {
-        List<Course> courses = new ArrayList<>();
-        Course course = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        Connection con = null;
-        try {
-            con = DBManager.getInstance().getConnection();
-       //    List<Long> idStudent = new ArrayList<>();
-            CourseDao.CourseMapper mapper = new CourseDao.CourseMapper();
-            pstmt = con.prepareStatement(SQL_FIND_ENROLLMENT_IN_ONE_COURSE);
-            rs = pstmt.executeQuery();
-            while (rs.next()) {
-                course = mapper.mapRow(rs);
-                courses.add(course);
-            }
-            rs.close();
-            pstmt.close();
-        } catch (SQLException ex) {
-            DBManager.getInstance().rollbackAndClose(con);
-            ex.printStackTrace();
-        } finally {
-            DBManager.getInstance().commitAndClose(con);
-        }
-        return courses;
-    }*/
-
     public List<Course> findAll(boolean eagerStudents) {
         Connection con = null;
         try {

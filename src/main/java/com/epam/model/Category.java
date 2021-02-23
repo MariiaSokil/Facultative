@@ -5,12 +5,10 @@ public class Category {
     private String name;
 
     public Category() {
-
     }
 
-    public Category(String name) {
+    public Category(Long id) {
         this.id = id;
-        this.name = name;
     }
 
     public Category(Long id, String name) {

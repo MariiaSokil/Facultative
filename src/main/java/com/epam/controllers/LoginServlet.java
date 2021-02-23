@@ -61,7 +61,6 @@ public class LoginServlet extends HttpServlet {
             RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
             rd.forward(request, response);
         } else {
-            System.out.println("User not found!");
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.jsp");
             request.setAttribute("message", "Either user name or password is wrong");
             rd.include(request, response);
