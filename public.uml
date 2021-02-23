@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>DATABASE</ID>
+  <OriginalElement>2141726f-5aaa-4c93-9b95-6630bb3a3ad7.SCHEMA:Faculty.public</OriginalElement>
+  <nodes>
+    <node x="577.0" y="482.5">2141726f-5aaa-4c93-9b95-6630bb3a3ad7.TABLE:Faculty.public.statuses</node>
+    <node x="372.0" y="163.0">2141726f-5aaa-4c93-9b95-6630bb3a3ad7.TABLE:Faculty.public.users_courses</node>
+    <node x="-33.5" y="449.5">2141726f-5aaa-4c93-9b95-6630bb3a3ad7.TABLE:Faculty.public.marks</node>
+    <node x="371.5" y="682.5">2141726f-5aaa-4c93-9b95-6630bb3a3ad7.TABLE:Faculty.public.categories</node>
+    <node x="163.0" y="96.5">2141726f-5aaa-4c93-9b95-6630bb3a3ad7.TABLE:Faculty.public.users</node>
+    <node x="177.0" y="-37.5">2141726f-5aaa-4c93-9b95-6630bb3a3ad7.TABLE:Faculty.public.roles</node>
+    <node x="372.5" y="405.5">2141726f-5aaa-4c93-9b95-6630bb3a3ad7.TABLE:Faculty.public.courses</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="2141726f-5aaa-4c93-9b95-6630bb3a3ad7.TABLE:Faculty.public.users_courses" target="2141726f-5aaa-4c93-9b95-6630bb3a3ad7.TABLE:Faculty.public.users">
+      <point x="-68.0" y="-0.0" />
+      <point x="77.0" y="-0.0" />
+    </edge>
+    <edge source="2141726f-5aaa-4c93-9b95-6630bb3a3ad7.TABLE:Faculty.public.marks" target="2141726f-5aaa-4c93-9b95-6630bb3a3ad7.TABLE:Faculty.public.courses">
+      <point x="73.5" y="-0.0" />
+      <point x="-67.5" y="-0.0" />
+    </edge>
+    <edge source="2141726f-5aaa-4c93-9b95-6630bb3a3ad7.TABLE:Faculty.public.courses" target="2141726f-5aaa-4c93-9b95-6630bb3a3ad7.TABLE:Faculty.public.statuses">
+      <point x="67.5" y="-0.0" />
+      <point x="-63.0" y="-0.0" />
+    </edge>
+    <edge source="2141726f-5aaa-4c93-9b95-6630bb3a3ad7.TABLE:Faculty.public.courses" target="2141726f-5aaa-4c93-9b95-6630bb3a3ad7.TABLE:Faculty.public.users">
+      <point x="-67.5" y="-40.0" />
+      <point x="240.0" y="480.0" />
+      <point x="0.0" y="103.5" />
+    </edge>
+    <edge source="2141726f-5aaa-4c93-9b95-6630bb3a3ad7.TABLE:Faculty.public.users" target="2141726f-5aaa-4c93-9b95-6630bb3a3ad7.TABLE:Faculty.public.roles">
+      <point x="0.0" y="-103.5" />
+      <point x="0.0" y="37.5" />
+    </edge>
+    <edge source="2141726f-5aaa-4c93-9b95-6630bb3a3ad7.TABLE:Faculty.public.courses" target="2141726f-5aaa-4c93-9b95-6630bb3a3ad7.TABLE:Faculty.public.categories">
+      <point x="0.0" y="114.5" />
+      <point x="0.0" y="-37.5" />
+    </edge>
+    <edge source="2141726f-5aaa-4c93-9b95-6630bb3a3ad7.TABLE:Faculty.public.marks" target="2141726f-5aaa-4c93-9b95-6630bb3a3ad7.TABLE:Faculty.public.users">
+      <point x="0.0" y="-70.5" />
+      <point x="40.0" y="200.0" />
+      <point x="-77.0" y="-0.0" />
+    </edge>
+    <edge source="2141726f-5aaa-4c93-9b95-6630bb3a3ad7.TABLE:Faculty.public.users_courses" target="2141726f-5aaa-4c93-9b95-6630bb3a3ad7.TABLE:Faculty.public.courses">
+      <point x="0.0" y="37.0" />
+      <point x="0.0" y="-114.5" />
+    </edge>
+  </edges>
+  <settings layout="Directed Orthogonal" zoom="1.0" x="377.5" y="335.0" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Key columns</Category>
+    <Category>Columns</Category>
+    <Category>Virtual foreign keys</Category>
+  </Categories>
+</Diagram>
+
