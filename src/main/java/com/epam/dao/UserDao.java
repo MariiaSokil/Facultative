@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class UserDao {
@@ -25,6 +27,7 @@ public class UserDao {
             "UPDATE users SET password=?, first_name=?, last_name=?, locale_name=?"+
                     "	WHERE id=?";
 
+    private static final String SQL_FIND_USERS_BY_ROLE = "SELECT * FROM users WHERE role_id=?";
     /**
      * Returns a user with the given identifier.
      *
@@ -129,6 +132,32 @@ public class UserDao {
         pstmt.close();
     }
 
+    public List<User> findAllUsersByRole(Role role) {
+        User user = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        Connection con = null;
+        List<User> users = new ArrayList<>();
+        try {
+            con = DBManager.getInstance().getConnection();
+            UserMapper mapper = new UserMapper();
+            pstmt = con.prepareStatement(SQL_FIND_USERS_BY_ROLE);
+            pstmt.setLong(1, role.getId());
+            rs = pstmt.executeQuery();
+            while (rs.next()) {
+                user = mapper.mapRow(rs);
+                users.add(user);
+            }
+            rs.close();
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            DBManager.getInstance().commitAndClose(con);
+        }
+        return users;
+    }
 
 
     /**

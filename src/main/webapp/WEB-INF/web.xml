@@ -71,6 +71,15 @@
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>TeacherServlet</servlet-name>
+        <servlet-class>com.epam.controllers.TeacherServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TeacherServlet</servlet-name>
+        <url-pattern>/teachers</url-pattern>
+    </servlet-mapping>
+
     <!--============================================================
         Context listener
     =============================================================-->

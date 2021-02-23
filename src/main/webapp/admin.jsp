@@ -163,17 +163,30 @@
                           var month = ("0" + row.startDate.monthValue).slice(-2);
                           var today = row.startDate.year + "-" + month + "-" + day;
 
-                          $('#course-id').val(row.id);
-                          $('#title').val(row.title);
-                          $('#topic').val(row.category.name);
-                          $('#topic-id').val(row.category.id);
-                          $('#duration').val(row.duration);
-                          $('#start').val(today);
-                          $("#status").val(row.status).change();
-                          $('#teacher').val(row.teacher.id);
-                          $('#price').val(row.price);
-                          $('#enrollment').val(row.enrollment);
-                          $('#exampleModal').modal('show');
+                           $.ajax({
+                              url: "/teachers"
+                          }).always(function(teachers) {
+                            $.each(teachers, function( index, teacher ) {
+                              var o = new Option(teacher.firstName + ' ' + teacher.lastName, teacher.id);
+                              /// jquerify the DOM object 'o' so we can use the html method
+                              $(o).html(teacher.firstName + ' ' + teacher.lastName);
+                              $("#teacher").append(o);
+                            });
+
+                            $('#course-id').val(row.id);
+                            $('#title').val(row.title);
+                            $('#topic').val(row.category.name);
+                            $('#topic-id').val(row.category.id);
+                            $('#duration').val(row.duration);
+                            $('#start').val(today);
+                            $("#status").val(row.status).change();
+                            $('#teacher').val(row.teacher.id).change();
+                            $('#price').val(row.price);
+                            $('#enrollment').val(row.enrollment);
+                            $('#exampleModal').modal('show');
+                          });
+
+
                });
         </script>
     </body>
@@ -248,7 +261,8 @@
                  <div class="input-group-prepend">
                    <span class="input-group-text" id="basic-addon3">Teacher:</span>
                  </div>
-                 <input  readonly="readonly" type="text" class="form-control" id="teacher" name="teacher_id" aria-describedby="basic-addon3">
+                  <select class="custom-select" id="teacher" name="teacher_id">
+                  </select>
                </div>
              </div>
                <div class="form-group">
