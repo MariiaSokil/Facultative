@@ -2,9 +2,14 @@ package com.epam;
 
 import org.apache.ibatis.jdbc.ScriptRunner;
 
-import java.io.*;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
@@ -32,20 +37,19 @@ public class DBManager {
      *
      * @return A DB connection.
      */
-//    public Connection getConnection() throws SQLException {
-//        Connection con = null;
-//        try {
-//            Context initContext = new InitialContext();
-//            Context envContext = (Context) initContext.lookup("java:/comp/env");
-//
-//            // ST4DB - the name of data source
-//            DataSource ds = (DataSource) envContext.lookup("jdbc/ST4DB");
-//            con = ds.getConnection();
-//        } catch (NamingException ex) {
-//            log.warning("Cannot obtain a connection from the pool");
-//        }
-//        return con;
-//    }
+    public Connection getConnection() throws SQLException {
+        Connection con = null;
+        try {
+            InitialContext cxt = new InitialContext();
+
+            DataSource ds = (DataSource) cxt.lookup( "java:/comp/env/jdbc/Faculty" );
+            con = ds.getConnection();
+        } catch (NamingException ex) {
+            ex.printStackTrace();
+            log.warning("Cannot obtain a connection from the pool");
+        }
+        return con;
+    }
 
     private DBManager() {
     }
@@ -92,26 +96,15 @@ public class DBManager {
      *
      * @return A DB connection.
      */
-    public static Connection getConnection() throws SQLException {
-
-//        Connection connection = DriverManager
-//                .getConnection("jdbc:postgresql://localhost:5432/Faculty?user=postgres&password=admin&ssl=false");
-//        connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-//        connection.setAutoCommit(false);
-//        return connection;
-         Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Faculty?user=postgres&password=admin&ssl=false");
-         connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-         connection.setAutoCommit(false);
-         return connection;
-    }
+//    public static Connection getConnection() throws SQLException {
+//         Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Faculty?user=postgres&password=admin&ssl=false");
+//         connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+//         connection.setAutoCommit(false);
+//         return connection;
+//    }
 
     /**************************************************************/
-    public static void initDBSchema() throws IOException, SQLException {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+    public void initDBSchema() throws SQLException {
         Connection con = getConnection();
         ScriptRunner sr = new ScriptRunner(con);
         //Creating a reader object
@@ -121,37 +114,5 @@ public class DBManager {
         //Running the script
         sr.runScript(reader);
     }
-
-    /*private static void executeDDL(String ddl, String delimiter) {
-        Connection con = null;
-
-        try {
-            con = getConnectionWithDriverManager(); // get the connection
-
-            // enable transaction
-            con.setAutoCommit(false);
-
-            Statement statement = con.createStatement();
-
-            // for every DDL statement, execute it
-            for (String sql : ddl.split(delimiter)) {
-                if (sql != null && sql.trim().length() > 0) {
-                    statement.executeUpdate(sql);
-                }
-            }
-
-            statement.close();
-            con.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (con != null) {
-                    con.close();
-                }
-            } catch (Exception ignored) {
-            }
-        }
-    }*/
 }
 

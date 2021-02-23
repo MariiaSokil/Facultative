@@ -118,16 +118,13 @@ public class CourseDao {
             con = DBManager.getInstance().getConnection();
 
             List<Long> ids = findAllCoursesByStudent(con, studentId);
-            System.out.println("In dao: " + ids.size());
             if (ids.size() == 0) {
                 return courses;
             }
 
             CourseDao.CourseMapper mapper = new CourseDao.CourseMapper();
             pstmt = con.prepareStatement(SQL_FIND_ALL_BY_IDS);
-           /* List<Integer> ids = new ArrayList<>();
-            ids.add(8);
-            ids.add(9);*/
+
             Array tagIdsInArray = con.createArrayOf("integer", ids.toArray());
             pstmt.setArray(1, tagIdsInArray);
 
@@ -247,7 +244,6 @@ public class CourseDao {
     }
 
     private void removeUserFromCourse(Connection con, Long courseId, Long userId) throws SQLException {
-        System.out.println(SQL_REMOVE_USERS_FROM_COURSES);
         PreparedStatement pstmt = con.prepareStatement(SQL_REMOVE_USERS_FROM_COURSES);
         pstmt.setInt(1, courseId.intValue());
         pstmt.setInt(2, userId.intValue());
@@ -323,7 +319,6 @@ public class CourseDao {
         } catch (SQLException ex) {
 //            DBManager.getInstance().rollbackAndClose(con);
             ex.printStackTrace();
-            System.out.println(ex.getMessage());
         } finally {
             //DBManager.getInstance().commitAndClose(con);
         }

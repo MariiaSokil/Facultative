@@ -5,13 +5,10 @@ import com.epam.DBManager;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
-
-import static jdk.nashorn.internal.runtime.regexp.joni.Config.log;
 
 public class ContextListener implements ServletContextListener {
     // private static final Logger log = Logger.getLogger(ContextListener.class);
@@ -27,7 +24,7 @@ public class ContextListener implements ServletContextListener {
         log("Servlet context initialization starts");
         try {
             initDBSchema();
-        } catch (IOException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }
@@ -91,9 +88,9 @@ public class ContextListener implements ServletContextListener {
      * <p>
      * //* @param servletContext
      */
-    private void initDBSchema() throws IOException, SQLException {
+    private void initDBSchema() throws SQLException {
         log("DB schema initialization starts");
-        DBManager.initDBSchema();
+        DBManager.getInstance().initDBSchema();
         log("DB schema initialized");
     }
 
