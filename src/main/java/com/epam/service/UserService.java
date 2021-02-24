@@ -25,7 +25,9 @@ public class UserService {
         return userDao.findAllUsersByRole(role);
     }
 
-
+    public void saveNew(User user) {
+        userDao.saveNew(user);
+    }
 }
 
 

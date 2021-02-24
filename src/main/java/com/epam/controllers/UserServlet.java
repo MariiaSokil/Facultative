@@ -3,6 +3,7 @@ package com.epam.controllers;
 import com.epam.model.Role;
 import com.epam.model.User;
 import com.epam.service.CourseService;
+import com.epam.service.UserService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,9 +19,11 @@ public class UserServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private final CourseService courseService;
+    private final UserService userService;
 
     public UserServlet() {
         courseService = new CourseService();
+        userService = new UserService();
     }
 
     @Override
@@ -41,5 +44,43 @@ public class UserServlet extends HttpServlet {
         }
         RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
         rd.forward(request, response);
+    }
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
+        String firstName = request.getParameter("firstName");
+        String lastName = request.getParameter("lastName");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+
+        System.out.println(firstName);
+        System.out.println(lastName);
+        System.out.println(email);
+        System.out.println(password);
+
+
+        User newUser = new User();
+        newUser.setFirstName(firstName);
+        newUser.setLastName(lastName);
+        newUser.setLogin(email);
+        newUser.setPassword(password);
+        newUser.setRole(Role.STUDENT);
+        newUser.setStudent(true);
+        newUser.setBlocked(false);
+        if(userService.getByLogin(email)==null){
+
+        userService.saveNew(newUser);
+
+        //redirect to index page
+        request.setAttribute("user", newUser);
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
+        rd.forward(request, response);
+    } else {
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.jsp");
+        request.setAttribute("message", "A user with this login already exists ");
+        rd.include(request, response);
+    }
+
     }
 }

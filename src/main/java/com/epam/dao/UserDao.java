@@ -5,7 +5,6 @@ import com.epam.DBManager;
 import com.epam.model.Role;
 import com.epam.model.User;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,15 +23,16 @@ public class UserDao {
             "SELECT * FROM users WHERE id=?";
 
     private static final String SQL_UPDATE_USER =
-            "UPDATE users SET password=?, first_name=?, last_name=?, locale_name=?"+
+            "UPDATE users SET password=?, first_name=?, last_name=?, locale_name=?" +
                     "	WHERE id=?";
 
     private static final String SQL_FIND_USERS_BY_ROLE = "SELECT * FROM users WHERE role_id=?";
+    private static final String SQL_INSERT_USER = "INSERT INTO users VALUES(DEFAULT,?,?,?,?,?,?,?)";
+
     /**
      * Returns a user with the given identifier.
      *
-     * @param id
-     *            User identifier.
+     * @param id User identifier.
      * @return User entity.
      */
     public User findUser(Long id) {
@@ -62,8 +62,7 @@ public class UserDao {
     /**
      * Returns a user with the given login.
      *
-     * @param login
-     *            User login.
+     * @param login User login.
      * @return User entity.
      */
     public User findUserByLogin(String login) {
@@ -93,8 +92,7 @@ public class UserDao {
     /**
      * Update user.
      *
-     * @param user
-     *            user to update.
+     * @param user user to update.
      */
     public void updateUser(User user) {
         Connection con = null;
@@ -116,8 +114,7 @@ public class UserDao {
     /**
      * Update user.
      *
-     * @param user
-     *            user to update.
+     * @param user user to update.
      * @throws SQLException
      */
     public void updateUser(Connection con, User user) throws SQLException {
@@ -126,7 +123,7 @@ public class UserDao {
         pstmt.setString(k++, user.getPassword());
         pstmt.setString(k++, user.getFirstName());
         pstmt.setString(k++, user.getLastName());
-       // pstmt.setString(k++, user.getLocaleName());
+        // pstmt.setString(k++, user.getLocaleName());
         pstmt.setLong(k, user.getId());
         pstmt.executeUpdate();
         pstmt.close();
@@ -157,6 +154,31 @@ public class UserDao {
             DBManager.getInstance().commitAndClose(con);
         }
         return users;
+    }
+
+    public void saveNew(User user) {
+        Connection con = null;
+        try {
+            con = DBManager.getInstance().getConnection();
+            PreparedStatement pstmt = con.prepareStatement(SQL_INSERT_USER);
+            int k = 1;
+            pstmt.setString(k++, user.getLogin());
+            pstmt.setString(k++, user.getPassword());
+            pstmt.setString(k++, user.getFirstName());
+            pstmt.setString(k++, user.getLastName());
+            pstmt.setBoolean(k++, user.isStudent());
+            pstmt.setBoolean(k++, user.isBlocked());
+            pstmt.setInt(k++, user.getRole().getId());
+
+
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (SQLException ex) {
+            DBManager.getInstance().rollbackAndClose(con);
+            ex.printStackTrace();
+        } finally {
+            DBManager.getInstance().commitAndClose(con);
+        }
     }
 
 
