@@ -105,4 +105,19 @@ public class Course {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", category=" + category +
+                ", duration=" + duration +
+                ", startDate=" + startDate +
+                ", price=" + price +
+                ", teacher=" + teacher +
+                ", status=" + status +
+                ", enrollment=" + enrollment +
+                '}';
+    }
 }

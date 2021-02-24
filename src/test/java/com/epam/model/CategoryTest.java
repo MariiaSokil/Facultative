@@ -8,10 +8,11 @@ public class CategoryTest {
 
     @Test
     public void getters() {
-        Category testObject = new Category();
-        testObject.setName("xx");
-        testObject.setId(1L);
-        assertEquals("xx", testObject.getName());
-        assertEquals(new Long(1), testObject.getId());
+        Category category = new Category();
+        category.setName("PROGRAMMING");
+        category.setId(1L);
+
+        assertEquals("PROGRAMMING", category.getName());
+        assertEquals(new Long(1), category.getId());
     }
 }

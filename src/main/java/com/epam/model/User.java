@@ -73,5 +73,20 @@ public class User {
     }
     public void setStudent(boolean student) { isStudent = student; }
     public void setBlocked(boolean blocked) { isBlocked = blocked; }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", role=" + role +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", courses=" + courses +
+                ", isStudent=" + isStudent +
+                ", isBlocked=" + isBlocked +
+                '}';
+    }
 }
 
