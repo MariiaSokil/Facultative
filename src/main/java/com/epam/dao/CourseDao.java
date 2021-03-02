@@ -5,16 +5,19 @@ import com.epam.model.Category;
 import com.epam.model.Course;
 import com.epam.model.Status;
 import com.epam.model.User;
+import org.apache.log4j.Logger;
 
 import java.sql.*;
 import java.sql.Date;
 import java.util.*;
+
+
 /**
  * CourseDao.
  * @author M.Sokil
  */
 public class CourseDao {
-
+    private static final Logger log = Logger.getLogger(CourseDao.class);
     private static final String SQL_FIND_ALL =
             "SELECT * FROM courses c " +
                     "LEFT JOIN users u ON c.teacher=u.user_id " +
@@ -83,7 +86,7 @@ public class CourseDao {
             pstmt.close();
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
-            ex.printStackTrace();
+            log.error(ex.getMessage(), ex);
         } finally {
             DBManager.getInstance().commitAndClose(con);
         }
@@ -116,7 +119,7 @@ public class CourseDao {
             pstmt.close();
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
-            ex.printStackTrace();
+            log.error(ex.getMessage(), ex);
         } finally {
             DBManager.getInstance().commitAndClose(con);
         }
@@ -144,7 +147,7 @@ public class CourseDao {
             }
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
-            ex.printStackTrace();
+            log.error(ex.getMessage(), ex);
         } finally {
             DBManager.getInstance().commitAndClose(con);
         }
@@ -161,7 +164,7 @@ public class CourseDao {
             update(con, course);
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
-            ex.printStackTrace();
+            log.error(ex.getMessage(), ex);
         } finally {
             DBManager.getInstance().commitAndClose(con);
         }
@@ -184,7 +187,7 @@ public class CourseDao {
             remove(con, courseId);
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
-            ex.printStackTrace();
+            log.error(ex.getMessage(), ex);
         } finally {
             DBManager.getInstance().commitAndClose(con);
         }
@@ -209,7 +212,7 @@ public class CourseDao {
             return courses;
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
-            ex.printStackTrace();
+            log.error(ex.getMessage(), ex);
         } finally {
             DBManager.getInstance().commitAndClose(con);
         }
@@ -275,10 +278,7 @@ public class CourseDao {
             rs.close();
             pstmt.close();
         } catch (SQLException ex) {
-//            DBManager.getInstance().rollbackAndClose(con);
-            ex.printStackTrace();
-        } finally {
-            //DBManager.getInstance().commitAndClose(con);
+            log.error(ex.getMessage(), ex);
         }
         return courses;
     }
@@ -310,11 +310,8 @@ public class CourseDao {
                 }
             }
         } catch (SQLException ex) {
-            //DBManager.getInstance().rollbackAndClose(con);
-            ex.printStackTrace();
-        } /*finally {
-            DBManager.getInstance().commitAndClose(con);
-        }*/
+            log.error(ex.getMessage(), ex);
+        }
         return userMap;
     }
 
@@ -328,11 +325,8 @@ public class CourseDao {
                 courses.add(course);
             }
         } catch (SQLException ex) {
-            //DBManager.getInstance().rollbackAndClose(con);
-            ex.printStackTrace();
-        }/* finally {
-            DBManager.getInstance().commitAndClose(con);
-        }*/
+            log.error(ex.getMessage(), ex);
+        }
         return courses;
     }
 
@@ -362,6 +356,7 @@ public class CourseDao {
                 course.setEnrollment(rs.getInt(Fields.ENROLLMENT));
                 return course;
             } catch (SQLException e) {
+                log.error(e.getMessage(), e);
                 throw new IllegalStateException(e);
             }
         }

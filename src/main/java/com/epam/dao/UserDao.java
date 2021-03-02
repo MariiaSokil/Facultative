@@ -4,6 +4,7 @@ package com.epam.dao;
 import com.epam.DBManager;
 import com.epam.model.Role;
 import com.epam.model.User;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,12 +12,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+
 
 /**
  * CategoryDao.
  * @author M.Sokil
  */
 public class UserDao {
+    private static final Logger log = Logger.getLogger(UserDao.class);
 
 
     private static final String SQL_FIND_USER_BY_LOGIN =
@@ -55,7 +59,7 @@ public class UserDao {
             pstmt.close();
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
-            ex.printStackTrace();
+            log.error(ex.getMessage(), ex);
         } finally {
             DBManager.getInstance().commitAndClose(con);
         }
@@ -85,7 +89,7 @@ public class UserDao {
             pstmt.close();
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
-            ex.printStackTrace();
+            log.error(ex.getMessage(), ex);
         } finally {
             DBManager.getInstance().commitAndClose(con);
         }
@@ -104,15 +108,11 @@ public class UserDao {
             updateUser(con, user);
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
-            ex.printStackTrace();
+            log.error(ex.getMessage(), ex);
         } finally {
             DBManager.getInstance().commitAndClose(con);
         }
     }
-
-    // //////////////////////////////////////////////////////////
-    // Entity access methods (for transactions)
-    // //////////////////////////////////////////////////////////
 
     /**
      * Update user.
@@ -125,8 +125,7 @@ public class UserDao {
         int k = 1;
         pstmt.setString(k++, user.getPassword());
         pstmt.setString(k++, user.getFirstName());
-        pstmt.setString(k++, user.getLastName());
-        // pstmt.setString(k++, user.getLocaleName());
+        pstmt.setString(k++, user.getLastName());;
         pstmt.setLong(k, user.getId());
         pstmt.executeUpdate();
         pstmt.close();
@@ -156,7 +155,7 @@ public class UserDao {
             pstmt.close();
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
-            ex.printStackTrace();
+            log.error(ex.getMessage(), ex);
         } finally {
             DBManager.getInstance().commitAndClose(con);
         }
@@ -185,7 +184,7 @@ public class UserDao {
             pstmt.close();
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
-            ex.printStackTrace();
+            log.error(ex.getMessage(), ex);
         } finally {
             DBManager.getInstance().commitAndClose(con);
         }
@@ -211,6 +210,7 @@ public class UserDao {
                 user.setBlocked(rs.getBoolean(Fields.USER_BLOCKED));
                 return user;
             } catch (SQLException e) {
+                log.error(e.getMessage(), e);
                 throw new IllegalStateException(e);
             }
         }

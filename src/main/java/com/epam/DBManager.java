@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DBManager {
@@ -23,7 +24,8 @@ public class DBManager {
     // //////////////////////////////////////////////////////////
 
     private static DBManager instance;
-
+    private DBManager() {
+    }
     public static synchronized DBManager getInstance() {
         if (instance == null)
             instance = new DBManager();
@@ -45,14 +47,12 @@ public class DBManager {
             DataSource ds = (DataSource) cxt.lookup( "java:/comp/env/jdbc/Faculty" );
             con = ds.getConnection();
         } catch (NamingException ex) {
-            ex.printStackTrace();
-            log.warning("Cannot obtain a connection from the pool");
+            log.log(Level.SEVERE,"Cannot obtain a connection from the pool", ex);
         }
         return con;
     }
 
-    private DBManager() {
-    }
+
 
 
     // //////////////////////////////////////////////////////////
@@ -69,7 +69,7 @@ public class DBManager {
             con.commit();
             con.close();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage(), ex);
         }
     }
 
@@ -83,7 +83,7 @@ public class DBManager {
             con.rollback();
             con.close();
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage(), ex);
         }
     }
 

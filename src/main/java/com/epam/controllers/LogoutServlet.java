@@ -1,8 +1,10 @@
 package com.epam.controllers;
 
+import org.apache.log4j.Logger;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
+
 
 /**
  * LogoutServlet.
@@ -12,6 +14,7 @@ import java.io.IOException;
 @WebServlet(name = "LogoutServlet", urlPatterns = "/logout")
 public class LogoutServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private static final Logger log = Logger.getLogger(LogoutServlet.class.getName());
 
     public LogoutServlet() {
     }
@@ -25,14 +28,14 @@ public class LogoutServlet extends HttpServlet {
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("JSESSIONID")) {
-                    System.out.println("JSESSIONID=" + cookie.getValue());
+                    log.info("JSESSIONID=" + cookie.getValue());
                     break;
                 }
             }
         }
         //invalidate the session if exists
         HttpSession session = request.getSession(false);
-        System.out.println("Session-User=" + session.getAttribute("user"));
+        log.info("Session-User=" + session.getAttribute("user"));
         if (session != null) {
             session.invalidate();
         }

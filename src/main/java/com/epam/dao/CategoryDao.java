@@ -2,6 +2,7 @@ package com.epam.dao;
 
 import com.epam.DBManager;
 import com.epam.model.Category;
+import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,6 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+
+
 /**
  * CategoryDao.
  * @author M.Sokil
@@ -16,7 +20,7 @@ import java.util.List;
 public class CategoryDao {
 
     private static final String SQL_ALL_CATEGORIES = "SELECT * FROM categories";
-
+    private static final Logger log = Logger.getLogger(CategoryDao.class);
     /**
      * Return List of categories.
      * @return list of categories.
@@ -39,7 +43,7 @@ public class CategoryDao {
             pstmt.close();
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
-            ex.printStackTrace();
+            log.error(ex.getMessage(), ex);
         } finally {
             DBManager.getInstance().commitAndClose(con);
         }
@@ -58,6 +62,7 @@ public class CategoryDao {
                 category.setName(rs.getString("name"));
                 return category;
             } catch (SQLException e) {
+                log.error(e.getMessage(), e);
                 throw new IllegalStateException(e);
             }
         }
