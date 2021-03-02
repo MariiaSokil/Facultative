@@ -87,23 +87,9 @@ public class DBManager {
         }
     }
 
-/**************** THIS METHOD IS NOT USED IN THE PROJECT *******/
     /**
-     * Returns a DB connection. This method is just for a example how to use the
-     * DriverManager to obtain a DB connection. It does not use a pool
-     * connections and not used in this project. It is preferable to use
-     * {@link #getConnection()} method instead.
-     *
-     * @return A DB connection.
+     * Initializing a DB schema.
      */
-//    public static Connection getConnection() throws SQLException {
-//         Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Faculty?user=postgres&password=admin&ssl=false");
-//         connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-//         connection.setAutoCommit(false);
-//         return connection;
-//    }
-
-    /**************************************************************/
     public void initDBSchema() throws SQLException {
         Connection con = getConnection();
         ScriptRunner sr = new ScriptRunner(con);

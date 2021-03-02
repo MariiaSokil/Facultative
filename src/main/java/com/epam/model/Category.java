@@ -1,5 +1,8 @@
 package com.epam.model;
-
+/**
+ * Category model.
+ * @author M.Sokil
+ */
 public class Category {
     private Long id;
     private String name;
@@ -31,5 +34,14 @@ public class Category {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
+
 

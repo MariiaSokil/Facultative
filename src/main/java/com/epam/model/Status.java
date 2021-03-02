@@ -4,9 +4,7 @@ import java.util.Arrays;
 
 /**
  * Status model.
- *
  * @author M.Sokil
- *
  */
 public enum Status {
     COMING_SOON(0),ONGOING(1),COMPLETED(2);

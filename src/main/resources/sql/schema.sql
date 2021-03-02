@@ -90,7 +90,7 @@ INSERT INTO users VALUES(DEFAULT, 'walter@gmail.com', '1313', 'Walter', 'White',
 INSERT INTO users VALUES(DEFAULT, 'simon@gmail.com', '1414', 'Simon', 'Buff', false, false, 2);
 
 INSERT INTO courses VALUES(DEFAULT, 'Java 8',16, 1200, '2020-10-20', 10,2, 1,0);
-INSERT INTO courses VALUES(DEFAULT, 'Python',20, 2000, '2021-03-01', 10,0, 1,0);
+INSERT INTO courses VALUES(DEFAULT, 'Python',20, 2000, '2021-04-01', 10,0, 1,0);
 INSERT INTO courses VALUES(DEFAULT, '.NET',20, 21000, '2021-02-01', 11,1, 1,1);
 INSERT INTO courses VALUES(DEFAULT, 'Java 11',18, 21000, '2021-02-10', 11,1, 1,0);
 INSERT INTO courses VALUES(DEFAULT, 'Automated Testing',18, 1000, '2021-04-10', 11,0, 1,0);

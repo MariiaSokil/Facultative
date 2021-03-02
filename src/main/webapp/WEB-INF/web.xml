@@ -61,7 +61,7 @@
 
     <!--============================================================
                Controller - LogoutServlet
-           =============================================================-->
+    =============================================================-->
     <servlet>
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>com.epam.controllers.LogoutServlet</servlet-class>
@@ -71,6 +71,9 @@
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
 
+    <!--============================================================
+                   Controller - TeacherServlet
+    =============================================================-->
     <servlet>
         <servlet-name>TeacherServlet</servlet-name>
         <servlet-class>com.epam.controllers.TeacherServlet</servlet-class>
@@ -89,7 +92,7 @@
 
     <!--============================================================
 	i18n support
-=============================================================-->
+       =============================================================-->
     <!-- this way we set the resource bundle name -->
     <context-param>
         <param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>

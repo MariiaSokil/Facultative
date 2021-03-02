@@ -12,7 +12,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * CategoryDao.
+ * @author M.Sokil
+ */
 public class UserDao {
 
 
@@ -128,7 +131,11 @@ public class UserDao {
         pstmt.executeUpdate();
         pstmt.close();
     }
-
+    /**
+     * Find all users by role.
+     * @param role Role model.
+     * @return List of User.
+     */
     public List<User> findAllUsersByRole(Role role) {
         User user = null;
         PreparedStatement pstmt = null;
@@ -155,7 +162,10 @@ public class UserDao {
         }
         return users;
     }
-
+    /**
+     * Saving a new user.
+     * @param user user to update.
+     */
     public void saveNew(User user) {
         Connection con = null;
         try {

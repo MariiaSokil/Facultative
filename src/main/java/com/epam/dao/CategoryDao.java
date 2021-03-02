@@ -9,11 +9,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * CategoryDao.
+ * @author M.Sokil
+ */
 public class CategoryDao {
 
     private static final String SQL_ALL_CATEGORIES = "SELECT * FROM categories";
 
+    /**
+     * Return List of categories.
+     * @return list of categories.
+     */
     public List<Category> findAll() {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -38,7 +45,9 @@ public class CategoryDao {
         }
         return categories;
     }
-
+    /**
+     * Extracts a category from the result set row.
+     */
     static class CategoryMapper implements EntityMapper<Category> {
 
         @Override

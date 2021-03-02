@@ -16,6 +16,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * CourseCreateDeleteServlet.
+ * @author M.Sokil
+ */
+
 @WebServlet(name = "CourseServlet2", urlPatterns = "/courses2")
 public class CourseCreateDeleteServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -26,6 +31,11 @@ public class CourseCreateDeleteServlet extends HttpServlet {
         this.courseService = new CourseService();
     }
 
+
+    /**
+     *  Delete a course.
+     *  Role of user ADMIN.
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
@@ -50,7 +60,11 @@ public class CourseCreateDeleteServlet extends HttpServlet {
         rd.forward(request, response);
 
     }
-
+    /**
+     *  Create a  course if idcourse does not exist
+     *  or update a  course if idcourse exists .
+     *  Role of user ADMIN.
+     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");

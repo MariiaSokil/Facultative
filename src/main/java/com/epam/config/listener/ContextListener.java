@@ -1,6 +1,7 @@
 package com.epam.config.listener;
 
 import com.epam.DBManager;
+import org.apache.log4j.PropertyConfigurator;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -9,9 +10,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.logging.Logger;
 
 public class ContextListener implements ServletContextListener {
-    // private static final Logger log = Logger.getLogger(ContextListener.class);
+    private static final Logger log = Logger.getLogger(ContextListener.class.getName());
     @Override
     public void contextDestroyed(ServletContextEvent event) {
         log("Servlet context destruction starts");
@@ -29,8 +31,7 @@ public class ContextListener implements ServletContextListener {
             throw new RuntimeException(e.getMessage());
         }
         ServletContext servletContext = event.getServletContext();
-        //initLog4J(servletContext);
-        //initCommandContainer();
+        initLog4J(servletContext);
         initI18N(servletContext);
 
         log("Servlet context initialization finished");
@@ -41,13 +42,11 @@ public class ContextListener implements ServletContextListener {
      */
 
     private void initI18N(ServletContext servletContext) {
-//        log.debug("I18N subsystem initialization started");
-        log("I18N subsystem initialization started");
+        log.info("I18N subsystem initialization started");
 
         String localesValue = servletContext.getInitParameter("locales");
         if (localesValue == null || localesValue.isEmpty()) {
- //           log.warn("'locales' init parameter is empty, the default encoding will be used");
-            log("'locales' init parameter is empty, the default encoding will be used");
+            log.warning("'locales' init parameter is empty, the default encoding will be used");
         } else {
             List<String> locales = new ArrayList<String>();
             StringTokenizer st = new StringTokenizer(localesValue);
@@ -57,8 +56,7 @@ public class ContextListener implements ServletContextListener {
                 locales.add(localeName);
             }
 
-//            log.debug("Application attribute set: locales --> " + locales);
-            log("Application attribute set: locales --> " + locales);
+            log.info("Application attribute set: locales --> " + locales);
             servletContext.setAttribute("locales", locales);
         }
 
@@ -72,15 +70,14 @@ public class ContextListener implements ServletContextListener {
      * @param servletContext
      */
     private void initLog4J(ServletContext servletContext) {
-/*        log("Log4J initialization started");
+        log("Log4J initialization started");
         try {
-            PropertyConfigurator.configure(servletContext.getRealPath(
-                    "WEB-INF/log4j.properties"));
+            PropertyConfigurator.configure(servletContext.getRealPath("src/main/webapp/META-INF/log4j.properties"));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
-        log("Log4J initialization finished");*/
+        log("Log4J initialization finished");
     }
 
     /**

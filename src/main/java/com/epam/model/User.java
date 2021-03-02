@@ -62,9 +62,7 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
-    public void setLogin(String login) {
-        this.login = login;
-    }
+    public void setLogin(String login) { this.login = login; }
     public void setPassword(String password) {
         this.password = password;
     }

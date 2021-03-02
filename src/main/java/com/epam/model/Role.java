@@ -4,9 +4,7 @@ import java.util.Arrays;
 
 /**
  * Role model.
- *
  * @author M.Sokil
- *
  */
 
 public enum Role {

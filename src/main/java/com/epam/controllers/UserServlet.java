@@ -14,6 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * UserServlet.
+ * @author M.Sokil
+ */
+
 @WebServlet(name = "UserServlet", urlPatterns = "/user")
 public class UserServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -25,7 +30,9 @@ public class UserServlet extends HttpServlet {
         courseService = new CourseService();
         userService = new UserService();
     }
-
+    /**
+     * Directions according to the role.
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -45,6 +52,12 @@ public class UserServlet extends HttpServlet {
         RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
         rd.forward(request, response);
     }
+
+    /**
+     * Register a new user.
+     * If the user is new then register him and redirect to home page.
+     * If the user is exist, message "A user with this login already exists "
+     */
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 

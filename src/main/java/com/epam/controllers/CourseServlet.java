@@ -20,6 +20,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * CourseServlet.
+ * @author M.Sokil
+ */
+
 @WebServlet(name = "CourseServlet", urlPatterns = "/courses")
 public class CourseServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -37,6 +42,15 @@ public class CourseServlet extends HttpServlet {
         mapper.writeValue(response.getOutputStream(), courseService.findAll(true));
     }
 
+    /**
+     * Apply user to a course.
+     * If removeFlag is present and equals true, then unassign user from a course.
+     * If user  is not logged in, redirects to the page login.
+     *
+     * If removeFlag is not present, then apply user to a course.
+     * If user  is not logged in, redirects to the page login.
+
+     */
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
@@ -80,7 +94,7 @@ public class CourseServlet extends HttpServlet {
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/student.jsp");
             rd.forward(request, response);
         } else {
-            //TODO refactor below
+
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.jsp");
             request.setAttribute("message", "Either user name or password is wrong");
             rd.include(request, response);

@@ -8,6 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+/**
+ * CategoryServlet.
+ * @author M.Sokil
+ */
 
 @WebServlet(name = "CategoryServlet", urlPatterns = "/categories")
 public class CategoryServlet extends HttpServlet {

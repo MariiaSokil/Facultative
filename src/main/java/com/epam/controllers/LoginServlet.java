@@ -13,6 +13,11 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * LoginServlet.
+ * @author M.Sokil
+ */
+
 @WebServlet(name = "LoginServlet", urlPatterns = "/login")
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -24,6 +29,11 @@ public class LoginServlet extends HttpServlet {
         this.userService = new UserService();
         courseService = new CourseService();
     }
+
+    /**
+     * Login user and redirect to user page depend on the role.
+     * Create a session for current user.
+     */
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = userService.getByLogin(request.getParameter("uname"));

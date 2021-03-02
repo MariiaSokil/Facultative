@@ -4,7 +4,10 @@ import com.epam.dao.CategoryDao;
 import com.epam.model.Category;
 
 import java.util.List;
-
+/**
+ * CategoryService.
+ * @author M.Sokil
+ */
 public class CategoryService {
     private final CategoryDao dao;
 
@@ -16,6 +19,10 @@ public class CategoryService {
         this.dao = dao;
     }
 
+    /**
+     * Return List of categories.
+     * @return list of categories.
+     */
     public List<Category> findAll() {
         return dao.findAll();
     }

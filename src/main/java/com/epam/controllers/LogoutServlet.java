@@ -4,13 +4,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 
+/**
+ * LogoutServlet.
+ * @author M.Sokil
+ */
+
 @WebServlet(name = "LogoutServlet", urlPatterns = "/logout")
 public class LogoutServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     public LogoutServlet() {
     }
-
+    /**
+     * Logout user and redirect to home page.
+     * Invalidate a session.
+     */
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
         Cookie[] cookies = request.getCookies();
