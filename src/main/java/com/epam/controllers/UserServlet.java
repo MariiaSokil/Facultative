@@ -60,40 +60,32 @@ public class UserServlet extends HttpServlet {
      */
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            String firstName = request.getParameter("firstName");
+            String lastName = request.getParameter("lastName");
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
 
+            User newUser = new User();
+            newUser.setFirstName(firstName);
+            newUser.setLastName(lastName);
+            newUser.setLogin(email);
+            newUser.setPassword(password);
+            newUser.setRole(Role.STUDENT);
+            newUser.setStudent(true);
+            newUser.setBlocked(false);
+            if(userService.getByLogin(email)==null){
 
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
+            userService.saveNew(newUser);
 
-        System.out.println(firstName);
-        System.out.println(lastName);
-        System.out.println(email);
-        System.out.println(password);
-
-
-        User newUser = new User();
-        newUser.setFirstName(firstName);
-        newUser.setLastName(lastName);
-        newUser.setLogin(email);
-        newUser.setPassword(password);
-        newUser.setRole(Role.STUDENT);
-        newUser.setStudent(true);
-        newUser.setBlocked(false);
-        if(userService.getByLogin(email)==null){
-
-        userService.saveNew(newUser);
-
-        //redirect to index page
-        request.setAttribute("user", newUser);
-        RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
-        rd.forward(request, response);
-    } else {
-        RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.jsp");
-        request.setAttribute("message", "A user with this login already exists ");
-        rd.include(request, response);
-    }
+            //redirect to index page
+            request.setAttribute("user", newUser);
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
+            rd.forward(request, response);
+        } else {
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/login.jsp");
+            request.setAttribute("message", "A user with this login already exists ");
+            rd.include(request, response);
+        }
 
     }
 }

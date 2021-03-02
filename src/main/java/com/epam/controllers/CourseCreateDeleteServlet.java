@@ -31,6 +31,9 @@ public class CourseCreateDeleteServlet extends HttpServlet {
         this.courseService = new CourseService();
     }
 
+    public CourseCreateDeleteServlet(CourseService courseService) {
+        this.courseService = courseService;
+    }
 
     /**
      *  Delete a course.

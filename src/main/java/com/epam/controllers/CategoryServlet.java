@@ -23,6 +23,10 @@ public class CategoryServlet extends HttpServlet {
         categoryService = new CategoryService();
     }
 
+    public CategoryServlet(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");

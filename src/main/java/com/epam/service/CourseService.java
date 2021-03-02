@@ -15,6 +15,11 @@ public class CourseService {
     public CourseService() {
         courseDao = new CourseDao();
     }
+
+    public CourseService(CourseDao courseDao) {
+        this.courseDao = courseDao;
+    }
+
     /**
      * Return List of courses.
      * If flag eagerStudents true, each course contains List of students.

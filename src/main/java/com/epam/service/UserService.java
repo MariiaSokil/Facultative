@@ -1,6 +1,5 @@
 package com.epam.service;
 
-import com.epam.dao.CategoryDao;
 import com.epam.dao.UserDao;
 import com.epam.model.Role;
 import com.epam.model.User;
