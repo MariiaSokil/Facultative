@@ -1,5 +1,12 @@
 package com.epam.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,82 +16,35 @@ import java.util.List;
  * @author M.Sokil
  *
  */
+@Data
+@ToString(exclude = {"courses"})
+@EqualsAndHashCode(exclude = {"courses"})
 
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+//    @GeneratedValue((strategy = GenerationType.SEQUENCE))
+//    @SequenceGenerator()
+    @Column(name="user_id")
     private Long id;
+    @Column(name="first_name")
     private String firstName;
+    @Column(name="last_name")
     private String lastName;
+    @Column(name="role_id")
     private Role role;
     private String login;
     private String password;
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "users_courses",
+            joinColumns = { @JoinColumn(name = "userid") },
+            inverseJoinColumns = { @JoinColumn(name = "course_id") })
     private List<Course> courses = new ArrayList<>();
+    @Column(name="is_student")
     private boolean isStudent;
+    @Column(name="is_blocked")
     private boolean isBlocked;
-
-    public User() {
-    }
-
-    public User(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-    public String getFirstName() {
-        return firstName;
-    }
-    public String getLastName() {
-        return lastName;
-    }
-    public Role getRole() {
-        return role;
-    }
-    public String getLogin() { return login; }
-    public String getPassword() {
-        return password;
-    }
-    public List<Course> getCourses() {
-        return courses;
-    }
-    public boolean isStudent() { return isStudent; }
-    public boolean isBlocked() { return isBlocked; }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-    public void setRole(Role role) {
-        this.role = role;
-    }
-    public void setLogin(String login) { this.login = login; }
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
-    }
-    public void setStudent(boolean student) { isStudent = student; }
-    public void setBlocked(boolean blocked) { isBlocked = blocked; }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", role=" + role +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", courses=" + courses +
-                ", isStudent=" + isStudent +
-                ", isBlocked=" + isBlocked +
-                '}';
-    }
 }
 

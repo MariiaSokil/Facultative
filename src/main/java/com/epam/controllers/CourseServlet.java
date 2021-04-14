@@ -1,56 +1,51 @@
 package com.epam.controllers;
 
-import com.epam.model.Category;
 import com.epam.model.Course;
-import com.epam.model.Status;
-import com.epam.model.User;
 import com.epam.service.CourseService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 /**
  * CourseServlet.
+ *
  * @author M.Sokil
  */
 
-@WebServlet(name = "CourseServlet", urlPatterns = "/courses")
+//@WebServlet(name = "CourseServlet", urlPatterns = "/courses")
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/courses")
 public class CourseServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private final CourseService courseService;
 
-    public CourseServlet() {
+   /* public CourseServlet(CourseService courseService) {
         this.courseService = new CourseService();
-    }
+    }*/
 
-    @Override
+   /* @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
         ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(response.getOutputStream(), courseService.findAll(true));
     }
 
+    */
+
     /**
      * Apply user to a course.
      * If removeFlag is present and equals true, then unassign user from a course.
      * If user  is not logged in, redirects to the page login.
-     *
+     * <p>
      * If removeFlag is not present, then apply user to a course.
      * If user  is not logged in, redirects to the page login.
-
-     */
+     *//*
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
@@ -71,15 +66,15 @@ public class CourseServlet extends HttpServlet {
             Course course = new Course();
             course.setId(new Long(courseId));
             course.setTitle(title);
-            course.setCategory(new Category(new Long(categoryId), categoryName));
+      //      course.setCategory(new Category(new Long(categoryId), categoryName));
             course.setDuration(new Integer(duration));
             course.setPrice(new Integer(price));
             course.setStatus(Status.valueOf(status));
-            course.setTeacher(new User(new Long(teacherId)));
+       //     course.setTeacher(new User(new Long(teacherId)));
             course.setStartDate(toLocalDate(startDate));
             Set<User> users = new HashSet<>();
             users.add(user);
-            course.setStudents(users);
+      //      course.setStudents(users);
             if (removeFlag !=null && "true".equals(removeFlag)) {
                 course.setEnrollment(new Integer(enrollment) - 1);
                 courseService.updateCourse(course, false);
@@ -90,7 +85,7 @@ public class CourseServlet extends HttpServlet {
 
             //redirect to student page
             request.setAttribute("user", user);
-            request.setAttribute("courses", courseService.findAllByStudentId(user.getId()));
+          //  request.setAttribute("courses", courseService.findAllByStudentId(user.getId()));
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/student.jsp");
             rd.forward(request, response);
         } else {
@@ -111,5 +106,9 @@ public class CourseServlet extends HttpServlet {
             formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         }
         return LocalDate.parse(stringDate, formatter);
+    }*/
+    @GetMapping
+    public List<Course> getAll() {
+        return courseService.getAll();
     }
 }

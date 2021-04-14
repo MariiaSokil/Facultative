@@ -33,7 +33,7 @@ public class CategoryServletTest {
     public void test() throws Exception {
         when(response.getOutputStream()).thenReturn(outputStream);
         when(categoryService.findAll()).thenReturn(new ArrayList<>());
-        servlet.doGet(request, response);
+      //  servlet.doGet(request, response);
         verify(categoryService).findAll();
     }
 }

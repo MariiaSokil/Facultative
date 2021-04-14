@@ -47,7 +47,7 @@ public class CourseCreateDeleteServlet extends HttpServlet {
         String courseId = request.getParameter("id");
         String enrollment = request.getParameter("enrollment");
         String page;
-        if (user.getRole() == Role.ADMIN) {
+       /* if (user.getRole() == Role.ADMIN) {
             if (enrollment!=null && enrollment.equals("0")) {
                 courseService.deleteCourse(new Long(courseId),false);
             } else {
@@ -57,11 +57,11 @@ public class CourseCreateDeleteServlet extends HttpServlet {
             page = "/admin.jsp";
         } else {
             page = "/login.jsp";
-        }
+        }*/
 
-        RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
+       /* RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
         rd.forward(request, response);
-
+*/
     }
     /**
      *  Create a  course if idcourse does not exist
@@ -82,7 +82,7 @@ public class CourseCreateDeleteServlet extends HttpServlet {
         String teacherId = request.getParameter("teacher_id");
         String startDate = request.getParameter("start_date");
 
-        String page;
+        /*String page;
         if (user.getRole() == Role.ADMIN) {
             Course course = new Course();
             if (courseId!=null && !courseId.trim().isEmpty()) {
@@ -123,7 +123,7 @@ public class CourseCreateDeleteServlet extends HttpServlet {
         }
 
         RequestDispatcher rd = getServletContext().getRequestDispatcher(page);
-        rd.forward(request, response);
+        rd.forward(request, response);*/
     }
 
     private LocalDate toLocalDate(String stringDate) {

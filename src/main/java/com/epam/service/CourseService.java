@@ -2,15 +2,22 @@ package com.epam.service;
 
 import com.epam.dao.CourseDao;
 import com.epam.model.Course;
+import com.epam.repository.CourseRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 /**
  * CourseService.
  * @author M.Sokil
  */
+@Service
 public class CourseService {
 
     private final CourseDao courseDao;
+
+    @Autowired
+    private CourseRepository courseRepository;
 
     public CourseService() {
         courseDao = new CourseDao();
@@ -77,4 +84,10 @@ public class CourseService {
     public void saveNew(Course course) {
         courseDao.saveNew(course);
     }
+
+    public List<Course> getAll(){
+        return courseRepository.findAll();
+    }
+
+
 }

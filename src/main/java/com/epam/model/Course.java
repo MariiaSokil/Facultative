@@ -1,5 +1,11 @@
 package com.epam.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.HashSet;
@@ -8,89 +14,30 @@ import java.util.Set;
  * Course model.
  * @author M.Sokil
  */
+
+@Data
+@ToString(exclude = {"students"})
+@EqualsAndHashCode(exclude = {"students"})
+@Entity
+@Table(name = "courses")
 public class Course {
+    @Id
     private Long id;
+    @Column(nullable=false)
     private String title;
+
+    @ManyToOne
+    @JoinColumn(name = "category")
     private Category category;
+
     private int duration;
+    @Column(name="start_date")
     private LocalDate startDate;
     private Integer price;
+    @JsonIgnore
+    @ManyToMany(mappedBy="courses")
     private Set<User> students = new HashSet<>();
-    private User teacher;
+  //  private User teacher;
     private Status status;
     private int enrollment;
-
-    public Course() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-    public String getTitle() {
-        return title;
-    }
-    public Category getCategory() {
-        return category;
-    }
-    public int getDuration() {
-        return duration;
-    }
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-    public Integer getPrice() {
-        return price;
-    }
-    public Set<User> getStudents() {
-        return students;
-    }
-    public User getTeacher() {
-        return teacher;
-    }
-    public Status getStatus() {
-        return status;
-    }
-    public int getEnrollment() { return enrollment; }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public void setTitle(String title) {
-        this.title = title;
-    }
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-    public void setPrice(Integer price) { this.price = price; }
-    public void setStudents(Set<User> students) {
-        this.students = students;
-    }
-    public void setTeacher(User teacher) {
-        this.teacher = teacher;
-    }
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-    public void setEnrollment(int enrollment) { this.enrollment = enrollment; }
-
-    @Override
-    public String toString() {
-        return "Course{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", category=" + category +
-                ", duration=" + duration +
-                ", startDate=" + startDate +
-                ", price=" + price +
-                ", teacher=" + teacher +
-                ", status=" + status +
-                ", enrollment=" + enrollment +
-                '}';
-    }
 }

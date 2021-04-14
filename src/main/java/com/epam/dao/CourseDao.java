@@ -107,13 +107,13 @@ public class CourseDao {
             pstmt.setInt(k++, course.getDuration());
             pstmt.setInt(k++, course.getPrice());
             pstmt.setDate(k++, Date.valueOf(course.getStartDate()));
-            if (course.getTeacher() != null) {
+           /* if (course.getTeacher() != null) {
                 pstmt.setInt(k++, course.getTeacher().getId().intValue());
             } else {
                 pstmt.setInt(k++, 0);
-            }
+            }*/
             pstmt.setInt(k++, course.getStatus().getId());
-            pstmt.setInt(k++, course.getCategory().getId().intValue());
+           // pstmt.setInt(k++, course.getCategory().getId().intValue());
             pstmt.setInt(k++, course.getEnrollment());
             pstmt.executeUpdate();
             pstmt.close();
@@ -134,23 +134,23 @@ public class CourseDao {
      */
     public void updateCourse(Course course, boolean bindUser) {
         Connection con = null;
-        try {
+       /* try {
             con = DBManager.getInstance().getConnection();
             update(con, course);
             if (!course.getStudents().isEmpty()) {
                 User user = course.getStudents().iterator().next();
-                if (bindUser) {
+                *//*if (bindUser) {
                     addUserToCourse(con,course.getId(), user.getId());
                 } else {
                     removeUserFromCourse(con,course.getId(), user.getId());
-                }
+                }*//*
             }
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             log.error(ex.getMessage(), ex);
         } finally {
             DBManager.getInstance().commitAndClose(con);
-        }
+        }*/
     }
 
     /**
@@ -250,13 +250,13 @@ public class CourseDao {
         pstmt.setInt(k++, course.getDuration());
         pstmt.setInt(k++, course.getPrice());
         pstmt.setDate(k++,  Date.valueOf(course.getStartDate()));
-        if (course.getTeacher()!=null) {
+        /*if (course.getTeacher()!=null) {
             pstmt.setInt(k++, course.getTeacher().getId().intValue());
         } else {
             pstmt.setInt(k++, 0);
-        }
+        }*/
         pstmt.setInt(k++, course.getStatus().getId());
-        pstmt.setInt(k++, course.getCategory().getId().intValue());
+       // pstmt.setInt(k++, course.getCategory().getId().intValue());
         pstmt.setInt(k++, course.getEnrollment());
         pstmt.setLong(k, course.getId());
         pstmt.executeUpdate();
@@ -287,14 +287,14 @@ public class CourseDao {
         courses.forEach(course -> {
             if (studentsByCourses.containsKey(course.getId())) {
                 Set<User> users = studentsByCourses.get(course.getId());
-                course.getStudents().addAll(users);
+        //        course.getStudents().addAll(users);
             }
         });
     }
 
     private Map<Long,Set<User>> fetchAllUsers(Connection con) {
         Map<Long, Set<User>> userMap = new HashMap<>();
-        try (PreparedStatement pstmt = con.prepareStatement(SQL_FIND_ALL_STUDENTS);
+        /*try (PreparedStatement pstmt = con.prepareStatement(SQL_FIND_ALL_STUDENTS);
              ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
@@ -311,7 +311,7 @@ public class CourseDao {
             }
         } catch (SQLException ex) {
             log.error(ex.getMessage(), ex);
-        }
+        }*/
         return userMap;
     }
 
@@ -348,11 +348,11 @@ public class CourseDao {
                 course.setId(rs.getLong(Fields.COURSE_ID));
                 course.setTitle(rs.getString(Fields.COURSE_TITLE));
                 course.setDuration(rs.getInt(Fields.COURSE_DURATION));
-                course.setCategory(toCategory(rs));
+             //   course.setCategory(toCategory(rs));
                 course.setStatus(Status.of(rs.getInt(Fields.COURSE_STATUS)));
                 course.setPrice(rs.getInt(Fields.COURSE_PRICE));
                 course.setStartDate(rs.getDate(Fields.COURSE_START_DATE).toLocalDate());
-                course.setTeacher(toTeacher(rs));
+              //  course.setTeacher(toTeacher(rs));
                 course.setEnrollment(rs.getInt(Fields.ENROLLMENT));
                 return course;
             } catch (SQLException e) {
@@ -366,12 +366,12 @@ public class CourseDao {
             return mapper.mapRow(rs);
         }
 
-        private Category toCategory(ResultSet rs) throws SQLException {
+       /* private Category toCategory(ResultSet rs) throws SQLException {
             Category category = new Category(
                     rs.getLong(Fields.CATEGORY_ID),
                     rs.getString(Fields.CATEGORY_NAME));
             return category;
-        }
+        }*/
     }
 }
 

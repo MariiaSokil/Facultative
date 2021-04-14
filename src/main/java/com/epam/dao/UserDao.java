@@ -12,11 +12,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 
 /**
  * CategoryDao.
+ *
  * @author M.Sokil
  */
 public class UserDao {
@@ -122,16 +122,18 @@ public class UserDao {
      */
     public void updateUser(Connection con, User user) throws SQLException {
         PreparedStatement pstmt = con.prepareStatement(SQL_UPDATE_USER);
-        int k = 1;
+        /*int k = 1;
         pstmt.setString(k++, user.getPassword());
         pstmt.setString(k++, user.getFirstName());
         pstmt.setString(k++, user.getLastName());;
         pstmt.setLong(k, user.getId());
         pstmt.executeUpdate();
-        pstmt.close();
+        pstmt.close();*/
     }
+
     /**
      * Find all users by role.
+     *
      * @param role Role model.
      * @return List of User.
      */
@@ -161,15 +163,17 @@ public class UserDao {
         }
         return users;
     }
+
     /**
      * Saving a new user.
+     *
      * @param user user to update.
      */
     public void saveNew(User user) {
         Connection con = null;
         try {
             con = DBManager.getInstance().getConnection();
-            PreparedStatement pstmt = con.prepareStatement(SQL_INSERT_USER);
+            /*PreparedStatement pstmt = con.prepareStatement(SQL_INSERT_USER);
             int k = 1;
             pstmt.setString(k++, user.getLogin());
             pstmt.setString(k++, user.getPassword());
@@ -181,7 +185,7 @@ public class UserDao {
 
 
             pstmt.executeUpdate();
-            pstmt.close();
+            pstmt.close();*/
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
             log.error(ex.getMessage(), ex);
@@ -200,19 +204,21 @@ public class UserDao {
         public User mapRow(ResultSet rs) {
             try {
                 User user = new User();
-                user.setId(rs.getLong(Fields.USER_ID));
+               /* user.setId(rs.getLong(Fields.USER_ID));
                 user.setFirstName(rs.getString(Fields.USER_FIRST_NAME));
                 user.setLastName(rs.getString(Fields.USER_LAST_NAME));
                 user.setRole(Role.of(rs.getInt(Fields.USER_ROLE_ID)));
                 user.setLogin(rs.getString(Fields.USER_LOGIN));
                 user.setPassword(rs.getString(Fields.USER_PASSWORD));
                 user.setStudent(rs.getBoolean(Fields.USER_STUDENT));
-                user.setBlocked(rs.getBoolean(Fields.USER_BLOCKED));
+                user.setBlocked(rs.getBoolean(Fields.USER_BLOCKED));*/
                 return user;
-            } catch (SQLException e) {
-                log.error(e.getMessage(), e);
+            } finally {
+                /*log.error(e.getMessage(), e);
                 throw new IllegalStateException(e);
+            }*/
             }
         }
     }
 }
+
