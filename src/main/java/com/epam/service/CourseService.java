@@ -2,6 +2,7 @@ package com.epam.service;
 
 import com.epam.dao.CourseDao;
 import com.epam.model.Course;
+import com.epam.model.User;
 import com.epam.repository.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -77,17 +78,46 @@ public class CourseService {
         courseDao.deleteCourse(courseId, removeAssociations);
     }
 
-    /**
+  /*  *//**
      * Save a new course.
-     *@param course Course.
-     */
+    // *@param course Course.
+     *//*
     public void saveNew(Course course) {
         courseDao.saveNew(course);
-    }
-
-    public List<Course> getAll(){
+    }*/
+//-----------------------------------------------------------------
+    public List<Course> findAll(){
         return courseRepository.findAll();
     }
+
+    public Course save(Course course) {
+        return courseRepository.save(course);
+    }
+
+    public Course findById(Long id) {
+        return courseRepository.findById(id)
+                .orElseThrow(RuntimeException::new); //new CourseNotFoundException(id))
+    }
+
+    public void deleteById(Long id) {
+        courseRepository.deleteById(id);
+    }
+
+    public Course updateCourse(Long id, Course course) {
+        return courseRepository.findById(id)
+                .map(courseFromDB -> {
+                    courseFromDB.setTitle(course.getTitle());
+                    courseFromDB.setCategory(course.getCategory());
+                    courseFromDB.setDuration(course.getDuration());
+                    courseFromDB.setStartDate(course.getStartDate());
+                    courseFromDB.setPrice(course.getPrice());
+                    courseFromDB.setStatus(course.getStatus());
+                    courseFromDB.setEnrollment(course.getEnrollment());
+                    return courseRepository.save(courseFromDB);
+                })
+                .orElseThrow(() -> new RuntimeException("Course with id=" + id + " not found"));
+    }
+
 
 
 }

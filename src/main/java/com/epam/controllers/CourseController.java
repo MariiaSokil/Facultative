@@ -1,11 +1,10 @@
 package com.epam.controllers;
 
 import com.epam.model.Course;
+import com.epam.model.User;
 import com.epam.service.CourseService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServlet;
 import java.util.List;
@@ -16,18 +15,12 @@ import java.util.List;
  * @author M.Sokil
  */
 
-//@WebServlet(name = "CourseServlet", urlPatterns = "/courses")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/courses")
-public class CourseServlet extends HttpServlet {
+public class CourseController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     private final CourseService courseService;
-
-   /* public CourseServlet(CourseService courseService) {
-        this.courseService = new CourseService();
-    }*/
 
    /* @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -107,8 +100,30 @@ public class CourseServlet extends HttpServlet {
         }
         return LocalDate.parse(stringDate, formatter);
     }*/
-    @GetMapping
-    public List<Course> getAll() {
-        return courseService.getAll();
+
+    @GetMapping("/courses")
+    public List<Course> findAll() {
+        return courseService.findAll();
+    }
+
+    @GetMapping("/courses/{id}")
+    public Course findById(@PathVariable Long id) {
+        return courseService.findById(id);
+
+    }
+
+    @PostMapping("/courses")
+    public Course createNew(@RequestBody Course newCourse) {
+        return courseService.save(newCourse);
+    }
+
+    @DeleteMapping("/courses/{id}")
+    public void deleteById(@PathVariable Long id) {
+        courseService.deleteById(id);
+    }
+
+    @PutMapping("/courses/{id}")
+    public Course updateCourse(@PathVariable Long id, Course course) {
+        return courseService.updateCourse(id, course);
     }
 }
