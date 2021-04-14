@@ -1,13 +1,10 @@
 package com.epam.controllers;
 
+
 import com.epam.model.User;
-import com.epam.service.CourseService;
 import com.epam.service.UserService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,20 +14,12 @@ import java.util.List;
  * @author M.Sokil
  */
 
-//@WebServlet(name = "UserServlet", urlPatterns = "/user")
 @RestController
-@RequestMapping("/users")
 @RequiredArgsConstructor
-public class UserServlet {
+public class UserController {
     private static final long serialVersionUID = 1L;
 
-    //private final CourseService courseService;
     private final UserService userService;
-
-//    public UserServlet() {
-//        courseService = new CourseService();
-//        userService = new UserService();
-//    }
 
     /**
      * Directions according to the role.
@@ -90,8 +79,29 @@ public class UserServlet {
 //        }
 //
 //    }
-    @GetMapping
-    public List<User> getAll() {
-        return userService.getAll();
+    @GetMapping("/users")
+    public List<User> findAll() {
+        return userService.findAll();
+    }
+
+    @GetMapping("/users/{id}")
+    public User findById(@PathVariable Long id) {
+        return userService.findById(id);
+
+    }
+
+    @PostMapping("/users")
+    public User createNew(@RequestBody User newUser) {
+        return userService.save(newUser);
+    }
+
+    @DeleteMapping("/users/{id}")
+    public void deleteById(@PathVariable Long id) {
+        userService.deleteById(id);
+    }
+
+    @PutMapping("/users/{id}")
+    public User updateUser(@PathVariable Long id, User user) {
+        return userService.updateUser(id, user);
     }
 }
