@@ -27,7 +27,7 @@ public class CategoryServletTest {
     @Mock
     private ServletOutputStream outputStream;
     @InjectMocks
-    private CategoryServlet servlet;
+    private CategoryController servlet;
 
     @Test
     public void test() throws Exception {

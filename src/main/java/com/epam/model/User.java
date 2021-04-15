@@ -1,6 +1,7 @@
 package com.epam.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -20,6 +21,7 @@ import java.util.List;
 @ToString(exclude = {"courses"})
 @EqualsAndHashCode(exclude = {"courses"})
 
+@Builder
 @Entity
 @Table(name = "users")
 public class User {

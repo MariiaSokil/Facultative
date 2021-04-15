@@ -343,7 +343,7 @@ public class CourseDao {
 
         @Override
         public Course mapRow(ResultSet rs) {
-            try {
+            /*try {
                 Course course = new Course();
                 course.setId(rs.getLong(Fields.COURSE_ID));
                 course.setTitle(rs.getString(Fields.COURSE_TITLE));
@@ -358,7 +358,8 @@ public class CourseDao {
             } catch (SQLException e) {
                 log.error(e.getMessage(), e);
                 throw new IllegalStateException(e);
-            }
+            }*/
+            return null;
         }
 
         private User toTeacher(ResultSet rs) {

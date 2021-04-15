@@ -3,6 +3,7 @@ package com.epam.controllers;
 import com.epam.model.Category;
 import com.epam.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServlet;
 import java.util.List;
@@ -13,11 +14,11 @@ import java.util.List;
  */
 
 @RestController
-@RequiredArgsConstructor
-public class CategoryController extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+//@RequiredArgsConstructor
+public class CategoryController {
 
-    private final CategoryService categoryService;
+    @Autowired
+    private CategoryService categoryService;
 
    /* @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

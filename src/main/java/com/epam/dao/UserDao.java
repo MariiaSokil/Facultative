@@ -202,9 +202,9 @@ public class UserDao {
 
         @Override
         public User mapRow(ResultSet rs) {
-            try {
-                User user = new User();
-               /* user.setId(rs.getLong(Fields.USER_ID));
+           /* try {
+             User user = new User();
+               user.setId(rs.getLong(Fields.USER_ID));
                 user.setFirstName(rs.getString(Fields.USER_FIRST_NAME));
                 user.setLastName(rs.getString(Fields.USER_LAST_NAME));
                 user.setRole(Role.of(rs.getInt(Fields.USER_ROLE_ID)));
@@ -212,13 +212,15 @@ public class UserDao {
                 user.setPassword(rs.getString(Fields.USER_PASSWORD));
                 user.setStudent(rs.getBoolean(Fields.USER_STUDENT));
                 user.setBlocked(rs.getBoolean(Fields.USER_BLOCKED));*/
-                return user;
-            } finally {
-                /*log.error(e.getMessage(), e);
+            //  return user;
+            /*} finally {
+                log.error(e.getMessage(), e);
                 throw new IllegalStateException(e);
+
             }*/
-            }
+        return null;
         }
     }
 }
+
 

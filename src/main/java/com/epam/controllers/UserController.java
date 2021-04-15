@@ -1,11 +1,14 @@
 package com.epam.controllers;
 
 
+import com.epam.dto.UserDTO;
+import com.epam.mappers.impl.UserMapper;
 import com.epam.model.User;
 import com.epam.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -17,9 +20,9 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class UserController {
-    private static final long serialVersionUID = 1L;
 
     private final UserService userService;
+    private final UserMapper userMapper;
 
     /**
      * Directions according to the role.
@@ -80,8 +83,8 @@ public class UserController {
 //
 //    }
     @GetMapping("/users")
-    public List<User> findAll() {
-        return userService.findAll();
+    public Collection<UserDTO> findAll() {
+        return userMapper.toDTO(userService.findAll());
     }
 
     @GetMapping("/users/{id}")

@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class UserTest {
     @Test
     public void getters() {
-        User user = new User();
+     //   User user = new User();
        /* user.setId(2L);
         user.setFirstName("Ivanov");
         user.setLastName("Ivan");

@@ -1,20 +1,20 @@
 package com.epam.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 /**
  * Course model.
  * @author M.Sokil
  */
-
+@Builder
 @Data
 @ToString(exclude = {"students"})
 @EqualsAndHashCode(exclude = {"students"})

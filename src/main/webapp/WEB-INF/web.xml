@@ -17,7 +17,7 @@
     =============================================================-->
     <servlet>
         <servlet-name>UserServlet</servlet-name>
-        <servlet-class>com.epam.controllers.UserServlet</servlet-class>
+        <servlet-class>com.epam.controllers.UserController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>UserServlet</servlet-name>
@@ -29,7 +29,7 @@
        =============================================================-->
     <servlet>
         <servlet-name>CourseServlet</servlet-name>
-        <servlet-class>com.epam.controllers.CourseServlet</servlet-class>
+        <servlet-class>com.epam.controllers.CourseController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>CourseServlet</servlet-name>

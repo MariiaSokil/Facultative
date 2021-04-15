@@ -17,8 +17,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class CourseController extends HttpServlet {
-    private static final long serialVersionUID = 1L;
+public class CourseController {
 
     private final CourseService courseService;
 
