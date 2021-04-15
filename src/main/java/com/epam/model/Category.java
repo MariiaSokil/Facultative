@@ -1,6 +1,7 @@
 package com.epam.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -12,6 +13,7 @@ import java.util.List;
  * Category model.
  * @author M.Sokil
  */
+@Builder
 @Data
 @Entity
 @ToString(exclude = {"courses"})

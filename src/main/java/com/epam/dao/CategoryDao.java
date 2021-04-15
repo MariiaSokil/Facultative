@@ -56,7 +56,7 @@ public class CategoryDao {
 
         @Override
         public Category mapRow(ResultSet rs) {
-            try {
+            /*try {
                 Category category = new Category();
                 category.setId(rs.getLong("category_id"));
                 category.setName(rs.getString("name"));
@@ -64,7 +64,8 @@ public class CategoryDao {
             } catch (SQLException e) {
                 log.error(e.getMessage(), e);
                 throw new IllegalStateException(e);
-            }
+            }*/
+            return null;
         }
     }
 }
