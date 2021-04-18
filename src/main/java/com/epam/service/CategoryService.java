@@ -3,10 +3,12 @@ package com.epam.service;
 import com.epam.dao.CategoryDao;
 import com.epam.model.Category;
 import com.epam.repository.CategoryRepository;
+import com.epam.validator.BasicInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 /**
@@ -28,7 +30,7 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public Category save(Category category) {
+    public Category save(@Validated(BasicInfo.class) Category category) {
         return categoryRepository.save(category);
     }
 
@@ -41,7 +43,7 @@ public class CategoryService {
         categoryRepository.deleteById(id);
     }
 
-    public Category updateCategory(Long id, Category category) {
+    public Category updateCategory(Long id, @Validated(BasicInfo.class) Category category) {
         return categoryRepository.findById(id)
                 .map(categoryFromDB -> {
                     categoryFromDB.setName(category.getName());

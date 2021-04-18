@@ -4,10 +4,12 @@ import com.epam.dao.UserDao;
 import com.epam.model.Role;
 import com.epam.model.User;
 import com.epam.repository.UserRepository;
+import com.epam.validator.BasicInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
@@ -24,7 +26,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User save(User user) {
+    public User save(@Validated(BasicInfo.class) User user) {
         return userRepository.save(user);
     }
 
@@ -37,7 +39,7 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public User updateUser(Long id, User user) {
+    public User updateUser(Long id, @Validated(BasicInfo.class) User user) {
         return userRepository.findById(id)
                 .map(userFromDB -> {
                     userFromDB.setFirstName(user.getFirstName());
@@ -56,7 +58,7 @@ public class UserService {
      * @param password String.
      * @return true, if User is valid.
      */
-    public boolean isValid(User user, String password) {
+    public boolean isValid(@Validated(BasicInfo.class) User user, String password) {
         return user != null /*&& user.getPassword().equals(password)*/;
     }
 

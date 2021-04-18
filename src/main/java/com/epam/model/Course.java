@@ -1,5 +1,6 @@
 package com.epam.model;
 
+import com.epam.validator.BasicInfo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -25,48 +26,48 @@ import java.util.Set;
 @Table(name = "courses")
 public class Course {
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "course_id_seq")
     @SequenceGenerator(name = "course_id_seq", sequenceName = "course_seq", allocationSize = 1)
+    @Column(nullable = false)
     private Long id;
 
 
-    @NotBlank(message = "Title is mandatory")
-    @Size(max = 50)
-    @NotNull
+    @NotBlank(message = "Title is mandatory",groups = BasicInfo.class)
+    @Size(max = 50, groups = BasicInfo.class)
+    @NotNull(groups = BasicInfo.class)
     @Column(unique = true)
     private String title;
 
-    @NotNull
+    @NotNull(groups = BasicInfo.class)
     @ManyToOne
     @JoinColumn(name = "category",unique = true)
     private Category category;
 
-    @NotNull
+    @NotNull(groups = BasicInfo.class)
     @Column(name = "duration")
     private int duration;
 
     @Column(name = "start_date")
-    @NotNull
+    @NotNull(groups = BasicInfo.class)
     private LocalDate startDate;
 
-    @NotNull
+    @NotNull(groups = BasicInfo.class)
     @Column(name = "price")
     private Integer price;
 
     @ManyToMany(mappedBy = "courses")
     private Set<User> students = new HashSet<>();
 
-    @NotNull
+    @NotNull(groups = BasicInfo.class)
     @ManyToOne
     @JoinColumn(name = "teacher",unique = true)
     private User teacher;
 
-    @NotNull
+    @NotNull(groups = BasicInfo.class)
     @Column(name = "status")
     private Status status;
 
-    @NotNull
+    @NotNull(groups = BasicInfo.class)
     @Column(name = "enrollment")
     private int enrollment;
 }

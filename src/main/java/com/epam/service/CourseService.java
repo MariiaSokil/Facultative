@@ -4,11 +4,14 @@ import com.epam.dao.CourseDao;
 import com.epam.model.Course;
 import com.epam.model.User;
 import com.epam.repository.CourseRepository;
+import com.epam.validator.BasicInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import java.util.List;
 /**
  * CourseService.
@@ -27,7 +30,7 @@ public class CourseService {
         return courseRepository.findAll();
     }
 
-    public Course save(Course course) {
+    public Course save(@Validated(BasicInfo.class) Course course) {
         return courseRepository.save(course);
     }
 
@@ -40,7 +43,7 @@ public class CourseService {
         courseRepository.deleteById(id);
     }
 
-    public Course updateCourse(Long id, Course course) {
+    public Course updateCourse(Long id, @Validated(BasicInfo.class) Course course) {
         return courseRepository.findById(id)
                 .map(courseFromDB -> {
                     courseFromDB.setTitle(course.getTitle());
@@ -73,7 +76,7 @@ public class CourseService {
      * @param course Course.
      * @param bindUser  boolean.
      */
-    public void updateCourse(Course course, boolean bindUser){
+    public void updateCourse(@Validated(BasicInfo.class) Course course, boolean bindUser){
         courseDao.updateCourse(course, bindUser);
     }
 
@@ -81,7 +84,7 @@ public class CourseService {
      * Update course.
      * @param course Course.
      */
-    public void updateCourse(Course course){
+    public void updateCourse(@Validated(BasicInfo.class) Course course){
         courseDao.updateCourse(course);
     }
 
@@ -104,15 +107,4 @@ public class CourseService {
     public void deleteCourse(Long courseId, boolean removeAssociations)  {
         courseDao.deleteCourse(courseId, removeAssociations);
     }
-
-    /*  *//**
-     * Save a new course.
-     // *@param course Course.
-     *//*
-    public void saveNew(Course course) {
-        courseDao.saveNew(course);
-    }*/
-
-
-
 }

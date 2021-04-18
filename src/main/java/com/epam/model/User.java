@@ -1,5 +1,6 @@
 package com.epam.model;
 
+import com.epam.validator.BasicInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -17,35 +18,34 @@ import java.util.List;
 @Table(name = "users")
 public class User {
     @Id
-    @NotNull
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
     @SequenceGenerator(name = "user_id_seq", sequenceName = "user_seq", allocationSize = 1)
-    @Column(name="user_id")
+    @Column(name="user_id", nullable = false)
     private Long id;
 
-    @NotNull
-    @NotBlank(message = "First_name is mandatory")
-    @Size(max=20)
+    @NotNull(groups = BasicInfo.class)
+    @NotBlank(message = "First_name is mandatory", groups = BasicInfo.class)
+    @Size(max=20, groups = BasicInfo.class)
     @Column(name="first_name")
     private String firstName;
 
-    @NotNull
-    @NotBlank(message = "Last_name is mandatory")
-    @Size(max=20)
+    @NotNull(groups = BasicInfo.class)
+    @NotBlank(message = "Last_name is mandatory",groups = BasicInfo.class)
+    @Size(max=20, groups = BasicInfo.class)
     @Column(name="last_name")
     private String lastName;
 
     @Column(name="role_id")
     private Role role;
 
-    @NotNull
-    @NotBlank(message = "Login is mandatory")
-    @Size(max=30)
+    @NotNull(groups = BasicInfo.class)
+    @NotBlank(message = "Login is mandatory",groups = BasicInfo.class)
+    @Size(max=30, groups = BasicInfo.class)
     @Column(name = "login",unique = true)
     @Email
     private String login;
 
-    @NotNull
+    @NotNull(groups = BasicInfo.class)
     @Size(max=30)
     @NotBlank(message = "Password is mandatory")
     private String password;
