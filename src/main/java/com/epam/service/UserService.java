@@ -4,6 +4,7 @@ import com.epam.dao.UserDao;
 import com.epam.model.Role;
 import com.epam.model.User;
 import com.epam.repository.UserRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.util.List;
 /**
  * Data access object for User model.
  */
+@Log4j2
 @Service
 public class UserService {
     private UserDao userDao;
@@ -19,6 +21,36 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+
+    public User findById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(RuntimeException::new); //new UserNotFoundException(id))
+    }
+
+    public void deleteById(Long id) {
+        userRepository.deleteById(id);
+    }
+
+    public User updateUser(Long id, User user) {
+        return userRepository.findById(id)
+                .map(userFromDB -> {
+                    userFromDB.setFirstName(user.getFirstName());
+                    userFromDB.setLastName(user.getLastName());
+                    userFromDB.setRole(user.getRole());
+                    userFromDB.setLogin(user.getLogin());
+                    return userRepository.save(userFromDB);
+                })
+                .orElseThrow(() -> new RuntimeException("User with id=" + id + " not found"));
+    }
+
+    //------------------------------------------------------------
     public UserService() {
         userDao = new UserDao();
     }
@@ -58,35 +90,6 @@ public class UserService {
         return userDao.findAllUsersByRole(role);
     }
 
-    //------------------------------------------------------------
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
-
-    public User save(User user) {
-        return userRepository.save(user);
-    }
-
-    public User findById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(RuntimeException::new); //new UserNotFoundException(id))
-    }
-
-    public void deleteById(Long id) {
-        userRepository.deleteById(id);
-    }
-
-    public User updateUser(Long id, User user) {
-        return userRepository.findById(id)
-                .map(userFromDB -> {
-                    userFromDB.setFirstName(user.getFirstName());
-                    userFromDB.setLastName(user.getLastName());
-                    userFromDB.setRole(user.getRole());
-                    userFromDB.setLogin(user.getLogin());
-                    return userRepository.save(userFromDB);
-                })
-                .orElseThrow(() -> new RuntimeException("User with id=" + id + " not found"));
-    }
 
 }
 

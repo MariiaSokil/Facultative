@@ -1,28 +1,62 @@
 package com.epam.controllers;
 
 
+
 import com.epam.dto.UserDTO;
 import com.epam.mappers.impl.UserMapper;
 import com.epam.model.User;
 import com.epam.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.List;
 
-/**
- * UserServlet.
- *
- * @author M.Sokil
- */
 
+@Log4j2
 @RestController
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
     private final UserMapper userMapper;
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/users")
+    public Collection<UserDTO> findAll() {
+        return userMapper.toDTO(userService.findAll());
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/users/{id}")
+    public User findById(@PathVariable Long id) {
+        log.info("Found user by id: id {}", id);
+        return userService.findById(id);
+
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/users")
+    public User createNew(@RequestBody User newUser) {
+        log.info("Created newUser: {}", newUser);
+        return userService.save(newUser);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/users/{id}")
+    public void deleteById(@PathVariable Long id) {
+        log.info("Deleted user by id: id {}", id);
+        userService.deleteById(id);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/users/{id}")
+    public User updateUser(@PathVariable Long id, User user) {
+        log.info("Updated user: user {}", user);
+        return userService.updateUser(id, user);
+    }
+
 
     /**
      * Directions according to the role.
@@ -82,29 +116,4 @@ public class UserController {
 //        }
 //
 //    }
-    @GetMapping("/users")
-    public Collection<UserDTO> findAll() {
-        return userMapper.toDTO(userService.findAll());
-    }
-
-    @GetMapping("/users/{id}")
-    public User findById(@PathVariable Long id) {
-        return userService.findById(id);
-
-    }
-
-    @PostMapping("/users")
-    public User createNew(@RequestBody User newUser) {
-        return userService.save(newUser);
-    }
-
-    @DeleteMapping("/users/{id}")
-    public void deleteById(@PathVariable Long id) {
-        userService.deleteById(id);
-    }
-
-    @PutMapping("/users/{id}")
-    public User updateUser(@PathVariable Long id, User user) {
-        return userService.updateUser(id, user);
-    }
 }

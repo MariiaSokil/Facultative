@@ -1,25 +1,58 @@
 package com.epam.controllers;
 
 import com.epam.model.Course;
-import com.epam.model.User;
 import com.epam.service.CourseService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServlet;
 import java.util.List;
 
-/**
- * CourseServlet.
- *
- * @author M.Sokil
- */
-
+@Log4j2
 @RestController
 @RequiredArgsConstructor
 public class CourseController {
 
     private final CourseService courseService;
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/courses")
+    public List<Course> findAll() {
+        return courseService.findAll();
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/courses/{id}")
+    public Course findById(@PathVariable Long id) {
+        log.info("Found course by Id: id {}", id);
+        return courseService.findById(id);
+
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/courses")
+    public Course createNew(@RequestBody Course newCourse) {
+        log.info("Created newCourse: newCourse {}", newCourse);
+        return courseService.save(newCourse);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/courses/{id}")
+    public void deleteById(@PathVariable Long id) {
+        log.info("Deleted course by id: id {}", id);
+        courseService.deleteById(id);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/courses/{id}")
+    public Course updateCourse(@PathVariable Long id, Course course) {
+        log.info("Updated course: course {}", course);
+        return courseService.updateCourse(id, course);
+    }
+}
+
+
 
    /* @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -30,14 +63,14 @@ public class CourseController {
 
     */
 
-    /**
-     * Apply user to a course.
-     * If removeFlag is present and equals true, then unassign user from a course.
-     * If user  is not logged in, redirects to the page login.
-     * <p>
-     * If removeFlag is not present, then apply user to a course.
-     * If user  is not logged in, redirects to the page login.
-     *//*
+/**
+ * Apply user to a course.
+ * If removeFlag is present and equals true, then unassign user from a course.
+ * If user  is not logged in, redirects to the page login.
+ * <p>
+ * If removeFlag is not present, then apply user to a course.
+ * If user  is not logged in, redirects to the page login.
+ *//*
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User)session.getAttribute("user");
@@ -99,30 +132,3 @@ public class CourseController {
         }
         return LocalDate.parse(stringDate, formatter);
     }*/
-
-    @GetMapping("/courses")
-    public List<Course> findAll() {
-        return courseService.findAll();
-    }
-
-    @GetMapping("/courses/{id}")
-    public Course findById(@PathVariable Long id) {
-        return courseService.findById(id);
-
-    }
-
-    @PostMapping("/courses")
-    public Course createNew(@RequestBody Course newCourse) {
-        return courseService.save(newCourse);
-    }
-
-    @DeleteMapping("/courses/{id}")
-    public void deleteById(@PathVariable Long id) {
-        courseService.deleteById(id);
-    }
-
-    @PutMapping("/courses/{id}")
-    public Course updateCourse(@PathVariable Long id, Course course) {
-        return courseService.updateCourse(id, course);
-    }
-}

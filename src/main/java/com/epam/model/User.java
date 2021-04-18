@@ -10,14 +10,6 @@ import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * User model.
- *
- * @author M.Sokil
- *
- */
-
-
 @Data @Accessors(chain = true)
 @ToString(exclude = {"courses"})
 @EqualsAndHashCode(exclude = {"courses"})
@@ -47,7 +39,7 @@ public class User {
     private Role role;
 
     @NotNull
-    @NotBlank(message = "Login is mandatory")
+   @NotBlank(message = "Login is mandatory")
     @Size(max=30)
     @Column(name = "login",unique = true)
     @Email
