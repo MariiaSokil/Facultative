@@ -4,6 +4,7 @@ import com.epam.dao.UserDao;
 import com.epam.model.Role;
 import com.epam.model.User;
 import com.epam.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,15 +12,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Data access object for User model.
+ * //TODO.
  */
 @Log4j2
-@Service
+@Service @RequiredArgsConstructor
 public class UserService {
-    private UserDao userDao;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public List<User> findAll() {
         return userRepository.findAll();
@@ -50,15 +49,6 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User with id=" + id + " not found"));
     }
 
-    //------------------------------------------------------------
-    public UserService() {
-        userDao = new UserDao();
-    }
-
-    public UserService(UserDao userDao) {
-        this.userDao = userDao;
-    }
-
     /**
      * Returns true, if password matches with User password, else - false.
      *
@@ -77,7 +67,8 @@ public class UserService {
      * @return User entity.
      */
     public User getByLogin(String login) {
-        return userDao.findUserByLogin(login);
+        //return userDao.findUserByLogin(login);
+        return null;
     }
 
     /**
@@ -87,7 +78,8 @@ public class UserService {
      * @return list of User by role.
      */
     public List<User> findUserByRole(Role role) {
-        return userDao.findAllUsersByRole(role);
+        //return userDao.findAllUsersByRole(role);
+        return null;
     }
 
 

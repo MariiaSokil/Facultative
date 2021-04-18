@@ -1,7 +1,5 @@
 package com.epam.controllers;
 
-
-
 import com.epam.dto.UserDTO;
 import com.epam.mappers.impl.UserMapper;
 import com.epam.model.User;
@@ -31,29 +29,24 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/users/{id}")
     public User findById(@PathVariable Long id) {
-        log.info("Found user by id: id {}", id);
         return userService.findById(id);
-
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/users")
     public User createNew(@RequestBody User newUser) {
-        log.info("Created newUser: {}", newUser);
         return userService.save(newUser);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/users/{id}")
     public void deleteById(@PathVariable Long id) {
-        log.info("Deleted user by id: id {}", id);
         userService.deleteById(id);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/users/{id}")
     public User updateUser(@PathVariable Long id, User user) {
-        log.info("Updated user: user {}", user);
         return userService.updateUser(id, user);
     }
 

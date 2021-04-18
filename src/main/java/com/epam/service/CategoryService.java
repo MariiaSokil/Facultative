@@ -3,6 +3,7 @@ package com.epam.service;
 import com.epam.dao.CategoryDao;
 import com.epam.model.Category;
 import com.epam.repository.CategoryRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,12 +15,15 @@ import java.util.List;
  */
 @Log4j2
 @Service
+@RequiredArgsConstructor
 public class CategoryService {
-    private final CategoryDao dao;
 
-    @Autowired
     private CategoryRepository categoryRepository;
 
+    /**
+     * Return List of categories.
+     * @return list of categories.
+     */
     public List<Category> findAll() {
         return categoryRepository.findAll();
     }
@@ -45,24 +49,4 @@ public class CategoryService {
                 })
                 .orElseThrow(() -> new RuntimeException("Category with id=" + id + " not found"));
     }
-
-    //---------------------------------------------------------------
-    public CategoryService() {
-        dao = new CategoryDao();
-    }
-    //for Mockito testing
-    public CategoryService(CategoryDao dao) {
-        this.dao = dao;
-    }
-
-    /**
-     * Return List of categories.
-     * @return list of categories.
-     */
-   /* public List<Category> findAll() {
-        return dao.findAll();
-    }*/
-
-
-
 }

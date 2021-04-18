@@ -25,43 +25,28 @@ public class CourseController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/courses/{id}")
     public Course findById(@PathVariable Long id) {
-        log.info("Found course by Id: id {}", id);
         return courseService.findById(id);
-
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/courses")
     public Course createNew(@RequestBody Course newCourse) {
-        log.info("Created newCourse: newCourse {}", newCourse);
         return courseService.save(newCourse);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/courses/{id}")
     public void deleteById(@PathVariable Long id) {
-        log.info("Deleted course by id: id {}", id);
         courseService.deleteById(id);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/courses/{id}")
     public Course updateCourse(@PathVariable Long id, Course course) {
-        log.info("Updated course: course {}", course);
         return courseService.updateCourse(id, course);
     }
 }
 
-
-
-   /* @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setContentType("application/json");
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(response.getOutputStream(), courseService.findAll(true));
-    }
-
-    */
 
 /**
  * Apply user to a course.

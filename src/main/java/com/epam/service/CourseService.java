@@ -4,6 +4,7 @@ import com.epam.dao.CourseDao;
 import com.epam.model.Course;
 import com.epam.model.User;
 import com.epam.repository.CourseRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,12 +16,12 @@ import java.util.List;
  */
 @Log4j2
 @Service
+@RequiredArgsConstructor
 public class CourseService {
 
-    private final CourseDao courseDao;
+    private  CourseDao courseDao;
 
-    @Autowired
-    private CourseRepository courseRepository;
+    private final CourseRepository courseRepository;
 
     public List<Course> findAll(){
         return courseRepository.findAll();
@@ -52,18 +53,6 @@ public class CourseService {
                     return courseRepository.save(courseFromDB);
                 })
                 .orElseThrow(() -> new RuntimeException("Course with id=" + id + " not found"));
-    }
-
-
-
-//-----------------------------------------------------------------
-
-    public CourseService() {
-        courseDao = new CourseDao();
-    }
-
-    public CourseService(CourseDao courseDao) {
-        this.courseDao = courseDao;
     }
 
     /**

@@ -25,11 +25,7 @@ import java.util.Set;
 public class CourseCreateDeleteServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
-    private final CourseService courseService;
-
-    public CourseCreateDeleteServlet() {
-        this.courseService = new CourseService();
-    }
+    private CourseService courseService;
 
     public CourseCreateDeleteServlet(CourseService courseService) {
         this.courseService = courseService;

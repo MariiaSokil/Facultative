@@ -17,13 +17,8 @@ import java.io.IOException;
 
 @WebServlet(name = "TeacherServlet", urlPatterns = "/teachers")
 public class TeacherServlet extends HttpServlet {
-    private static final long serialVersionUID = 1L;
 
-    private final UserService userService;
-
-    public TeacherServlet() {
-        userService = new UserService();
-    }
+    private UserService userService;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
