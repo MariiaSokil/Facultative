@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,8 +14,7 @@ import java.util.List;
  * Category model.
  * @author M.Sokil
  */
-@Builder
-@Data
+@Data @Accessors(chain = true)
 @Entity
 @ToString(exclude = {"courses"})
 @EqualsAndHashCode(exclude = {"courses"})

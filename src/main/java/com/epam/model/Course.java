@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -19,8 +20,7 @@ import java.util.Set;
  *
  * @author M.Sokil
  */
-@Builder
-@Data
+@Data @Accessors(chain = true)
 @ToString(exclude = {"students"})
 @EqualsAndHashCode(exclude = {"students"})
 @Entity

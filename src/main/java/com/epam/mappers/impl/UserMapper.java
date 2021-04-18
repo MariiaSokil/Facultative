@@ -27,15 +27,14 @@ public class UserMapper implements BaseMapper<UserDTO, User> {
 
     @Override
     public User toMODEL(UserDTO userDTO) {
-        return User.builder()
-                .id(userDTO.getId())
-                .firstName(userDTO.getFirstName())
-                .lastName(userDTO.getLastName())
-                .role(Role.valueOf(userDTO.getRole()))
-                .login(userDTO.getLogin())
-                .isStudent(userDTO.isStudent())
-                .isBlocked(userDTO.isBlocked())
-                .build();
+        return new User()
+                .setId(userDTO.getId())
+                .setFirstName(userDTO.getFirstName())
+                .setLastName(userDTO.getLastName())
+                .setRole(Role.valueOf(userDTO.getRole()))
+                .setLogin(userDTO.getLogin())
+                .setStudent(userDTO.isStudent())
+                .setBlocked(userDTO.isBlocked());
     }
 
     @Override

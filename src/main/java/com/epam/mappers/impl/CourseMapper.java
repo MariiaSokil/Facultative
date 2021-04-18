@@ -30,16 +30,15 @@ public class CourseMapper implements BaseMapper<CourseDTO, Course> {
 
     @Override
     public Course toMODEL(CourseDTO courseDTO) {
-        return Course.builder()
-                .id(courseDTO.getId())
-                .title(courseDTO.getTitle())
-                .category(courseDTO.getCategory())
-                .duration(courseDTO.getDuration())
-                .startDate(courseDTO.getStartDate())
-                .price(courseDTO.getPrice())
-                .status(courseDTO.getStatus())
-                .enrollment(courseDTO.getEnrollment())
-                .build();
+        return new Course()
+                .setId(courseDTO.getId())
+                .setTitle(courseDTO.getTitle())
+                .setCategory(courseDTO.getCategory())
+                .setDuration(courseDTO.getDuration())
+                .setStartDate(courseDTO.getStartDate())
+                .setPrice(courseDTO.getPrice())
+                .setStatus(courseDTO.getStatus())
+                .setEnrollment(courseDTO.getEnrollment());
     }
 
     @Override

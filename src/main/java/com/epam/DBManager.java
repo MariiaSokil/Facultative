@@ -95,7 +95,7 @@ public class DBManager {
         ScriptRunner sr = new ScriptRunner(con);
         //Creating a reader object
         ClassLoader classLoader = DBManager.class.getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream("./sql/schema.sql");
+        InputStream inputStream = classLoader.getResourceAsStream("schema.sql");
         Reader reader = new BufferedReader(new InputStreamReader(inputStream));
         //Running the script
         sr.runScript(reader);

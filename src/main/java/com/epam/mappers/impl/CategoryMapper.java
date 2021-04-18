@@ -21,10 +21,9 @@ public class CategoryMapper implements BaseMapper<CategoryDTO, Category> {
 
     @Override
     public Category toMODEL(CategoryDTO categoryDTO) {
-        return Category.builder()
-                .id(categoryDTO.getId())
-                .name(categoryDTO.getName())
-                .build();
+        return new Category()
+                .setId(categoryDTO.getId())
+                .setName(categoryDTO.getName());
     }
 
     @Override

@@ -1,10 +1,8 @@
 package com.epam.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 
 import javax.persistence.*;
@@ -20,11 +18,9 @@ import java.util.List;
  */
 
 
-@Data
+@Data @Accessors(chain = true)
 @ToString(exclude = {"courses"})
 @EqualsAndHashCode(exclude = {"courses"})
-
-@Builder
 @Entity
 @Table(name = "users")
 public class User {
