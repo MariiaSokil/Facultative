@@ -1,5 +1,7 @@
 package com.epam.controllers;
 
+import com.epam.dto.CourseDTO;
+import com.epam.mappers.impl.CourseMapper;
 import com.epam.model.Course;
 import com.epam.service.CourseService;
 import lombok.RequiredArgsConstructor;
@@ -7,7 +9,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Collection;
+
 
 @Log4j2
 @RestController
@@ -15,23 +18,24 @@ import java.util.List;
 public class CourseController {
 
     private final CourseService courseService;
+    private final CourseMapper courseMapper;
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/courses")
-    public List<Course> findAll() {
-        return courseService.findAll();
+    public Collection<CourseDTO> findAll() {
+            return courseMapper.toDTO(courseService.findAll());
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/courses/{id}")
-    public Course findById(@PathVariable Long id) {
-        return courseService.findById(id);
+    public CourseDTO findById(@PathVariable Long id) {
+        return courseMapper.toDTO(courseService.findById(id));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/courses")
-    public Course createNew(@RequestBody Course newCourse) {
-        return courseService.save(newCourse);
+    public CourseDTO createNew(@RequestBody Course newCourse) {
+        return courseMapper.toDTO(courseService.save(newCourse));
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -42,8 +46,9 @@ public class CourseController {
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/courses/{id}")
-    public Course updateCourse(@PathVariable Long id, Course course) {
-        return courseService.updateCourse(id, course);
+    public CourseDTO updateCourse(@PathVariable Long id, CourseDTO courseDTO) {
+        Course course = courseMapper.toMODEL(courseDTO);
+        return courseMapper.toDTO(courseService.updateCourse(id, course));
     }
 }
 

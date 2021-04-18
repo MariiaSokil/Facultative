@@ -11,15 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data @Accessors(chain = true)
-@ToString(exclude = {"courses"})
-@EqualsAndHashCode(exclude = {"courses"})
+@ToString(exclude = {"courses", "teachersCourses"})
+@EqualsAndHashCode(exclude = {"courses", "teachersCourses"})
 @Entity
 @Table(name = "users")
 public class User {
     @Id
     @NotNull
-//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
-//    @SequenceGenerator(name = "user_id_seq", sequenceName = "user_id_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
+    @SequenceGenerator(name = "user_id_seq", sequenceName = "user_seq", allocationSize = 1)
     @Column(name="user_id")
     private Long id;
 
@@ -39,7 +39,7 @@ public class User {
     private Role role;
 
     @NotNull
-   @NotBlank(message = "Login is mandatory")
+    @NotBlank(message = "Login is mandatory")
     @Size(max=30)
     @Column(name = "login",unique = true)
     @Email
@@ -50,7 +50,6 @@ public class User {
     @NotBlank(message = "Password is mandatory")
     private String password;
 
-    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "users_courses",
             joinColumns = { @JoinColumn(name = "userid") },
@@ -62,5 +61,8 @@ public class User {
 
     @Column(name="is_blocked")
     private boolean isBlocked;
+
+    @OneToMany(mappedBy = "teacher")
+    private List<Course> teachersCourses;
 }
 

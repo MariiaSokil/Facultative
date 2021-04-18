@@ -22,10 +22,11 @@ import java.util.List;
 public class Category {
     @Id
     @Column(name="category_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_id_seq")
+    @SequenceGenerator(name = "category_id_seq", sequenceName = "category_seq", allocationSize = 1)
     private Long id;
     private String name;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "category")
     private List<Course> courses;
 }

@@ -1,7 +1,5 @@
 package com.epam.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -28,6 +26,8 @@ import java.util.Set;
 public class Course {
     @Id
     @NotNull
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "course_id_seq")
+    @SequenceGenerator(name = "course_id_seq", sequenceName = "course_seq", allocationSize = 1)
     private Long id;
 
 
@@ -38,7 +38,6 @@ public class Course {
     private String title;
 
     @NotNull
-    @NotBlank(message = "Category is mandatory")
     @ManyToOne
     @JoinColumn(name = "category",unique = true)
     private Category category;
@@ -55,11 +54,14 @@ public class Course {
     @Column(name = "price")
     private Integer price;
 
-    @JsonIgnore
     @ManyToMany(mappedBy = "courses")
     private Set<User> students = new HashSet<>();
 
-    //  private User teacher;
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "teacher",unique = true)
+    private User teacher;
+
     @NotNull
     @Column(name = "status")
     private Status status;
