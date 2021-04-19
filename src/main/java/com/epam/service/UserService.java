@@ -1,6 +1,7 @@
 package com.epam.service;
 
 import com.epam.dao.UserDao;
+import com.epam.exception.UserNotFoundException;
 import com.epam.model.Role;
 import com.epam.model.User;
 import com.epam.repository.UserRepository;
@@ -32,7 +33,7 @@ public class UserService {
 
     public User findById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(RuntimeException::new); //new UserNotFoundException(id))
+                .orElseThrow(UserNotFoundException::new); //new UserNotFoundException(id))
     }
 
     public void deleteById(Long id) {
