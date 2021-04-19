@@ -33,6 +33,7 @@ public class UserMapper implements BaseMapper<UserDTO, User> {
                 .setLastName(userDTO.getLastName())
                 .setRole(Role.valueOf(userDTO.getRole()))
                 .setLogin(userDTO.getLogin())
+                .setPassword(userDTO.getPassword())
                 .setStudent(userDTO.isStudent())
                 .setBlocked(userDTO.isBlocked());
     }

@@ -2,7 +2,6 @@ package com.epam.controllers;
 
 import com.epam.dto.UserDTO;
 import com.epam.mappers.impl.UserMapper;
-import com.epam.model.Course;
 import com.epam.model.User;
 import com.epam.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -30,24 +29,28 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/users/{id}")
     public UserDTO findById(@PathVariable Long id) {
+        log.info("User found by id: id {}", id);
         return userMapper.toDTO(userService.findById(id));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/users")
     public UserDTO createNew(@RequestBody User newUser) {
+        log.info("New user created:{}", newUser);
         return userMapper.toDTO(userService.save(newUser));
     }
 
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/users/{id}")
     public void deleteById(@PathVariable Long id) {
+        log.info("User deleted: id {}", id);
         userService.deleteById(id);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/users/{id}")
     public UserDTO updateUser(@PathVariable Long id, UserDTO userDTO) {
+        log.info("User updated:{}", userDTO);
         User u = userMapper.toMODEL(userDTO);
         return userMapper.toDTO(userService.updateUser(id, u));
     }

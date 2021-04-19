@@ -29,24 +29,28 @@ public class CourseController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/courses/{id}")
     public CourseDTO findById(@PathVariable Long id) {
+        log.info("Course found by id: id{}", id);
         return courseMapper.toDTO(courseService.findById(id));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/courses")
     public CourseDTO createNew(@RequestBody Course newCourse) {
+        log.info("New course created:{}", newCourse);
         return courseMapper.toDTO(courseService.save(newCourse));
     }
 
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/courses/{id}")
     public void deleteById(@PathVariable Long id) {
+        log.info("Course deleted: id {}", id);
         courseService.deleteById(id);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/courses/{id}")
     public CourseDTO updateCourse(@PathVariable Long id, CourseDTO courseDTO) {
+        log.info("Course updated:{}", courseDTO);
         Course course = courseMapper.toMODEL(courseDTO);
         return courseMapper.toDTO(courseService.updateCourse(id, course));
     }
