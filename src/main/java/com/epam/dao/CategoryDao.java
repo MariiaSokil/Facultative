@@ -2,7 +2,7 @@ package com.epam.dao;
 
 import com.epam.DBManager;
 import com.epam.model.Category;
-import org.apache.log4j.Logger;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +20,7 @@ import java.util.logging.Level;
 public class CategoryDao {
 
     private static final String SQL_ALL_CATEGORIES = "SELECT * FROM categories";
-    private static final Logger log = Logger.getLogger(CategoryDao.class);
+  //  private static final Logger log = Logger.getLogger(CategoryDao.class);
     /**
      * Return List of categories.
      * @return list of categories.
@@ -43,7 +43,7 @@ public class CategoryDao {
             pstmt.close();
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
-            log.error(ex.getMessage(), ex);
+  //          log.error(ex.getMessage(), ex);
         } finally {
             DBManager.getInstance().commitAndClose(con);
         }

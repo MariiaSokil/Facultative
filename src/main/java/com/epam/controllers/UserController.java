@@ -1,5 +1,8 @@
 package com.epam.controllers;
 
+
+import com.epam.controllers.assembler.UserAssembler;
+import com.epam.controllers.type.UserType;
 import com.epam.dto.UserDTO;
 import com.epam.mappers.impl.UserMapper;
 import com.epam.model.User;
@@ -20,6 +23,8 @@ public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
 
+    private final UserAssembler userAssembler;
+
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/users")
     public Collection<UserDTO> findAll() {
@@ -35,9 +40,10 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/users")
-    public UserDTO createNew(@RequestBody User newUser) {
-        log.info("New user created:{}", newUser);
-        return userMapper.toDTO(userService.save(newUser));
+    public UserType createNew(@RequestBody UserDTO newUserDto) {
+        log.info("Got request for user creation:{}", newUserDto);
+        User user = userMapper.toMODEL(newUserDto);
+        return userAssembler.toModel(userMapper.toDTO(userService.save(user)));
     }
 
     @ResponseStatus(HttpStatus.OK)

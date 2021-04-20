@@ -35,9 +35,10 @@ public class CourseController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/courses")
-    public CourseDTO createNew(@RequestBody Course newCourse) {
-        log.info("New course created:{}", newCourse);
-        return courseMapper.toDTO(courseService.save(newCourse));
+    public CourseDTO createNew(@RequestBody CourseDTO newCourseDto) {
+        log.info("Got request for course creation :{}", newCourseDto);
+        Course course = courseMapper.toMODEL(newCourseDto);
+        return courseMapper.toDTO(courseService.save(course));
     }
 
     @ResponseStatus(HttpStatus.OK)

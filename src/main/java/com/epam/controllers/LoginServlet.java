@@ -5,7 +5,7 @@ import com.epam.model.Role;
 import com.epam.model.User;
 import com.epam.service.CourseService;
 import com.epam.service.UserService;
-import org.apache.log4j.Logger;
+
 
 
 import javax.servlet.RequestDispatcher;
@@ -24,7 +24,7 @@ import java.util.List;
 public class LoginServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger log = Logger.getLogger(LoginServlet.class);
+  //  private static final Logger log = Logger.getLogger(LoginServlet.class);
 
     private  UserService userService;
     private  CourseService courseService;
@@ -38,7 +38,7 @@ public class LoginServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User user = userService.getByLogin(request.getParameter("uname"));
         if (userService.isValid(user, request.getParameter("psw"))) {
-            log.info("User authenticated!");
+//            log.info("User authenticated!");
 
             //session management
             HttpSession session = request.getSession();

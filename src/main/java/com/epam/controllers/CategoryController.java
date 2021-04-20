@@ -34,9 +34,10 @@ public class CategoryController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/categories")
-    public CategoryDTO createNew(@RequestBody Category newCategory) {
-        log.info("New category created:{}", newCategory);
-        return categoryMapper.toDTO(categoryService.save(newCategory));
+    public CategoryDTO createNew(@RequestBody CategoryDTO newCategoryDto) {
+        log.info("Got request for category creation:{}", newCategoryDto);
+        Category category = categoryMapper.toMODEL(newCategoryDto);
+        return categoryMapper.toDTO(categoryService.save(category));
     }
 
     @ResponseStatus(HttpStatus.OK)

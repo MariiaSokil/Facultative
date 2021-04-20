@@ -1,4 +1,4 @@
-package com.epam.config.listener;
+package com.epam.config;
 
 import com.epam.exception.GeneralException;
 import com.epam.exception.UserNotFoundException;

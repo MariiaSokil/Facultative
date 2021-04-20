@@ -4,7 +4,7 @@ package com.epam.dao;
 import com.epam.DBManager;
 import com.epam.model.Role;
 import com.epam.model.User;
-import org.apache.log4j.Logger;
+
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +20,7 @@ import java.util.List;
  * @author M.Sokil
  */
 public class UserDao {
-    private static final Logger log = Logger.getLogger(UserDao.class);
+  //  private static final Logger log = Logger.getLogger(UserDao.class);
 
 
     private static final String SQL_FIND_USER_BY_LOGIN =
@@ -59,7 +59,7 @@ public class UserDao {
             pstmt.close();
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
-            log.error(ex.getMessage(), ex);
+ //           log.error(ex.getMessage(), ex);
         } finally {
             DBManager.getInstance().commitAndClose(con);
         }
@@ -89,7 +89,7 @@ public class UserDao {
             pstmt.close();
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
-            log.error(ex.getMessage(), ex);
+ //           log.error(ex.getMessage(), ex);
         } finally {
             DBManager.getInstance().commitAndClose(con);
         }
@@ -108,7 +108,7 @@ public class UserDao {
             updateUser(con, user);
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
-            log.error(ex.getMessage(), ex);
+ //           log.error(ex.getMessage(), ex);
         } finally {
             DBManager.getInstance().commitAndClose(con);
         }
@@ -157,7 +157,7 @@ public class UserDao {
             pstmt.close();
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
-            log.error(ex.getMessage(), ex);
+//            log.error(ex.getMessage(), ex);
         } finally {
             DBManager.getInstance().commitAndClose(con);
         }
@@ -188,7 +188,7 @@ public class UserDao {
             pstmt.close();*/
         } catch (SQLException ex) {
             DBManager.getInstance().rollbackAndClose(con);
-            log.error(ex.getMessage(), ex);
+      //      log.error(ex.getMessage(), ex);
         } finally {
             DBManager.getInstance().commitAndClose(con);
         }

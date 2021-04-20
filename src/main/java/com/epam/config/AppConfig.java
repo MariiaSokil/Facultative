@@ -1,4 +1,4 @@
-package com.epam.config.listener;
+package com.epam.config;
 
 import com.epam.interceptor.RequestInterceptor;
 import org.springframework.context.annotation.Configuration;
