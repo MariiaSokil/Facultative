@@ -1,5 +1,7 @@
 package com.epam.controllers;
 
+import com.epam.controllers.assembler.CourseAssembler;
+import com.epam.controllers.type.CourseType;
 import com.epam.dto.CourseDTO;
 import com.epam.mappers.impl.CourseMapper;
 import com.epam.model.Course;
@@ -7,6 +9,7 @@ import com.epam.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -19,6 +22,7 @@ public class CourseController {
 
     private final CourseService courseService;
     private final CourseMapper courseMapper;
+    private final CourseAssembler courseAssembler;
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/courses")
@@ -28,32 +32,33 @@ public class CourseController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/courses/{id}")
-    public CourseDTO findById(@PathVariable Long id) {
+    public CourseType findById(@PathVariable Long id) {
         log.info("Course found by id: id{}", id);
-        return courseMapper.toDTO(courseService.findById(id));
+        return courseAssembler.toModel(courseMapper.toDTO(courseService.findById(id)));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/courses")
-    public CourseDTO createNew(@RequestBody CourseDTO newCourseDto) {
+    public CourseType createNew(@RequestBody CourseDTO newCourseDto) {
         log.info("Got request for course creation :{}", newCourseDto);
         Course course = courseMapper.toMODEL(newCourseDto);
-        return courseMapper.toDTO(courseService.save(course));
+        return courseAssembler.toModel(courseMapper.toDTO(courseService.save(course)));
     }
 
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/courses/{id}")
-    public void deleteById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         log.info("Course deleted: id {}", id);
         courseService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/courses/{id}")
-    public CourseDTO updateCourse(@PathVariable Long id, CourseDTO courseDTO) {
+    public CourseType updateCourse(@PathVariable Long id, CourseDTO courseDTO) {
         log.info("Course updated:{}", courseDTO);
         Course course = courseMapper.toMODEL(courseDTO);
-        return courseMapper.toDTO(courseService.updateCourse(id, course));
+        return courseAssembler.toModel(courseMapper.toDTO(courseService.updateCourse(id, course)));
     }
 }
 

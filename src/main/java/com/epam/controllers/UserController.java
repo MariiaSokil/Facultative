@@ -10,6 +10,7 @@ import com.epam.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -33,9 +34,9 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/users/{id}")
-    public UserDTO findById(@PathVariable Long id) {
+    public UserType findById(@PathVariable Long id) {
         log.info("User found by id: id {}", id);
-        return userMapper.toDTO(userService.findById(id));
+        return userAssembler.toModel(userMapper.toDTO(userService.findById(id)));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -48,17 +49,18 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/users/{id}")
-    public void deleteById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         log.info("User deleted: id {}", id);
         userService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/users/{id}")
-    public UserDTO updateUser(@PathVariable Long id, UserDTO userDTO) {
+    public UserType updateUser(@PathVariable Long id, UserDTO userDTO) {
         log.info("User updated:{}", userDTO);
         User u = userMapper.toMODEL(userDTO);
-        return userMapper.toDTO(userService.updateUser(id, u));
+        return userAssembler.toModel(userMapper.toDTO(userService.updateUser(id, u)));
     }
 
 
