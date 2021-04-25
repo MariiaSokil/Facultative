@@ -8,6 +8,8 @@ import com.epam.validator.BasicInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -58,6 +60,11 @@ public class CourseService {
                 .orElseThrow(() -> new RuntimeException("Course with id=" + id + " not found"));
     }
 
+
+    public Page<Course> findAll(Pageable pageRequest) {
+        return courseRepository.findAll(pageRequest);
+    }
+//-------------------------------------------------------------------------------
     /**
      * Return List of courses.
      * If flag eagerStudents true, each course contains List of students.

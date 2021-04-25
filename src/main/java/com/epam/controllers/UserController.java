@@ -3,17 +3,22 @@ package com.epam.controllers;
 
 import com.epam.controllers.assembler.UserAssembler;
 import com.epam.controllers.type.UserType;
+import com.epam.dto.CourseDTO;
 import com.epam.dto.UserDTO;
 import com.epam.mappers.impl.UserMapper;
+import com.epam.model.Course;
 import com.epam.model.User;
 import com.epam.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 
 @Log4j2
@@ -61,6 +66,16 @@ public class UserController {
         log.info("User updated:{}", userDTO);
         User u = userMapper.toMODEL(userDTO);
         return userAssembler.toModel(userMapper.toDTO(userService.updateUser(id, u)));
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/users/page")
+    public Page<UserDTO> getPage(int pageNum, int size) {
+        Pageable pageRequest = PageRequest.of(pageNum, size, Sort.by(Sort.Order.asc("firstName")));
+        Page<User> page = userService.findAll(pageRequest);
+        Collection<UserDTO> dtos = userMapper.toDTO(page.getContent());
+        List<UserDTO> listDtos = new ArrayList<>(dtos);
+        return new PageImpl<>(listDtos, pageRequest, page.getTotalElements());
     }
 
 
