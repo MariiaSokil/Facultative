@@ -61,7 +61,7 @@ public class CourseServiceTest {
 
     @Test
     public void updateUser() {
-        Course courseDB = new Course().setTitle("Programming");
+        Course courseDB = new Course().setTitle("Spring Boot");
         Long id = new Long(1L);
         when(courseRepository.findById(id)).thenReturn(Optional.of(courseDB));
         when(courseRepository.save(any(Course.class))).thenReturn(new Course());
@@ -76,7 +76,7 @@ public class CourseServiceTest {
 
     @Test(expected = RuntimeException.class)
     public void updateUserCaseNotFound() {
-        Course courseDB = new Course().setTitle("Programming");
+        Course courseDB = new Course().setTitle("Spring Boot");
         Long id = new Long(1L);
 
         Course course = new Course();
@@ -86,7 +86,7 @@ public class CourseServiceTest {
 
     @Test
     public void findAllPage() {
-        Pageable pageRequest = PageRequest.of(0, 5, Sort.by(Sort.Order.asc("firstName")));
+        Pageable pageRequest = PageRequest.of(0, 5, Sort.by(Sort.Order.asc("title")));
         courseService.findAll(pageRequest);
         verify(courseRepository).findAll(pageRequest);
     }
