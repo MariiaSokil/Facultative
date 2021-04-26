@@ -3,8 +3,10 @@ package com.epam.controllers;
 import com.epam.controllers.assembler.CourseAssembler;
 import com.epam.controllers.type.CourseType;
 import com.epam.dto.CourseDTO;
+import com.epam.dto.UserDTO;
 import com.epam.mappers.impl.CourseMapper;
 import com.epam.model.Course;
+import com.epam.model.User;
 import com.epam.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -37,7 +39,9 @@ public class CourseController {
     @GetMapping("/courses/{id}")
     public CourseType findById(@PathVariable Long id) {
         log.info("Course found by id: id{}", id);
-        return courseAssembler.toModel(courseMapper.toDTO(courseService.findById(id)));
+        Course course= courseService.findById(id);
+        CourseDTO courseDTO= courseMapper.toDTO(course);
+        return courseAssembler.toModel(courseDTO);
     }
 
     @ResponseStatus(HttpStatus.CREATED)

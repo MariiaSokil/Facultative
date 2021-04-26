@@ -1,12 +1,12 @@
 package com.epam.dto;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 @Data
 @Builder
 @EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
 public class CategoryDTO {
 
     private Long id;

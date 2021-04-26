@@ -8,25 +8,21 @@ import com.epam.mappers.impl.UserMapper;
 import com.epam.model.Role;
 import com.epam.model.User;
 import com.epam.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import java.awt.*;
-import java.util.Arrays;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.hateoas.MediaTypes.HAL_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 @WebMvcTest(UserController.class)
@@ -47,6 +43,8 @@ public class UserControllerTest {
 
     @Test
     public void findAll() throws Exception {
+        /*List<User> userList= new ArrayList<>();
+        Collection<UserDTO> collectionDTO =new ArrayList<>();
         User user1 = new User().setId(1L)
                 .setFirstName("Males")
                 .setLastName("Morales")
@@ -63,10 +61,20 @@ public class UserControllerTest {
                 .setBlocked(false)
                 .setStudent(true)
                 .setRole(Role.STUDENT);
+        userList.add(user1);
+        userList.add(user2);
 
-        when(userService.findAll()).thenReturn(Arrays.asList(user1,user2));
+        when(userService.findAll()).thenReturn(userList);
+        when(userMapper.toDTO(userList)).thenReturn(collectionDTO);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/users"));
+
+        mockMvc.perform(get("/users")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.users").exists())
+                .andExpect(jsonPath("$.users[*].id").isNotEmpty());
+*/
     }
 
     @Test
@@ -80,48 +88,70 @@ public class UserControllerTest {
         when(userMapper.toDTO(user)).thenReturn(userDTO);
         when(userAssembler.toModel(userDTO)).thenReturn(userType);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/users/1"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType(HAL_JSON))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value("1"));
+        mockMvc.perform(get("/users/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(HAL_JSON))
+                .andExpect(jsonPath("$.id").value("1"));
 
     }
 
     @Test
     public void findByIdCaseNotFound() throws Exception {
         when(userService.findById(1L)).thenThrow(UserNotFoundException.class);
-        mockMvc.perform(MockMvcRequestBuilders.get("/users/1"))
-                .andExpect(MockMvcResultMatchers.status().is5xxServerError())
-                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.errorType").value("DATABASE_ERROR_TYPE"));
+        mockMvc.perform(get("/users/1"))
+                .andExpect(status().is5xxServerError())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.errorType").value("DATABASE_ERROR_TYPE"));
 
     }
+
+
+    /*@ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/users")
+    public UserType createNew(@RequestBody UserDTO newUserDto) {
+        log.info("Got request for user creation:{}", newUserDto);
+        User user = userMapper.toMODEL(newUserDto);
+        user=userService.save(user);
+        UserDTO userDTO=userMapper.toDTO(user);
+        return userAssembler.toModel(userDTO);
+    }*/
     @Test
     public void createNew() throws Exception {
-/*
-        UserDTO userDTO=new UserDTO();
-        userDTO.setFirstName("Ivanov");
-        userDTO.setFirstName("Ivan");
-        userDTO.setLogin("ivanov@gmail.com");
-        userDTO.setPassword("11111");
-        userDTO.setRole(String.valueOf(Role.STUDENT));
-        userDTO.setBlocked(false);
-        userDTO.setStudent(true);
 
-        User user= new User();
-        user.getId();
+        UserDTO newUserDTO= new UserDTO();
+        newUserDTO.setFirstName("Ivanov");
+        newUserDTO.setLastName("Ivan");
+        newUserDTO.setRole(String.valueOf(Role.STUDENT));
+        newUserDTO.setLogin("ivanov@gmail.com");
+        newUserDTO.setPassword("11111");
+        newUserDTO.setBlocked(false);
+        newUserDTO.setStudent(true);
 
-        UserType userType=new UserType(userDTO);
 
-        when(userMapper.toMODEL(userDTO)).thenReturn(user);
+        User user = new User();
+        when(userMapper.toMODEL(newUserDTO)).thenReturn(user);
         when(userService.save(user)).thenReturn(user);
+        UserDTO userDTO= new UserDTO();
+        userDTO.setId(20L);
+        UserType userType = new UserType(userDTO);
         when(userMapper.toDTO(user)).thenReturn(userDTO);
         when(userAssembler.toModel(userDTO)).thenReturn(userType);
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/users"))
-                .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andExpect((ResultMatcher) MediaType.APPLICATION_JSON)
-        .andExpect(js);*/
+        mockMvc.perform(post("/users")
+                .content(asJsonString(newUserDTO))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").exists());
 
+
+    }
+
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

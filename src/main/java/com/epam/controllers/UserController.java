@@ -40,8 +40,7 @@ public class UserController {
         log.info("User found by id: id {}", id);
         User user=userService.findById(id);
         UserDTO userDto= userMapper.toDTO(user);
-        UserType userType= userAssembler.toModel(userDto);
-        return userType;
+        return userAssembler.toModel(userDto);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -51,8 +50,7 @@ public class UserController {
         User user = userMapper.toMODEL(newUserDto);
         user=userService.save(user);
         UserDTO userDTO=userMapper.toDTO(user);
-        UserType userType=userAssembler.toModel(userDTO);
-        return userType;
+        return userAssembler.toModel(userDTO);
     }
 
     @ResponseStatus(HttpStatus.OK)

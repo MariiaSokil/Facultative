@@ -4,7 +4,7 @@ import com.epam.dto.UserDTO;
 import com.epam.model.User;
 
 public class TestDataUtil {
-    public static User createUser() {
+    /*public static User createUser() {
         User user = new User();
         user.setFirstName("FirstName");
         user.setLastName("LastName");
@@ -16,5 +16,5 @@ public class TestDataUtil {
         user.setFirstName("FirstName");
         user.setLastName("LastName");
         return user;
-    }
+    }*/
 }

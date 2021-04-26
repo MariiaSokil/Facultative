@@ -33,7 +33,7 @@ public class UserService {
 
     public User findById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(UserNotFoundException::new); //new UserNotFoundException(id))
+                .orElseThrow(UserNotFoundException::new);
     }
 
     public void deleteById(Long id) {
