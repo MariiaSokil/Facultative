@@ -124,4 +124,12 @@ public class CourseControllerTest {
                 .andExpect(status().isOk());
 
     }
+    @Test
+    public void deleteById() throws Exception {
+
+        mockMvc.perform(delete("/courses/{id}","1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
 }

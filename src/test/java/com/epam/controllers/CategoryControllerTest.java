@@ -54,7 +54,6 @@ public class CategoryControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(HAL_JSON))
                 .andExpect(jsonPath("$.id").value("1"));
-
     }
 
     @Test
@@ -110,6 +109,13 @@ public class CategoryControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
 
+    @Test
+    public void deleteById() throws Exception {
+        mockMvc.perform(delete("/categories/{id}","1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
     }
 }
