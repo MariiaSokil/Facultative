@@ -49,7 +49,9 @@ public class CourseController {
     public CourseType createNew(@RequestBody CourseDTO newCourseDto) {
         log.info("Got request for course creation :{}", newCourseDto);
         Course course = courseMapper.toMODEL(newCourseDto);
-        return courseAssembler.toModel(courseMapper.toDTO(courseService.save(course)));
+        course =courseService.save(course);
+        CourseDTO courseDTO = courseMapper.toDTO(course);
+        return courseAssembler.toModel(courseDTO);
     }
 
     @ResponseStatus(HttpStatus.OK)

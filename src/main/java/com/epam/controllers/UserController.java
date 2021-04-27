@@ -38,8 +38,8 @@ public class UserController {
     @GetMapping("/users/{id}")
     public UserType findById(@PathVariable Long id) {
         log.info("User found by id: id {}", id);
-        User user=userService.findById(id);
-        UserDTO userDto= userMapper.toDTO(user);
+        User user = userService.findById(id);
+        UserDTO userDto = userMapper.toDTO(user);
         return userAssembler.toModel(userDto);
     }
 
@@ -48,8 +48,8 @@ public class UserController {
     public UserType createNew(@RequestBody UserDTO newUserDto) {
         log.info("Got request for user creation:{}", newUserDto);
         User user = userMapper.toMODEL(newUserDto);
-        user=userService.save(user);
-        UserDTO userDTO=userMapper.toDTO(user);
+        user = userService.save(user);
+        UserDTO userDTO = userMapper.toDTO(user);
         return userAssembler.toModel(userDTO);
     }
 

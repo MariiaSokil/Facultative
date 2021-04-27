@@ -19,8 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.hateoas.MediaTypes.HAL_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -60,16 +59,6 @@ public class CourseControllerTest {
     }
 
     @Test
-    public void findByIdCaseNotFound() throws Exception {
-        when(courseService.findById(1L)).thenThrow(RuntimeException.class);
-        mockMvc.perform(get("/users/1"))
-                .andExpect(status().is5xxServerError())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.errorType").value("DATABASE_ERROR_TYPE"));
-
-    }
-
-    @Test
     public void createNew() throws Exception {
 
         CourseDTO newCourseDTO= new CourseDTO();
@@ -104,5 +93,35 @@ public class CourseControllerTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Test
+    public void updateCourse() throws Exception {
+
+        CourseDTO courseDTO = new CourseDTO();
+        courseDTO.setId(1L);
+        courseDTO.setTitle("Python");
+        courseDTO.setDuration(20);
+        courseDTO.setPrice(2000);
+        courseDTO.setStatus(Status.COMING_SOON);
+        courseDTO.setEnrollment(0);
+
+       Course c = new Course();
+        when(courseMapper.toMODEL(courseDTO)).thenReturn(c);
+
+        Course course = new Course();
+        course.setTitle("Java 11");
+        when(courseService.updateCourse(1L, c)).thenReturn(course);
+        when(courseMapper.toDTO(course)).thenReturn(courseDTO);
+
+        CourseType courseType = new CourseType(courseDTO);
+        when(courseAssembler.toModel(courseDTO)).thenReturn(courseType);
+
+        mockMvc.perform(put("/courses/1")
+                .content(asJsonString(courseDTO))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
     }
 }

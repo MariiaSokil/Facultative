@@ -18,8 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.hateoas.MediaTypes.HAL_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -59,16 +58,6 @@ public class CategoryControllerTest {
     }
 
     @Test
-    public void findByIdCaseNotFound() throws Exception {
-        when(categoryService.findById(1L)).thenThrow(RuntimeException.class);
-        mockMvc.perform(get("/categories/1"))
-                .andExpect(status().is5xxServerError())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.errorType").value("DATABASE_ERROR_TYPE"));
-
-    }
-
-    @Test
     public void createNew() throws Exception {
 
         CategoryDTO newCategoryDTO = new CategoryDTO();
@@ -97,5 +86,30 @@ public class CategoryControllerTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Test
+    public void updateCourse() throws Exception {
+
+        CategoryDTO categoryDTO = new CategoryDTO();
+        categoryDTO.setId(1L);
+        categoryDTO.setName("Programming");
+
+        Category cat = new Category();
+        when(categoryMapper.toMODEL(categoryDTO)).thenReturn(cat);
+        Category category= new Category();
+        category.setName("Math");
+        when(categoryService.updateCategory(1L, cat)).thenReturn(category);
+        when(categoryMapper.toDTO(category)).thenReturn(categoryDTO);
+
+        CategoryType categoryType = new CategoryType(categoryDTO);
+        when(categoryAssembler.toModel(categoryDTO)).thenReturn(categoryType);
+
+        mockMvc.perform(put("/categories/1")
+                .content(asJsonString(categoryDTO))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
     }
 }

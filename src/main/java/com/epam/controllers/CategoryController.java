@@ -3,8 +3,10 @@ package com.epam.controllers;
 import com.epam.controllers.assembler.CategoryAssembler;
 import com.epam.controllers.type.CategoryType;
 import com.epam.dto.CategoryDTO;
+import com.epam.dto.UserDTO;
 import com.epam.mappers.impl.CategoryMapper;
 import com.epam.model.Category;
+import com.epam.model.User;
 import com.epam.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -33,16 +35,19 @@ public class CategoryController {
     @GetMapping("/categories/{id}")
     public CategoryType findById(@PathVariable Long id) {
         log.info("Category found by id: id{}", id);
-        return categoryAssembler.toModel(categoryMapper.toDTO(categoryService.findById(id)));
+        Category category=categoryService.findById(id);
+        CategoryDTO categoryDTO=categoryMapper.toDTO(category);
+        return categoryAssembler.toModel(categoryDTO);
 
     }
-
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/categories")
     public CategoryType createNew(@RequestBody CategoryDTO newCategoryDto) {
         log.info("Got request for category creation:{}", newCategoryDto);
         Category category = categoryMapper.toMODEL(newCategoryDto);
-        return categoryAssembler.toModel(categoryMapper.toDTO(categoryService.save(category)));
+        category=categoryService.save(category);
+        CategoryDTO categoryDTO=categoryMapper.toDTO(category);
+        return categoryAssembler.toModel(categoryDTO);
     }
 
     @ResponseStatus(HttpStatus.OK)

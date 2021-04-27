@@ -17,11 +17,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.hateoas.MediaTypes.HAL_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
@@ -105,16 +105,6 @@ public class UserControllerTest {
 
     }
 
-
-    /*@ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/users")
-    public UserType createNew(@RequestBody UserDTO newUserDto) {
-        log.info("Got request for user creation:{}", newUserDto);
-        User user = userMapper.toMODEL(newUserDto);
-        user=userService.save(user);
-        UserDTO userDTO=userMapper.toDTO(user);
-        return userAssembler.toModel(userDTO);
-    }*/
     @Test
     public void createNew() throws Exception {
 
@@ -153,5 +143,37 @@ public class UserControllerTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Test
+    public void updateUser() throws Exception {
+
+        UserDTO userDTO= new UserDTO();
+          userDTO.setId(1L);
+          userDTO.setFirstName("Ivanov");
+          userDTO.setLastName("Ivan");
+          userDTO.setRole(String.valueOf(Role.STUDENT));
+          userDTO.setLogin("ivanov@gmail.com");
+          userDTO.setPassword("11111");
+          userDTO.setBlocked(false);
+          userDTO.setStudent(true);
+
+        User u = new User();
+        when(userMapper.toMODEL(userDTO)).thenReturn(u);
+
+        User user=new User();
+        user.setFirstName("Romanov");
+        when(userService.updateUser(1L, u)).thenReturn(user);
+        when(userMapper.toDTO(user)).thenReturn(userDTO);
+
+        UserType userType = new UserType(userDTO);
+        when(userAssembler.toModel(userDTO)).thenReturn(userType);
+
+        mockMvc.perform(put("/users/1")
+                .content(asJsonString(userDTO))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
     }
 }
