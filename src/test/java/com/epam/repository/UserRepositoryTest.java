@@ -28,7 +28,7 @@ public class UserRepositoryTest {
     @Test
     public void findAll() {
         List<User> users = userRepository.findAll();
-      //  assertEquals(14,users.size());
-       assertTrue(users.isEmpty());
+        assertEquals(0,users.size());
+    //   assertTrue(users.isEmpty());
     }
 }
