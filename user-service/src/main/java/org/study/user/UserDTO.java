@@ -1,5 +1,12 @@
 package org.study.user;
 
+import lombok.*;
+
+@Data
+@Builder
+@EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDTO {
 
     private Long id;
