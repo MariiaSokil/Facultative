@@ -1,27 +1,90 @@
 package org.study.course;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.*;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+@Log4j2
 @RestController
+@RequiredArgsConstructor
 public class CourseController {
 
-    @GetMapping("/study")
-    public String showStudy() {
-        return "Study course";
+    private final CourseService courseService;
+    private final CourseMapper courseMapper;
+    private final CourseAssembler courseAssembler;
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/courses")
+    public Collection<CourseDTO> findAll() {
+        return courseMapper.toDTO(courseService.findAll());
     }
 
-   /* @Autowired
-    @Lazy
-    private EurekaClient eurekaClient;
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/courses/{id}")
+    public CourseType findById(@PathVariable Long id) {
+        log.info("Course found by id: id{}", id);
+        Course course= courseService.findById(id);
+        CourseDTO courseDTO= courseMapper.toDTO(course);
+        return courseAssembler.toModel(courseDTO);
+    }
 
-    @Value("${spring.application.name}")
-    private String appName;
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/courses")
+    public CourseType createNew(@RequestBody CourseDTO newCourseDto) {
+        log.info("Got request for course creation :{}", newCourseDto);
+        Course course = courseMapper.toMODEL(newCourseDto);
+        course =courseService.save(course);
+        CourseDTO courseDTO = courseMapper.toDTO(course);
+        return courseAssembler.toModel(courseDTO);
+    }
 
-    @RequestMapping("/greeting")
-    public String greeting() {
-        return String.format(
-                "Hello from '%s'!", eurekaClient.getApplication(appName).getName());
-    }*/
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/courses/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        log.info("Course deleted: id {}", id);
+        courseService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/courses/{id}")
+    public CourseType updateCourse(@PathVariable Long id, CourseDTO courseDTO) {
+        log.info("Course updated:{}", courseDTO);
+        Course course = courseMapper.toMODEL(courseDTO);
+        return courseAssembler.toModel(courseMapper.toDTO(courseService.updateCourse(id, course)));
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/courses/page")
+    public Page<CourseDTO> getPage(int pageNum, int size) {
+        Pageable pageRequest = PageRequest.of(pageNum, size, Sort.by(Sort.Order.asc("title")));
+        Page<Course> page = courseService.findAll(pageRequest);
+        Collection<CourseDTO> dtos = courseMapper.toDTO(page.getContent());
+        List<CourseDTO> listDtos = new ArrayList<>(dtos);
+        return new PageImpl<>(listDtos, pageRequest, page.getTotalElements());
+    }
+
+    @Data
+    @EqualsAndHashCode(callSuper = false)
+    @AllArgsConstructor
+    public static class CourseType extends RepresentationModel<CourseType> {
+
+        @JsonUnwrapped
+        private CourseDTO courseDTO;
+    }
 }
+
+
+
