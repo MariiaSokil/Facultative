@@ -58,6 +58,7 @@ public class User {
 //            inverseJoinColumns = { @JoinColumn(name = "course_id") })
 //    private List<Course> courses = new ArrayList<>();
 
+
     @Column(name="is_student")
     private boolean isStudent;
 
