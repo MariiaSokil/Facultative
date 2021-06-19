@@ -12,6 +12,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data @Accessors(chain = true)
 @ToString(exclude = {"courses", "teachersCourses"})
@@ -52,11 +54,10 @@ public class User {
     @NotBlank(message = "Password is mandatory")
     private String password;
 
-//    @ManyToMany
-//    @JoinTable(name = "users_courses",
-//            joinColumns = { @JoinColumn(name = "userid") },
-//            inverseJoinColumns = { @JoinColumn(name = "course_id") })
-//    private List<Course> courses = new ArrayList<>();
+    @ElementCollection
+    @CollectionTable(name = "users_courses", joinColumns = @JoinColumn(name = "userid"))
+    @Column(name = "course_id")
+    private List<Long> courses = new ArrayList<>();
 
 
     @Column(name="is_student")

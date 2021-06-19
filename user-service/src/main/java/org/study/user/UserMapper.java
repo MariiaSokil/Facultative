@@ -19,6 +19,7 @@ public class UserMapper {
                 .login(user.getLogin())
                 .isStudent(user.isStudent())
                 .isBlocked(user.isBlocked())
+                .courses(user.getCourses())
                 .build();
     }
 

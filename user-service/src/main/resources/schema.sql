@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS users_courses;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS roles;
 
@@ -18,5 +19,12 @@ CREATE TABLE users(
 	is_blocked BOOLEAN DEFAULT FALSE,
 	role_id INTEGER NOT NULL REFERENCES roles(id) ON DELETE CASCADE ON UPDATE RESTRICT
 );
+
+CREATE TABLE users_courses (
+  userid INTEGER NOT NULL,
+  course_id INTEGER NOT NULL,
+  PRIMARY KEY (userid, course_id),
+  FOREIGN KEY (userid) REFERENCES users(user_id) ON UPDATE CASCADE
+  );
 
 CREATE SEQUENCE user_seq START 20;

@@ -2,6 +2,9 @@ package org.study.user;
 
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Builder
 @EqualsAndHashCode
@@ -15,7 +18,7 @@ public class UserDTO {
     private String role;
     private String login;
     private String password;
-    //private List<Course> courses = new ArrayList<>();
+    private List<Long> courses = new ArrayList<>();
     private boolean isStudent;
     private boolean isBlocked;
 }

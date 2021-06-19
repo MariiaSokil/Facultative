@@ -8,23 +8,40 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.study.validator.BasicInfo;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * User Service manages all staff related to any users.
  */
 @Log4j2
-@Service @RequiredArgsConstructor
+@Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
 
+    @Transactional
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
     public User save(@Validated(BasicInfo.class) User user) {
         return userRepository.save(user);
+    }
+
+    @Transactional
+    public User assignCourseToUser(Long userId, Long courseId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            List<Long> listId = user.getCourses();
+            listId.add(courseId);
+            return user;
+        } else {
+            throw new RuntimeException();
+        }
     }
 
     public User findById(Long id) {

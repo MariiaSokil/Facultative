@@ -18,3 +18,9 @@ INSERT INTO users VALUES(DEFAULT, 'black@gmail.com', '1212', 'Black', 'Panther',
 INSERT INTO users VALUES(DEFAULT, 'walter@gmail.com', '1313', 'Walter', 'White', false, false, 1);
 INSERT INTO users VALUES(DEFAULT, 'simon@gmail.com', '1414', 'Simon', 'Buff', false, false, 2);
 
+
+INSERT INTO users_courses VALUES(1, 3);
+
+--INSERT INTO users_courses VALUES(2, 15);
+--INSERT INTO users_courses VALUES(2, 12);
+--INSERT INTO users_courses VALUES(2, 13);

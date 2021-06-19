@@ -84,4 +84,13 @@ public class UserController {
         @JsonUnwrapped
         private UserDTO userDTO;
     }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @GetMapping("/users/{id}/courses/{courceid}")
+    public UserType assignCourseToUser(@PathVariable Long id, @PathVariable Long courceid) {
+        log.info("Got request for user assign to course:{}", id);
+        User user =userService.assignCourseToUser(id, courceid);
+        UserDTO userDTO = userMapper.toDTO(user);
+        return userAssembler.toModel(userDTO);
+    }
 }
