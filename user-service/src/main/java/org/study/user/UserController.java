@@ -60,7 +60,7 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/users/{id}")
-    public UserType updateUser(@PathVariable Long id, UserDTO userDTO) {
+    public UserType updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
         log.info("User updated:{}", userDTO);
         User u = userMapper.toMODEL(userDTO);
         return userAssembler.toModel(userMapper.toDTO(userService.updateUser(id, u)));
