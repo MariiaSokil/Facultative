@@ -60,7 +60,7 @@ public class CourseController {
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/courses/{id}")
-    public CourseType updateCourse(@PathVariable Long id, CourseDTO courseDTO) {
+    public CourseType updateCourse(@PathVariable Long id, @RequestBody CourseDTO courseDTO) {
         log.info("Course updated:{}", courseDTO);
         Course course = courseMapper.toMODEL(courseDTO);
         return courseAssembler.toModel(courseMapper.toDTO(courseService.updateCourse(id, course)));

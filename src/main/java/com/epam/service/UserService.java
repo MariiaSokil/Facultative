@@ -1,16 +1,15 @@
 package com.epam.service;
 
 import com.epam.exception.UserNotFoundException;
-import com.epam.model.Role;
+
 import com.epam.model.User;
 import com.epam.repository.UserRepository;
 import com.epam.validator.BasicInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+
 
 import java.util.List;
 
@@ -18,7 +17,8 @@ import java.util.List;
  * //TODO.
  */
 @Log4j2
-@Service @RequiredArgsConstructor
+@Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;

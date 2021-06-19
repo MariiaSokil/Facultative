@@ -58,8 +58,9 @@ public class Course {
 
 //    @NotNull(groups = BasicInfo.class)
 //    @ManyToOne
-//    @JoinColumn(name = "teacher",unique = true)
-//    private User teacher;
+    //@JoinColumn(name = "teacher",unique = true)
+    @Column(name = "teacher_id")
+    private Long teacher;
 
     @NotNull(groups = BasicInfo.class)
     @Column(name = "status")
