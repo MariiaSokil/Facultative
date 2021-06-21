@@ -81,6 +81,7 @@ public class CourseController {
     public CourseType assignCourseToTeacher(@PathVariable Long courseId, @PathVariable Long teacherId, @RequestBody(required = false) CourseDTO inputDTO)  {
         log.info("Got request for teacher assign to course:{}", courseId);
         Course course =courseService.assignTeacherToCourse(courseId, teacherId);
+
         CourseDTO courseDTO = courseMapper.toDTO(course);
         return courseAssembler.toModel(courseDTO);
     }
@@ -92,6 +93,13 @@ public class CourseController {
 
         @JsonUnwrapped
         private CourseDTO courseDTO;
+    }
+
+    @Data
+    static class NotificationEvent {
+        private String recipient;
+        private String subject;
+        private String text;
     }
 }
 
