@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.study.course.validator.BasicInfo;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * CourseService.
@@ -60,4 +61,17 @@ public class CourseService {
     public Page<Course> findAll(Pageable pageRequest) {
         return courseRepository.findAll(pageRequest);
     }
+
+    @Transactional
+    public Course assignTeacherToCourse(Long courseId, Long teacherId) {
+        Optional<Course> optionalCourse = courseRepository.findById(courseId);
+        if (optionalCourse.isPresent()) {
+            Course course = optionalCourse.get();
+           return course.setTeacher(teacherId);
+
+        } else {
+            throw new RuntimeException("No such course found: " + courseId);
+        }
+    }
+
 }

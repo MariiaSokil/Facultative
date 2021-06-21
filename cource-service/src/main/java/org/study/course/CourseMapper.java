@@ -33,7 +33,7 @@ public class CourseMapper {
                 .price(course.getPrice())
                 .status(course.getStatus())
                 .enrollment(course.getEnrollment())
-               // .teacher(teacherDTO)
+                .teacher(course.getTeacher())
                 .build();
     }
 

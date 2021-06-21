@@ -21,7 +21,7 @@ public class CourseDTO {
     private LocalDate startDate;
     private Integer price;
     //   private Set<User> students = new HashSet<>();
-   // private UserDTO teacher;
+    private Long teacher;
     private Status status;
     private int enrollment;
 }

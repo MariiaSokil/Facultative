@@ -76,6 +76,15 @@ public class CourseController {
         return new PageImpl<>(listDtos, pageRequest, page.getTotalElements());
     }
 
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PostMapping("/courses/{courseId}/teacher/{teacherId}")
+    public CourseType assignCourseToTeacher(@PathVariable Long courseId, @PathVariable Long teacherId, @RequestBody(required = false) CourseDTO inputDTO)  {
+        log.info("Got request for teacher assign to course:{}", courseId);
+        Course course =courseService.assignTeacherToCourse(courseId, teacherId);
+        CourseDTO courseDTO = courseMapper.toDTO(course);
+        return courseAssembler.toModel(courseDTO);
+    }
+
     @Data
     @EqualsAndHashCode(callSuper = false)
     @AllArgsConstructor
