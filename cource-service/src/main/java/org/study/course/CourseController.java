@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.*;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ public class CourseController {
     private final CourseService courseService;
     private final CourseMapper courseMapper;
     private final CourseAssembler courseAssembler;
+    private  final HTTPClient httpClient;
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/courses")
@@ -81,6 +83,12 @@ public class CourseController {
     public CourseType assignCourseToTeacher(@PathVariable Long courseId, @PathVariable Long teacherId, @RequestBody(required = false) CourseDTO inputDTO)  {
         log.info("Got request for teacher assign to course:{}", courseId);
         Course course =courseService.assignTeacherToCourse(courseId, teacherId);
+        // notification
+        NotificationEvent event =new NotificationEvent();
+        event.setRecipient("asterieks@gmail.com");
+        event.setSubject("Course");
+        event.setText("Hello");
+        httpClient.sendNotification(event);
 
         CourseDTO courseDTO = courseMapper.toDTO(course);
         return courseAssembler.toModel(courseDTO);
@@ -100,6 +108,13 @@ public class CourseController {
         private String recipient;
         private String subject;
         private String text;
+    }
+
+    @FeignClient("notification-service")
+    interface HTTPClient {
+
+        @PostMapping("/notificate")
+        void sendNotification(NotificationEvent event);
     }
 }
 
