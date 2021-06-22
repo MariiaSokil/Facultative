@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.*;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +29,14 @@ public class CourseController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/courses")
-    public Collection<CourseDTO> findAll() {
-        return courseMapper.toDTO(courseService.findAll());
+    public Collection<CourseDTO> findAll(@RequestParam(required = false) String title,
+                                         @RequestParam(required = false) Long teacher,
+                                         @RequestParam(required = false) Long student) {
+        Specification<Course> specification =
+                Specification.where(CourseSpecification.getCoursesByTitle(title))
+                .and(CourseSpecification.getCoursesByTeacher(teacher));
+
+        return courseMapper.toDTO(courseService.findAll(specification));
     }
 
     @ResponseStatus(HttpStatus.OK)

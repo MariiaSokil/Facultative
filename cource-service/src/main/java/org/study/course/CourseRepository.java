@@ -1,13 +1,7 @@
 package org.study.course;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-import java.util.List;
-
-public interface CourseRepository extends JpaRepository<Course, Long> {
-   List<Course> findAll();
-  // List<Course> findByCategoryId(Long category_id);
-
-
-
+public interface CourseRepository extends JpaRepository<Course, Long> , JpaSpecificationExecutor<Course> {
 }

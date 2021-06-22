@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -25,8 +26,8 @@ public class CourseService {
     private final CourseRepository courseRepository;
 
     @Transactional
-    public List<Course> findAll(){
-        return courseRepository.findAll();
+    public List<Course> findAll(Specification<Course> specification){
+        return courseRepository.findAll(specification);
     }
 
     public Course save(@Validated(BasicInfo.class) Course course) {
