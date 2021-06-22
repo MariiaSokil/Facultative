@@ -3,7 +3,7 @@ INSERT INTO roles VALUES(1, 'TEACHER');
 INSERT INTO roles VALUES(2, 'ADMIN');
 
 
-INSERT INTO users VALUES(DEFAULT, 'meadow@gmail.com','11', 'Meadow', 'Soprano', true, false, 0);
+INSERT INTO users VALUES(DEFAULT, 'asterieks@gmail.com','11', 'Meadow', 'Soprano', true, false, 0);
 INSERT INTO users VALUES(DEFAULT, 'carmela@gmail.com', '22', 'Carmela', 'Soprano', true, false, 0);
 INSERT INTO users VALUES(DEFAULT, 'antony@gmail.com', '33', 'Antony', 'Soprano', true, false, 0);
 INSERT INTO users VALUES(DEFAULT, 'males@gmail.com', '44', 'Males', 'Morales', true, false, 0);

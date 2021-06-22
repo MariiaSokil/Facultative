@@ -1,17 +1,16 @@
 package org.study.user;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.*;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -24,6 +23,8 @@ public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
     private final UserAssembler userAssembler;
+    private  final NotificationClient notificationClient;
+    private  final CourseClient courseClient;
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/users")
@@ -86,11 +87,46 @@ public class UserController {
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @GetMapping("/users/{id}/courses/{courceid}")
-    public UserType assignCourseToUser(@PathVariable Long id, @PathVariable Long courceid) {
-        log.info("Got request for user assign to course:{}", id);
+    @PostMapping("/users/{id}/courses/{courceid}")
+    public UserType assignCourseToUser(@PathVariable Long id, @PathVariable Long courceid, @RequestBody(required = false) UserDTO inputDTO) {
+        if (!courseClient.isActive(courceid)){
+            throw new RuntimeException("Course "+ courceid + "either doesn't exist or is completed");
+        }
+
         User user =userService.assignCourseToUser(id, courceid);
+
+        // notification
+        NotificationEvent event =new NotificationEvent();
+        event.setRecipient(user.getLogin());
+        event.setSubject("Course registration");
+        event.setText("Hello " + user.getFirstName() + ",\n\r you're assigned to the course " + courseClient.getNameById(courceid)+ " successfully");
+        notificationClient.sendNotification(event);
+
         UserDTO userDTO = userMapper.toDTO(user);
         return userAssembler.toModel(userDTO);
+    }
+
+    @Data
+    static class NotificationEvent {
+        private String recipient;
+        private String subject;
+        private String text;
+    }
+
+    @FeignClient("notification-service")
+    interface NotificationClient {
+
+        @PostMapping("/notificate")
+        void sendNotification(NotificationEvent event);
+    }
+
+    @FeignClient("course-service")
+    interface CourseClient {
+
+        @GetMapping("/courses/{courseId}/active")
+        boolean isActive(@PathVariable Long courseId);
+
+        @GetMapping("/courses/{courseId}/name")
+        String getNameById(@PathVariable Long courseId);
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.study.course.status.Status;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -92,6 +93,30 @@ public class CourseController {
 
         CourseDTO courseDTO = courseMapper.toDTO(course);
         return courseAssembler.toModel(courseDTO);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/courses/{courseId}/active")
+    public boolean isActive(@PathVariable Long courseId) {
+       try {
+           Course course= courseService.findById(courseId);
+           log.info("Course found by id: {}", courseId);
+           return course.getStatus()!= Status.COMPLETED;
+       }catch (RuntimeException e){
+           return false;
+       }
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/courses/{courseId}/name")
+    public String getNameById(@PathVariable Long courseId) {
+        log.info("Course found by id: {}", courseId);
+        try {
+            Course course= courseService.findById(courseId);
+            return course.getTitle();
+        }catch (RuntimeException e){
+            return null;
+        }
     }
 
     @Data
