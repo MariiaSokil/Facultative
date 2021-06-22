@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data @Accessors(chain = true)
-@ToString(exclude = {"courses", "teachersCourses"})
-@EqualsAndHashCode(exclude = {"courses", "teachersCourses"})
+@ToString(exclude = {"courses"})
+@EqualsAndHashCode(exclude = {"courses"})
 @Entity
 @Table(name = "users")
 public class User {

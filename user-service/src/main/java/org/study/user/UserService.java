@@ -2,6 +2,7 @@ package org.study.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.hibernate.Hibernate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,18 @@ public class UserService {
     public User findById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(RuntimeException::new);
+    }
+
+    @Transactional
+    public User findByIdWithCourses(Long id) {
+        Optional<User> optUser = userRepository.findById(id);
+        if (optUser.isPresent()) {
+            User user = optUser.get();
+            Hibernate.initialize(user.getCourses());
+            return user;
+        } else {
+            throw  new RuntimeException("User not found for id " + id);
+        }
     }
 
     public void deleteById(Long id) {

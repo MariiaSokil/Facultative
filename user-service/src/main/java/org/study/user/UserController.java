@@ -1,7 +1,10 @@
 package org.study.user;
 
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.*;
@@ -10,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,8 +25,8 @@ public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
     private final UserAssembler userAssembler;
-    private  final NotificationClient notificationClient;
-    private  final CourseClient courseClient;
+    private final NotificationClient notificationClient;
+    private final CourseClient courseClient;
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/users")
@@ -85,17 +87,17 @@ public class UserController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping("/students/{id}/courses/{courceid}")
     public UserType assignStudentToCourse(@PathVariable Long id, @PathVariable Long courceid, @RequestBody(required = false) UserDTO inputDTO) {
-        if (!courseClient.isActive(courceid)){
-            throw new RuntimeException("Course "+ courceid + "either doesn't exist or is completed");
+        if (!courseClient.isActive(courceid)) {
+            throw new RuntimeException("Course " + courceid + "either doesn't exist or is completed");
         }
 
-        User user =userService.assignCourseToUser(id, courceid);
+        User user = userService.assignCourseToUser(id, courceid);
 
         // notification
-        NotificationEvent event =new NotificationEvent();
+        NotificationEvent event = new NotificationEvent();
         event.setRecipient(user.getLogin());
         event.setSubject("Course registration");
-        event.setText("Hello " + user.getFirstName() + ",\n\r you're assigned to the course " + courseClient.getNameById(courceid)+ " successfully");
+        event.setText("Hello " + user.getFirstName() + ",\n\r you're assigned to the course " + courseClient.getNameById(courceid) + " successfully");
         notificationClient.sendNotification(event);
 
         UserDTO userDTO = userMapper.toDTO(user);
@@ -104,11 +106,11 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping("/teachers/{userId}/courses/{courseId}")
-    public void assignTeacherToCourse(@PathVariable Long userId, @PathVariable Long courseId, @RequestBody(required = false) UserDTO inputDTO)  {
+    public void assignTeacherToCourse(@PathVariable Long userId, @PathVariable Long courseId, @RequestBody(required = false) UserDTO inputDTO) {
         User user = null;
         try {
             user = userService.findById(userId);
-            if (user!=null && user.getRole() != Role.TEACHER) {
+            if (user != null && user.getRole() != Role.TEACHER) {
                 log.error("User with id " + userId + " is not the teacher");
                 throw new RuntimeException("User with id " + userId + " is not the teacher");
             }
@@ -117,16 +119,23 @@ public class UserController {
             return;
         }
 
-        if(user !=null && courseClient.assignTeacher2Course(courseId, userId)){
+        if (user != null && courseClient.assignTeacher2Course(courseId, userId)) {
             // notification
-            NotificationEvent event =new NotificationEvent();
+            NotificationEvent event = new NotificationEvent();
             event.setRecipient(user.getLogin());
             event.setSubject("Teacher registration");
-            event.setText("Hello " + user.getFirstName() + ",\n\r you're assigned to the course " + courseClient.getNameById(courseId)+ " as a teacher successfully");
+            event.setText("Hello " + user.getFirstName() + ",\n\r you're assigned to the course " + courseClient.getNameById(courseId) + " as a teacher successfully");
             notificationClient.sendNotification(event);
         } else {
             throw new RuntimeException("Something went wrong...");
         }
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/users/{id}/courses")
+    List<Long> getCoursesForTheUser(@PathVariable Long id) {
+        User user = userService.findByIdWithCourses(id);
+        return user.getCourses();
     }
 
 
