@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.*;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpStatus;
@@ -26,7 +25,6 @@ public class CourseController {
     private final CourseService courseService;
     private final CourseMapper courseMapper;
     private final CourseAssembler courseAssembler;
-    private  final HTTPClient httpClient;
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/courses")
@@ -37,7 +35,6 @@ public class CourseController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/courses/{id}")
     public CourseType findById(@PathVariable Long id) {
-        log.info("Course found by id: id{}", id);
         Course course= courseService.findById(id);
         CourseDTO courseDTO= courseMapper.toDTO(course);
         return courseAssembler.toModel(courseDTO);
@@ -46,7 +43,6 @@ public class CourseController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/courses")
     public CourseType createNew(@RequestBody CourseDTO newCourseDto) {
-        log.info("Got request for course creation :{}", newCourseDto);
         Course course = courseMapper.toMODEL(newCourseDto);
         course =courseService.save(course);
         CourseDTO courseDTO = courseMapper.toDTO(course);
@@ -56,7 +52,6 @@ public class CourseController {
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/courses/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        log.info("Course deleted: id {}", id);
         courseService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
@@ -64,7 +59,6 @@ public class CourseController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/courses/{id}")
     public CourseType updateCourse(@PathVariable Long id, @RequestBody CourseDTO courseDTO) {
-        log.info("Course updated:{}", courseDTO);
         Course course = courseMapper.toMODEL(courseDTO);
         return courseAssembler.toModel(courseMapper.toDTO(courseService.updateCourse(id, course)));
     }
@@ -81,18 +75,14 @@ public class CourseController {
 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PostMapping("/courses/{courseId}/teacher/{teacherId}")
-    public CourseType assignCourseToTeacher(@PathVariable Long courseId, @PathVariable Long teacherId, @RequestBody(required = false) CourseDTO inputDTO)  {
-        log.info("Got request for teacher assign to course:{}", courseId);
-        Course course =courseService.assignTeacherToCourse(courseId, teacherId);
-        // notification
-        NotificationEvent event =new NotificationEvent();
-        event.setRecipient("asterieks@gmail.com");
-        event.setSubject("Course");
-        event.setText("Hello");
-        httpClient.sendNotification(event);
-
-        CourseDTO courseDTO = courseMapper.toDTO(course);
-        return courseAssembler.toModel(courseDTO);
+    public boolean assignTeacher2Course(@PathVariable Long courseId, @PathVariable Long teacherId, @RequestBody(required = false) CourseDTO inputDTO)  {
+        try {
+            courseService.assignTeacherToCourse(courseId, teacherId);
+            return true;
+        } catch (RuntimeException e){
+            log.warn(e.getMessage());
+        }
+        return false;
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -110,7 +100,6 @@ public class CourseController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/courses/{courseId}/name")
     public String getNameById(@PathVariable Long courseId) {
-        log.info("Course found by id: {}", courseId);
         try {
             Course course= courseService.findById(courseId);
             return course.getTitle();
@@ -126,20 +115,6 @@ public class CourseController {
 
         @JsonUnwrapped
         private CourseDTO courseDTO;
-    }
-
-    @Data
-    static class NotificationEvent {
-        private String recipient;
-        private String subject;
-        private String text;
-    }
-
-    @FeignClient("notification-service")
-    interface HTTPClient {
-
-        @PostMapping("/notificate")
-        void sendNotification(NotificationEvent event);
     }
 }
 

@@ -35,7 +35,6 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/users/{id}")
     public UserType findById(@PathVariable Long id) {
-        log.info("User found by id: id {}", id);
         User user = userService.findById(id);
         UserDTO userDto = userMapper.toDTO(user);
         return userAssembler.toModel(userDto);
@@ -44,7 +43,6 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/users")
     public UserType createNew(@RequestBody UserDTO newUserDto) {
-        log.info("Got request for user creation:{}", newUserDto);
         User user = userMapper.toMODEL(newUserDto);
         user = userService.save(user);
         UserDTO userDTO = userMapper.toDTO(user);
@@ -54,7 +52,6 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        log.info("User deleted: id {}", id);
         userService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
@@ -62,7 +59,6 @@ public class UserController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/users/{id}")
     public UserType updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
-        log.info("User updated:{}", userDTO);
         User u = userMapper.toMODEL(userDTO);
         return userAssembler.toModel(userMapper.toDTO(userService.updateUser(id, u)));
     }
@@ -87,8 +83,8 @@ public class UserController {
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @PostMapping("/users/{id}/courses/{courceid}")
-    public UserType assignCourseToUser(@PathVariable Long id, @PathVariable Long courceid, @RequestBody(required = false) UserDTO inputDTO) {
+    @PostMapping("/students/{id}/courses/{courceid}")
+    public UserType assignStudentToCourse(@PathVariable Long id, @PathVariable Long courceid, @RequestBody(required = false) UserDTO inputDTO) {
         if (!courseClient.isActive(courceid)){
             throw new RuntimeException("Course "+ courceid + "either doesn't exist or is completed");
         }
@@ -105,6 +101,34 @@ public class UserController {
         UserDTO userDTO = userMapper.toDTO(user);
         return userAssembler.toModel(userDTO);
     }
+
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @PostMapping("/teachers/{userId}/courses/{courseId}")
+    public void assignTeacherToCourse(@PathVariable Long userId, @PathVariable Long courseId, @RequestBody(required = false) UserDTO inputDTO)  {
+        User user = null;
+        try {
+            user = userService.findById(userId);
+            if (user!=null && user.getRole() != Role.TEACHER) {
+                log.error("User with id " + userId + " is not the teacher");
+                throw new RuntimeException("User with id " + userId + " is not the teacher");
+            }
+        } catch (RuntimeException e) {
+            log.error("User with id " + userId + " not found");
+            return;
+        }
+
+        if(user !=null && courseClient.assignTeacher2Course(courseId, userId)){
+            // notification
+            NotificationEvent event =new NotificationEvent();
+            event.setRecipient(user.getLogin());
+            event.setSubject("Teacher registration");
+            event.setText("Hello " + user.getFirstName() + ",\n\r you're assigned to the course " + courseClient.getNameById(courseId)+ " as a teacher successfully");
+            notificationClient.sendNotification(event);
+        } else {
+            throw new RuntimeException("Something went wrong...");
+        }
+    }
+
 
     @Data
     static class NotificationEvent {
@@ -128,5 +152,8 @@ public class UserController {
 
         @GetMapping("/courses/{courseId}/name")
         String getNameById(@PathVariable Long courseId);
+
+        @PostMapping("/courses/{courseId}/teacher/{teacherId}")
+        boolean assignTeacher2Course(@PathVariable Long courseId, @PathVariable Long teacherId);
     }
 }
