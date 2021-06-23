@@ -2,6 +2,7 @@ package org.study.course;
 
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
+import org.study.course.status.Status;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,4 +31,10 @@ public class CourseSpecification {
     }
 
 
+    public static Specification<Course> getCoursesByStatus(Status status) {
+        return (root, query, criteriaBuilder) ->
+                Optional.ofNullable(status)
+                        .map(val -> criteriaBuilder.equal(root.get(Course_.status), val))
+                        .orElse(null);
+    }
 }

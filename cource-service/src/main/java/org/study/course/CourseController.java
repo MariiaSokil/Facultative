@@ -33,7 +33,8 @@ public class CourseController {
     @GetMapping("/courses")
     public Collection<CourseDTO> findAll(@RequestParam(required = false) String title,
                                          @RequestParam(required = false) Long teacher,
-                                         @RequestParam(required = false) Long student) {
+                                         @RequestParam(required = false) Long student,
+                                         @RequestParam(required = false) Status status) {
         List<Long> list = null;
         if (student != null) {
             list = userClient.getCoursesForTheUser(student);
@@ -42,7 +43,8 @@ public class CourseController {
         Specification<Course> specification =
                 Specification.where(CourseSpecification.getCoursesByTitle(title))
                         .and(CourseSpecification.getCoursesByTeacher(teacher))
-                        .and(CourseSpecification.getCoursesByIds(list));
+                        .and(CourseSpecification.getCoursesByIds(list))
+                        .and(CourseSpecification.getCoursesByStatus(status));
 
         return courseMapper.toDTO(courseService.findAll(specification));
     }
