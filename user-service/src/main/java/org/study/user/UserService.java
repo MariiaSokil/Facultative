@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import org.hibernate.Hibernate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import org.study.validator.BasicInfo;
@@ -12,6 +13,7 @@ import org.study.validator.BasicInfo;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * User Service manages all staff related to any users.
@@ -24,8 +26,10 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public List<User> findAll() {
-        return userRepository.findAll();
+    public List<User> findAll(Specification<User> specification) {
+        return userRepository.findAll(specification).stream()
+                .peek(user -> Hibernate.initialize(user.getCourses()))
+                .collect(Collectors.toList());
     }
 
     public User save(@Validated(BasicInfo.class) User user) {

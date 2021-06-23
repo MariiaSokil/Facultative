@@ -8,11 +8,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.data.domain.*;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -30,8 +32,9 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/users")
-    public Collection<UserDTO> findAll() {
-        return userMapper.toDTO(userService.findAll());
+    public Collection<UserDTO> findAll(@RequestParam(required = false) Long courseId) {
+        Specification<User> specification = Specification.where(UserSpecification.getUsersByCourse(courseId));
+        return userMapper.toDTO(userService.findAll(specification));
     }
 
     @ResponseStatus(HttpStatus.OK)

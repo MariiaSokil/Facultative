@@ -22,3 +22,4 @@ INSERT INTO users VALUES(DEFAULT, 'simon@gmail.com', '1414', 'Simon', 'Buff', fa
 INSERT INTO users_courses VALUES(1, 3);
 INSERT INTO users_courses VALUES(1, 2);
 INSERT INTO users_courses VALUES(1, 1);
+INSERT INTO users_courses VALUES(2, 1);
