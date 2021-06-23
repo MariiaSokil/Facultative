@@ -1,10 +1,12 @@
 package org.study.export;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.List;
 
 public interface CourseWritter {
 
-    void write(Writer writer, List<ExportController.CourseDTO> courseList) throws IOException;
+    String[] csvHeader = {"Course ID", "Title", "Duration", "Start Date", "Price", "Teacher","Status","Enrollment"};
+
+    void write(HttpServletResponse response, List<ExportController.CourseDTO> courseList) throws IOException;
 }

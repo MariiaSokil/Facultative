@@ -5,16 +5,16 @@ import org.supercsv.io.CsvBeanWriter;
 import org.supercsv.io.ICsvBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.List;
 
 @Component
 public class CSSWriter implements CourseWritter {
     @Override
-    public void write(Writer writer, List<ExportController.CourseDTO> courseList) throws IOException {
-        ICsvBeanWriter csvWriter = new CsvBeanWriter(writer, CsvPreference.STANDARD_PREFERENCE);
-        String[] csvHeader = {"Course ID", "Title", "Duration", "Start Date", "Price", "Teacher","Status","Enrollment"};
+    public void write(HttpServletResponse response, List<ExportController.CourseDTO> courseList) throws IOException {
+        ICsvBeanWriter csvWriter = new CsvBeanWriter(response.getWriter(), CsvPreference.STANDARD_PREFERENCE);
+
         String[] nameMapping = {"id", "title", "duration", "startDate", "price", "teacher","status","enrollment"};
 
         csvWriter.writeHeader(csvHeader);
