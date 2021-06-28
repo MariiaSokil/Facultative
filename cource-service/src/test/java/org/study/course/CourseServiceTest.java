@@ -84,10 +84,6 @@ public class CourseServiceTest {
     }
 
     @Test
-    public void testFindAll() {
-    }
-
-    @Test
     public void assignTeacherToCourse() {
     }
 }
