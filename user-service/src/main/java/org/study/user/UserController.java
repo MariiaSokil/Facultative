@@ -7,15 +7,12 @@ import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -66,25 +63,6 @@ public class UserController {
     public UserType updateUser(@PathVariable Long id, @RequestBody UserDTO userDTO) {
         User u = userMapper.toMODEL(userDTO);
         return userAssembler.toModel(userMapper.toDTO(userService.updateUser(id, u)));
-    }
-
-    @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/users/page")
-    public Page<UserDTO> getPage(int pageNum, int size) {
-        Pageable pageRequest = PageRequest.of(pageNum, size, Sort.by(Sort.Order.asc("firstName")));
-        Page<User> page = userService.findAll(pageRequest);
-        Collection<UserDTO> dtos = userMapper.toDTO(page.getContent());
-        List<UserDTO> listDtos = new ArrayList<>(dtos);
-        return new PageImpl<>(listDtos, pageRequest, page.getTotalElements());
-    }
-
-    @Data
-    @EqualsAndHashCode(callSuper = false)
-    @AllArgsConstructor
-    public static class UserType extends RepresentationModel<UserType> {
-
-        @JsonUnwrapped
-        private UserDTO userDTO;
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
@@ -139,6 +117,16 @@ public class UserController {
     List<Long> getCoursesForTheUser(@PathVariable Long id) {
         User user = userService.findByIdWithCourses(id);
         return user.getCourses();
+    }
+
+
+    @Data
+    @EqualsAndHashCode(callSuper = false)
+    @AllArgsConstructor
+    public static class UserType extends RepresentationModel<UserType> {
+
+        @JsonUnwrapped
+        private UserDTO userDTO;
     }
 
 

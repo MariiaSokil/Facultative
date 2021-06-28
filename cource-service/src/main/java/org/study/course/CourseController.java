@@ -56,7 +56,7 @@ public class CourseController {
         CourseDTO courseDTO = courseMapper.toDTO(course);
         return courseAssembler.toModel(courseDTO);
     }
-
+// create new course
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/courses")
     public CourseType createNew(@RequestBody CourseDTO newCourseDto) {
@@ -72,7 +72,7 @@ public class CourseController {
         courseService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
-
+    // update the course
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/courses/{id}")
     public CourseType updateCourse(@PathVariable Long id, @RequestBody CourseDTO courseDTO) {

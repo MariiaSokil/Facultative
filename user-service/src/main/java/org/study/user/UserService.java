@@ -3,8 +3,6 @@ package org.study.user;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.hibernate.Hibernate;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
@@ -80,10 +78,6 @@ public class UserService {
                     return userRepository.save(userFromDB);
                 })
                 .orElseThrow(() -> new RuntimeException("User with id=" + id + " not found"));
-    }
-
-    public Page<User> findAll(Pageable pageRequest) {
-        return userRepository.findAll(pageRequest);
     }
 }
 
