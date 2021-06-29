@@ -31,7 +31,6 @@ public class CategoryController {
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/categories/{id}")
     public CategoryType findById(@PathVariable Long id) {
-        log.info("Category found by id: id{}", id);
         Category category=categoryService.findById(id);
         CategoryDTO categoryDTO=categoryMapper.toDTO(category);
         return categoryAssembler.toModel(categoryDTO);
@@ -40,7 +39,6 @@ public class CategoryController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/categories")
     public CategoryType createNew(@RequestBody CategoryDTO newCategoryDto) {
-        log.info("Got request for category creation:{}", newCategoryDto);
         Category category = categoryMapper.toMODEL(newCategoryDto);
         category=categoryService.save(category);
         CategoryDTO categoryDTO=categoryMapper.toDTO(category);
@@ -50,7 +48,6 @@ public class CategoryController {
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/categories/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        log.info("Category deleted: id {}", id);
         categoryService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
@@ -58,7 +55,6 @@ public class CategoryController {
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/categories/{id}")
     public CategoryType updateCategory(@PathVariable Long id, CategoryDTO categoryDTO) {
-        log.info("Category updated:{}", categoryDTO);
         Category cat = categoryMapper.toMODEL(categoryDTO);
         return categoryAssembler.toModel(categoryMapper.toDTO(categoryService.updateCategory(id, cat)));
     }
