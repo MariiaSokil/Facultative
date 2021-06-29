@@ -65,10 +65,5 @@ public class User {
 
     @Column(name="is_blocked")
     private boolean isBlocked;
-
-//    @OneToMany(mappedBy = "teacher")
-//    private List<Course> teachersCourses;
-
-
 }
 
