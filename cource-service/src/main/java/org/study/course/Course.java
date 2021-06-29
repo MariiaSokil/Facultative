@@ -7,8 +7,6 @@ import lombok.experimental.Accessors;
 import org.study.course.category.Category;
 import org.study.course.status.Status;
 import org.study.course.validator.BasicInfo;
-//import org.study.user.User;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -52,13 +50,7 @@ public class Course {
     @NotNull(groups = BasicInfo.class)
     @Column(name = "price")
     private Integer price;
-/*
-    @ManyToMany(mappedBy = "courses")
-    private Set<User> students = new HashSet<>();*/
 
-//    @NotNull(groups = BasicInfo.class)
-//    @ManyToOne
-    //@JoinColumn(name = "teacher",unique = true)
     @Column(name = "teacher_id")
     private Long teacher;
 
